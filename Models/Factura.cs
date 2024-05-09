@@ -14,6 +14,10 @@ namespace AppWebConcesionario.Models
 
         public double subtotal { get; set; }
         public double montoDescuento { get; set; }
+
+
+
+
         public double montoImpuesto { get; set; }
         public double totalFactura { get; set; }
 

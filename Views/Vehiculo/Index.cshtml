@@ -1,0 +1,66 @@
+﻿@model IEnumerable<AppWebConcesionario.Models.Vehiculo>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idVehiculo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.marcaVehiculo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.modeloVehiculo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tipoCombustible)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.precioVehiculo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.estadoActivo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idVehiculo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.marcaVehiculo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.modeloVehiculo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tipoCombustible)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.precioVehiculo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.estadoActivo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

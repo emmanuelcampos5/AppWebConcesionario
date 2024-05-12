@@ -10,5 +10,7 @@ namespace AppWebConcesionario.Models
         }
         public DbSet<Usuario> Usuario { get; set; }
 
+        public DbSet<Vehiculo> Vehiculo { get; set;}
+
     }
 }

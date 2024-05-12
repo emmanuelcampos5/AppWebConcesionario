@@ -7,5 +7,7 @@ namespace AppWebConcesionario.Models
         [Key]
         public int idVehiculo { get; set; }
         public int cantidadVehiculos { get; set; }
+
+
     }
 }

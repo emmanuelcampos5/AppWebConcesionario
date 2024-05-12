@@ -11,26 +11,52 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-
 <div class="container">
     <div class="row">
-        @foreach (var item in Model)
-        {
-            <div class="col-sm-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="@item.imagenUrl" class="card-img-top" alt="@item.modeloVehiculo">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.marcaVehiculo</h5>
-                        <p class="card-text">@item.modeloVehiculo</p>
-                        <p class="card-text">Precio: $@item.precioVehiculo</p>
+
+        <div class="col-sm-12">
+            @{
+                int contador = 0;
+            }
+
+            @foreach (var item in Model)
+            {
+                if (contador == 0)
+                {
+                    <div class="card" style="width: 18rem;">
+                        <img src=@item.imagenUrl class="card-img-top" alt="@item.modeloVehiculo">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.marcaVehiculo</h5>
+                            <p class="card-text">@item.modeloVehiculo</p>
+                            <p class="card-text">Precio: $@item.precioVehiculo</p>
+                        </div>
                         <div class="card-body">
                             <a href="#" class="card-link">Compra</a>
                             <a href="#" class="card-link">Detalles</a>
                         </div>
                     </div>
-                </div>
-            </div>
-        }
+                }
+                else
+                {
+                    <div class="card" style="width: 18rem;">
+                        <img src=@item.imagenUrl class="card-img-top" alt="@item.modeloVehiculo">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.marcaVehiculo</h5>
+                            <p class="card-text">@item.modeloVehiculo</p>
+                            <p class="card-text">Precio: $@item.precioVehiculo</p>
+                        </div>
+                        <div class="card-body">
+                            <a href="#" class="card-link">Compra</a>
+                            <a href="#" class="card-link">Detalles</a>
+                        </div>
+                    </div>
+                }
+            }
+
+
+
+        </div>
+
+
     </div>
 </div>
- 

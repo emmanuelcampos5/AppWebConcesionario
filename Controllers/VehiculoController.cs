@@ -48,19 +48,26 @@ namespace AppWebConcesionario.Controllers
 
                     foreach(var formFile in files)
                     {
-                        fileName = vehiculo.modeloVehiculo + "_" + formFile.Name;
-                        fileName = fileName.Replace(" ", "_");
-                        fileName = fileName.Replace("#", "_");
-                        fileName = fileName.Replace("-", "_");
-
-                        filePath += fileName;
-
-                        using(var stream = new FileStream(filePath, FileMode.Create))
+                        if(formFile.Length > 0)
                         {
-                            await formFile.CopyToAsync(stream);
+                            fileName = vehiculo.modeloVehiculo + "_" + formFile.FileName;
 
-                            vehiculo.imagenUrl=@"/css/img/"+fileName;
-                        }//cierre using
+                            fileName = fileName.Replace(" ", "_");
+                            fileName = fileName.Replace("#", "_");
+                            fileName = fileName.Replace("-", "_");
+
+                            filePath += fileName;
+
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await formFile.CopyToAsync(stream);
+
+                                vehiculo.imagenUrl = @"/css/img/" + fileName;
+                            }//cierre using
+                        }//cierre if
+                       
+
+                       
                     }//cierre for
                 }
                 else

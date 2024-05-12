@@ -5,96 +5,62 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+@* <h1>Index</h1> *@
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.idVehiculo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.marcaVehiculo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.modeloVehiculo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.tipoCombustible)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.imagenUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.precioVehiculo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.estadoActivo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.idVehiculo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.marcaVehiculo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.modeloVehiculo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.tipoCombustible)
-            </td>
-            <td>
-              @*   @Html.DisplayFor(modelItem => item.imagenUrl) *@
-                    @{
-                        var IdModal = "L" + item.idVehiculo;//es para controlar el ID del modal, uno por vehiculo
-                    }
 
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#@IdModal">
-                        ver
-                    </button>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="@IdModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
 
-                                    <h5 class="modal-title" id="exampleModalLabel">@item.marcaVehiculo @item.modeloVehiculo</h5>
+        <div class="col-sm-3">
+            @{
+               int contador = 0;
+            }
 
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <img src=@item.imagenUrl class="img-thumbnail" />
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
+            @foreach(var item in Model)
+            {
+                if(contador == 0)
+                {
+                    <div class="card" style="width: 18rem;">
+                        <img src=@item.imagenUrl class="card-img-top" alt="@item.modeloVehiculo">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.marcaVehiculo</h5>
+                            <p class="card-text">@item.modeloVehiculo</p>
+                            <p class="card-text">Precio: $@item.precioVehiculo</p>
+                        </div>
+                        <div class="card-body">
+                            <a href="#" class="card-link">Compra</a>
+                            <a href="#" class="card-link">Detalles</a>
                         </div>
                     </div>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.precioVehiculo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.estadoActivo)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.idVehiculo }, new{@class="btn btn-info"}) |
-                    @Html.ActionLink("Details", "Details", new { id = item.idVehiculo }, new{@class="btn btn-secondary"}) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.idVehiculo }, new{@class="btn btn-danger"})
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                }
+                else
+                {
+                    <div class="card" style="width: 18rem;">
+                        <img src=@item.imagenUrl class="card-img-top" alt="@item.modeloVehiculo">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.marcaVehiculo</h5>
+                            <p class="card-text">@item.modeloVehiculo</p>
+                            <p class="card-text">Precio: $@item.precioVehiculo</p>
+                        </div>
+                        <div class="card-body">
+                            <a href="#" class="card-link">Compra</a>
+                            <a href="#" class="card-link">Detalles</a>
+                        </div>
+                    </div>
+                }
+            }
+
+
+        </div>
+
+        <div class="col-sm-3"></div>
+
+    </div>
+</div>
+
+ 

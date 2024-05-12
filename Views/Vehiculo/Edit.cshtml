@@ -49,7 +49,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="imagenUrl" class="control-label"></label>
-                <input asp-for="imagenUrl" class="form-control" />
+                <input type="file" asp-for="imagenUrl" name="files" class="form-control" />
                 <span asp-validation-for="imagenUrl" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -26,17 +26,16 @@
                 if (contador == 0)
                 {
                         <div class="card m-2" style="width: 18rem;">
-                        <img src=@item.imagenUrl class="card-img-top" alt="@item.modeloVehiculo">
-                        <div class="card-body">
-                            <h5 class="card-title">@item.marcaVehiculo</h5>
-                            <p class="card-text">@item.modeloVehiculo</p>
-                            <p class="card-text">Precio: $@item.precioVehiculo</p>
-                        </div>
-                        <div class="card-body">
-                            <a href="#" class="card-link">Compra</a>
+                            <img src=@item.imagenUrl class="card-img-top" alt="@item.modeloVehiculo">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.marcaVehiculo</h5>
+                                <p>@item.modeloVehiculo</p>
+                                <p>Precio: $@item.precioVehiculo</p>
+                                <p>Tipo Combustible: @item.tipoCombustible</p>
+                                <a href="#" class="card-link">Compra</a>
                                 @Html.ActionLink("Detalles", "Details", new { id = item.idVehiculo })
+                            </div>
                         </div>
-                    </div>
                 }
                 else
                 {
@@ -44,12 +43,11 @@
                         <img src=@item.imagenUrl class="card-img-top" alt="@item.modeloVehiculo">
                         <div class="card-body">
                             <h5 class="card-title">@item.marcaVehiculo</h5>
-                            <p class="card-text">@item.modeloVehiculo</p>
-                            <p class="card-text">Precio: $@item.precioVehiculo</p>
-                        </div>
-                        <div class="card-body">
+                            <p>@item.modeloVehiculo</p>
+                            <p>Precio: $@item.precioVehiculo</p>
+                            <p>Tipo Combustible: @item.tipoCombustible</p>
                             <a href="#" class="card-link">Compra</a>
-                                @Html.ActionLink("Detalles", "Details", new { id = item.idVehiculo })
+                            @Html.ActionLink("Detalles", "Details", new { id = item.idVehiculo })
                         </div>
                     </div>
                 }

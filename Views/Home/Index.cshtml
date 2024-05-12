@@ -8,6 +8,7 @@
         height: 100%;
         margin: 0;
         padding: 0;
+        overflow: hidden;
     }
 
     /* Establece la imagen del sol como fondo */
@@ -16,11 +17,32 @@
         background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
         background-position: center; /* Centra la imagen */
         background-repeat: no-repeat; /* Evita que la imagen se repita */
-        background-color: rgba(255, 255, 255, 0.7);
+        background-color: rgba(33, 145, 255, 0.5); /* Establece el color de fondo con transparencia */
+        height: 100%; /* Asegura que el div ocupe toda la altura de la pantalla */
+        background-blend-mode: multiply; /* Mezcla el color de fondo con la imagen */
+       
     }
-</style>
 
-<div class="text-center">
-    <h1 class="display-4">Bienvenidos</h1>
-    <p></a>.</p>
+    .content {
+        position: absolute; /* Posiciona el contenido de manera absoluta */
+        top: 50%; /* Lo posiciona en la mitad de la pantalla */
+        left: 50%; /* Lo posiciona en la mitad de la pantalla */
+        transform: translate(-50%, -50%); /* Centra el contenido */
+    }
+
+
+</style>
+<div class="container-fluid text-center">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+                <div style=" width:auto; padding: 20px;">
+                    <h1 style="color: white" >!CarPlus</h1>
+                    <p style="color: white" >Bienvenidos a nuestra concesionaria de autos</p>
+                    <p style="color: white" >Puedes iniciar sesión o bien, mirar primero nuestra lista de productos</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+

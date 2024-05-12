@@ -1,0 +1,55 @@
+﻿
+
+@model AppWebConcesionario.Models.Usuario
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h1 class="text-center">Login</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4"></div>
+
+
+        <div class="col-sm-4 form-container">
+            <form asp-action="Login" asp-controller="Usuario" id="FormularioLogin">
+                @if(TempData["Mensaje"] != null)
+                {
+                    <div class="alert alertalert-warning alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong>@TempData["Mensaje"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <label asp-for="correoUsuario" class="form-label">Email</label>
+                    <input asp-for="correoUsuario" class="form-control" placeholder="example@AppDomain.com" />
+                    <span asp-validation-for="correoUsuario" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="password" class="form-label">Password</label>
+                    <input asp-for="password" class="form-control" />
+                    <span asp-validation-for="password" class="text-danger"></span>
+                    No tienes Cuenta?
+                    <a asp-controller="Usuario" asp-action="RegistrarUsuario">Cree una...</a>
+                </div>
+
+                <div class="form-check-group">
+                    <div class="col-auto">
+                        <input type="submit" value="Aceptar" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="col-sm-4"></div>
+    </div>
+</div>
+

@@ -18,6 +18,13 @@ namespace AppWebConcesionario.Controllers
             return View(_context.Usuario.ToList());
         }
 
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult RegistrarUsuario()
         {

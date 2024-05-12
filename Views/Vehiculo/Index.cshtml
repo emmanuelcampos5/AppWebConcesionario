@@ -15,6 +15,8 @@
     <div class="row">
 
         <div class="col-sm-12">
+            <div class="d-flex flex-row justify-content-center flex-wrap">
+            
             @{
                 int contador = 0;
             }
@@ -23,7 +25,7 @@
             {
                 if (contador == 0)
                 {
-                    <div class="card" style="width: 18rem;">
+                        <div class="card m-2" style="width: 18rem;">
                         <img src=@item.imagenUrl class="card-img-top" alt="@item.modeloVehiculo">
                         <div class="card-body">
                             <h5 class="card-title">@item.marcaVehiculo</h5>
@@ -32,13 +34,13 @@
                         </div>
                         <div class="card-body">
                             <a href="#" class="card-link">Compra</a>
-                            <a href="#" class="card-link">Detalles</a>
+                                @Html.ActionLink("Detalles", "Details", new { id = item.idVehiculo })
                         </div>
                     </div>
                 }
                 else
                 {
-                    <div class="card" style="width: 18rem;">
+                    <div class="card m-2" style="width: 18rem;">
                         <img src=@item.imagenUrl class="card-img-top" alt="@item.modeloVehiculo">
                         <div class="card-body">
                             <h5 class="card-title">@item.marcaVehiculo</h5>
@@ -47,14 +49,14 @@
                         </div>
                         <div class="card-body">
                             <a href="#" class="card-link">Compra</a>
-                            <a href="#" class="card-link">Detalles</a>
+                                @Html.ActionLink("Detalles", "Details", new { id = item.idVehiculo })
                         </div>
                     </div>
                 }
             }
 
 
-
+            </div>
         </div>
 
 

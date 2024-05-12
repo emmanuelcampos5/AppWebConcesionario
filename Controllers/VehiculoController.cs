@@ -40,6 +40,36 @@ namespace AppWebConcesionario.Controllers
             {
                 vehiculo.idVehiculo = 0;
 
+                if(files.Count > 0)
+                {
+                    string filePath = @"wwroot\css\img";
+
+                    string fileName = "";
+
+                    foreach(var formFile in files)
+                    {
+                        fileName = vehiculo.modeloVehiculo + "_" + formFile.Name;
+                        fileName = fileName.Replace(" ", "_");
+                        fileName = fileName.Replace("#", "_");
+                        fileName = fileName.Replace("-", "_");
+
+                        filePath += fileName;
+
+                        using(var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await formFile.CopyToAsync(stream);
+
+                            vehiculo.imagenUrl=@"/css/img/"+fileName;
+                        }//cierre using
+                    }//cierre for
+                }
+                else
+                {
+                    vehiculo.imagenUrl = "ND";
+                }
+
+
+
                 _context.Vehiculo.Add(vehiculo);
 
                 await _context.SaveChangesAsync();

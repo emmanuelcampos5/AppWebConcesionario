@@ -14,6 +14,11 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="idVehiculo" class="control-label"></label>
+                <input asp-for="idVehiculo" class="form-control" readonly/>
+                <span asp-validation-for="idVehiculo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="marcaVehiculo" class="control-label"></label>
                 <input asp-for="marcaVehiculo" class="form-control" />
                 <span asp-validation-for="marcaVehiculo" class="text-danger"></span>
@@ -25,7 +30,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="tipoCombustible" class="control-label"></label>
-                <input asp-for="tipoCombustible" class="form-control" />
+                <select asp-for="tipoCombustible" class="form-control">
+                    <option selected="selected" value="Gasolina">Gasolina</option>
+                    <option value="Electrico">Electrico</option>
+                    <option value="Diesel">Diesel</option>
+                </select>
                 <span asp-validation-for="tipoCombustible" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -38,13 +47,13 @@
                     <input class="form-check-input" asp-for="estadoActivo" /> @Html.DisplayNameFor(model => model.estadoActivo)
                 </label>
             </div>
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="Foto" class="control-label"></label>
                 <input asp-for="Foto" class="form-control" />
                 <span asp-validation-for="Foto" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary mt-3" />
             </div>
         </form>
     </div>

@@ -2,7 +2,25 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    /* Estilos para hacer que el fondo ocupe toda la pantalla */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Establece la imagen del sol como fondo */
+    body {
+        background-image: url('@Url.Content("~/css/img/Fondo.jpg")');
+        background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+        background-position: center; /* Centra la imagen */
+        background-repeat: no-repeat; /* Evita que la imagen se repita */
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+</style>
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Bienvenidos</h1>
+    <p></a>.</p>
 </div>

@@ -29,9 +29,9 @@ namespace AppWebConcesionario.Models
         [Required(ErrorMessage = "Selecciones un Estado")]
         public bool estadoActivo { get; set; }
 
-        [Required(ErrorMessage = "Seleccione una foto")]
-        [DataType(DataType.Text)]
-        public string Foto { get; set; }
+        //[Required(ErrorMessage = "Seleccione una foto")]
+        //[DataType(DataType.Text)]
+        //public string Foto { get; set; }
 
 
     }

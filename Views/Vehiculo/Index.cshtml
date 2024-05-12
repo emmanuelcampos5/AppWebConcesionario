@@ -25,6 +25,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.tipoCombustible)
             </th>
+           @*  <th>
+                @Html.DisplayNameFor(model => model.Foto)
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.precioVehiculo)
             </th>
@@ -49,6 +52,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.tipoCombustible)
             </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.Foto)
+            </td> *@
             <td>
                 @Html.DisplayFor(modelItem => item.precioVehiculo)
             </td>
@@ -56,9 +62,9 @@
                 @Html.DisplayFor(modelItem => item.estadoActivo)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { id=item.idVehiculo }, new{@class="btn btn-info"}) |
+                    @Html.ActionLink("Details", "Details", new { id = item.idVehiculo }, new{@class="btn btn-secondary"}) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.idVehiculo }, new{@class="btn btn-danger"})
             </td>
         </tr>
 }

@@ -42,7 +42,7 @@ namespace AppWebConcesionario.Controllers
 
                 if(files.Count > 0)
                 {
-                    string filePath = @"wwroot\css\img";
+                    string filePath = @"wwwroot\css\img\";
 
                     string fileName = "";
 

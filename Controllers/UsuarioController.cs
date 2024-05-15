@@ -1,5 +1,7 @@
 ﻿using AppWebConcesionario.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AppWebConcesionario.Controllers
 {
@@ -18,11 +20,46 @@ namespace AppWebConcesionario.Controllers
             return View(_context.Usuario.ToList());
         }
 
-
         [HttpGet]
         public IActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Login(Usuario user)
+        {
+            var temp = this.ValidarUsuario(user);
+
+            if (temp != null)
+            {
+                bool restablecer = false;
+
+                //verifica si hay que restablecer la contraseña
+                restablecer = this.VerificarRestablecer(temp);
+
+                //si hay que restablecerla, se lleva a la View restablecer
+                if (restablecer)
+                {
+                    return RedirectToAction("Restablecer", "Usuario", new { correoUsuario = temp.correoUsuario });
+                }
+                else
+                {
+                    //se guarda la informacion
+                    var userClaims = new List<Claim>() { new Claim(ClaimTypes.Name, temp.correoUsuario) };
+
+                    var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");
+
+                    var userPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity });
+
+                    HttpContext.SignInAsync(userPrincipal);
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            TempData["Mensaje"] = "Usuario o Contraseña incorrecta";
+            return View(user);
         }
 
         [HttpGet]
@@ -35,6 +72,10 @@ namespace AppWebConcesionario.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RegistrarUsuario([Bind]Usuario user, string listaLugares)
         {
+            if (listaLugares == "Seleccione una Provincia")
+            {
+                return View(user);
+            }
             if (user != null)
             {
                 user.idRol = 2;
@@ -45,7 +86,7 @@ namespace AppWebConcesionario.Controllers
                 user.estadoActivo = true;
             }
 
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -58,5 +99,37 @@ namespace AppWebConcesionario.Controllers
 
             return new string(Enumerable.Repeat(clave, 12).Select(s => s[random.Next(s.Length)]).ToArray());
         }
+
+        private Usuario ValidarUsuario(Usuario temp)
+        {
+            Usuario autorizado = null;
+            var user = _context.Usuario.FirstOrDefault(u => u.correoUsuario == temp.correoUsuario);
+
+            if (user != null)
+            {
+                if (user.password.Equals(temp.password))
+                {
+                    autorizado = user;
+                }
+            }
+            return autorizado;
+        }
+
+        private bool VerificarRestablecer(Usuario temp)
+        {
+            bool verificado = false;
+
+            var user = _context.Usuario.First(u => u.correoUsuario == temp.correoUsuario);
+
+            if (user != null)
+            {
+                if (user.restablecer)
+                {
+                    verificado = true;
+                }
+            }
+            return verificado;
+        }
+
     }
 }

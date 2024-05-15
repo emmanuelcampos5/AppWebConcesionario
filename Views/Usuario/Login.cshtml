@@ -8,14 +8,10 @@
 }
 
 
-
-<h1 class="text-center">Login</h1>
 <div class="container">
     <div class="row">
-        <div class="col-sm-4"></div>
-
-
-        <div class="col-sm-4 form-container">
+        <div class="col-md-5 col-9 col-xl-3 formulario position-absolute top-50 start-50 translate-middle">
+            <h1 class="text-center">Login</h1>
             <form asp-action="Login" asp-controller="Usuario" id="FormularioLogin">
                 @if(TempData["Mensaje"] != null)
                 {
@@ -25,31 +21,29 @@
                     </div>
                 }
 
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label asp-for="correoUsuario" class="form-label">Email</label>
                     <input asp-for="correoUsuario" class="form-control" placeholder="example@AppDomain.com" />
                     <span asp-validation-for="correoUsuario" class="text-danger"></span>
                 </div>
 
 
-                <div class="form-group">
+                <div class="form-group mb-4">
                     <label asp-for="password" class="form-label">Password</label>
                     <input asp-for="password" class="form-control" />
-                    <span asp-validation-for="password" class="text-danger"></span>
-                    No tienes Cuenta?
-                    <a asp-controller="Usuario" asp-action="RegistrarUsuario">Cree una...</a>
+                    <span asp-validation-for="password" class="text-danger"></span>   
                 </div>
-
+                <div class="form-group mb-4">
+                    <p class="m-0">No tienes Cuenta? <a asp-controller="Usuario" asp-action="RegistrarUsuario">Registrarse</a></p>
+                    <a asp-controller="Usuario" asp-action="RecuperarContraseña">¿Olvidaste tu contraseña?</a>
+                </div>
                 <div class="form-check-group">
                     <div class="col-auto">
-                        <input type="submit" value="Aceptar" class="btn btn-primary" />
+                        <input type="submit" value="Iniciar Sesion" class="btn btn-primary" />
                     </div>
                 </div>
             </form>
         </div>
-
-
-        <div class="col-sm-4"></div>
     </div>
 </div>
 

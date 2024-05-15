@@ -5,35 +5,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>RegistrarUsuario</h1>
-
-<h4>Usuario</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5 col-9 col-xl-3 formulario position-absolute top-50 start-50 translate-middle">
+        <h1 class="text-center">Crear Cuenta</h1>
         <form asp-action="RegistrarUsuario">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>           
-            <div class="form-group">
+            <div class="form-group mt-4">
                 <label asp-for="nombreUsuario" class="control-label"></label>
                 <input asp-for="nombreUsuario" class="form-control" />
                 <span asp-validation-for="nombreUsuario" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-4">
                 <label asp-for="cedulaUsuario" class="control-label"></label>
                 <input asp-for="cedulaUsuario" class="form-control" />
                 <span asp-validation-for="cedulaUsuario" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-4">
                 <label asp-for="telefonoUsuario" class="control-label"></label>
                 <input asp-for="telefonoUsuario" class="form-control" />
                 <span asp-validation-for="telefonoUsuario" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-4">
                 <label asp-for="correoUsuario" class="control-label"></label>
                 <input asp-for="correoUsuario" class="form-control" />
                 <span asp-validation-for="correoUsuario" class="text-danger"></span>
             </div>
-            <div>
+            <div class="form-group mt-4">
                 <label asp-for="lugarResidencia" class="control-label"></label>
                 <select asp-for="lugarResidencia" name="listaLugares" class="form-select">
                     <option selected>Seleccione una Provincia</option>
@@ -47,15 +45,12 @@
                 </select>
                 <span asp-validation-for="lugarResidencia" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group mt-4">
+                <input type="submit" value="Crear" class="btn btn-success" />
+                <a type="button" class="btn btn-danger" asp-action="Login">Volver</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

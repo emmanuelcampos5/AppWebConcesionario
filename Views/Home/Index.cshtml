@@ -3,7 +3,7 @@
 }
 
 <style>
-    /* Estilos para hacer que el fondo ocupe toda la pantalla */
+
     html, body {
         height: 100%;
         margin: 0;
@@ -11,44 +11,35 @@
         overflow: hidden;
     }
 
-    /* Establece la imagen del sol como fondo */
-    body {
-        background-image: url('@Url.Content("css/img/Fondo01.jpg")');
-        background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
-        background-position: center; /* Centra la imagen */
-        background-repeat: no-repeat; /* Evita que la imagen se repita */
-        background-color: rgba(33, 145, 255, 0.5); /* Establece el color de fondo con transparencia */
-        height: 100%; /* Asegura que el div ocupe toda la altura de la pantalla */
-        background-blend-mode: multiply; /* Mezcla el color de fondo con la imagen */
-       
-    }
-
-    .content {
-        position: absolute; /* Posiciona el contenido de manera absoluta */
-        top: 50%; /* Lo posiciona en la mitad de la pantalla */
-        left: 50%; /* Lo posiciona en la mitad de la pantalla */
-        transform: translate(-50%, -50%); /* Centra el contenido */
-    }
-
-
 </style>
+
 <div class="container-fluid text-center">
     <div class="row">
         <div class="col-sm-12">
-            <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-                <div style=" width:auto; padding: 20px;">
-                    <h1 style="color: white" >!CarPlus</h1>
-                    <p style="color: white" >Bienvenidos a nuestra concesionaria de autos</p>
-                    <p style="color: white" >Puedes iniciar sesión o bien, mirar primero nuestra lista de productos</p>
-                    <a class="btn btn-primary" asp-area="" asp-controller="Vehiculo" asp-action="Index">
+            <div class="d-flex justify-content-center align-items-center container" style="min-height: 100vh;">
+                
+                <video autoplay loop muted plays-inline class="background-clip">
+                    <source src="~/css/video/PagPrincipal.mp4" type="video/mp4">
+                </video>
+
+                
+                <div class="welcome" style=" width:auto; padding: 20px;">
+                    <br /><br /> <br /><br />
+                    
+                    <p style="color: white" class="subTit mt-5">Observá nuestro catalogo / Inicia sesion si ya tienes cuenta.</p>
+                    <a class="btn btn-outline-light mt-2" asp-area="" asp-controller="Vehiculo" asp-action="Index">
                        Ver Lista
                     </a>
-                    <a class="btn btn-primary" asp-area="" asp-controller="Usuario" asp-action="Login">
+                    <a class="btn btn-outline-danger ms-4 mt-2" asp-area="" asp-controller="Usuario" asp-action="Login">
                         Iniciar sesion
                     </a>
+                    
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+
+
 

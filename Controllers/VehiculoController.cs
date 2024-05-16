@@ -23,6 +23,34 @@ namespace AppWebConcesionario.Controllers
         }
 
 
+
+        //dylan
+
+        //[HttpGet]
+        //public IActionResult Index()
+        //{
+        //    var vehiculosEnPromocion = _context.Promociones.Include(p => p.Vehiculo)
+        //    .Select(p => new
+        //    {
+        //        p.Vehiculo.idVehiculo,
+        //        p.Vehiculo.marcaVehiculo,
+        //        p.Vehiculo.modeloVehiculo,
+        //        p.Vehiculo.tipoCombustible,
+        //        p.Vehiculo.precioVehiculo,
+        //        p.Vehiculo.estadoActivo,
+        //        p.Vehiculo.imagenUrl,
+        //        p.precioPromocion,
+        //        p.lugarPromocion
+        //    })
+        //    .ToList();
+
+        //    return View(vehiculosEnPromocion);
+        //}
+
+        //dylan
+
+
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -151,6 +179,9 @@ namespace AppWebConcesionario.Controllers
                 return NotFound();
             }
         }
+
+
+
 
     }//cierre class
 }//cierre namespace

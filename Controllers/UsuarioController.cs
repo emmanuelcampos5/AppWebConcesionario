@@ -20,6 +20,11 @@ namespace AppWebConcesionario.Controllers
             return View(_context.Usuario.ToList());
         }
 
+        public IActionResult VistaAdministrativa()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Login()
         {

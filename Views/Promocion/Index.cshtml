@@ -5,36 +5,62 @@
 }
 
 
-@model IEnumerable<dynamic>
+@model List<(Vehiculo, Promocion)>
 
-<h2>Vehículos en Promoción</h2>
+@* <p>
+    <a asp-action="Create">Create New</a>
+</p> *@
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Combustible</th>
-            <th>Precio</th>
-            <th>Estado</th>
-            <th>Imagen</th>
-            <th>Precio Promoción</th>
-            <th>Lugar Promoción</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var vehiculo in Model)
-        {
-            <tr>
-                <td>@vehiculo.marcaVehiculo</td>
-                <td>@vehiculo.modeloVehiculo</td>
-                <td>@vehiculo.tipoCombustible</td>
-                <td>@vehiculo.precioVehiculo</td>
-                <td>@(vehiculo.estadoActivo ? "Activo" : "Inactivo")</td>
-                <td><img src="@vehiculo.imagenUrl" alt="Imagen del vehículo" width="100" /></td>
-                <td>@vehiculo.precioPromocion</td>
-                <td>@vehiculo.lugarPromocion</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container">
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="d-flex flex-row justify-content-center flex-wrap">
+
+                @{
+                    int contador = 0;
+                }
+
+                @foreach (var item in Model)
+                {
+                    if (contador == 0)
+                    {
+                        <div class="card m-2" style="width: 18rem;">
+                            <img src=@item.Item1.imagenUrl class="card-img-top" alt="@item.Item1.modeloVehiculo">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.Item1.marcaVehiculo</h5>
+                                <p>@item.Item1.modeloVehiculo</p>
+                                <p>Tipo Combustible: @item.Item1.tipoCombustible</p>
+                                <p>Precio: <s>$@item.Item1.precioVehiculo</s></p>
+                                <p>Precio en promocion: $@item.Item2.precioPromocion</p>
+                                <p>Lugar de Promocion: @item.Item2.lugarPromocion</p>
+                                <a href="#" class="btn btn-success">Comprar</a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card m-2" style="width: 18rem;">
+                            <img src=@item.Item1.imagenUrl class="card-img-top" alt="@item.Item1.modeloVehiculo">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.Item1.marcaVehiculo</h5>
+                                <p>@item.Item1.modeloVehiculo</p>                           
+                                <p>Tipo Combustible: @item.Item1.tipoCombustible</p>
+                                <p>Precio: <s>$@item.Item1.precioVehiculo</s></p>
+                                <p>Precio en promocion: $@item.Item2.precioPromocion</p>
+                                <p>Lugar de Promocion: @item.Item2.lugarPromocion</p>
+                                <a href="#" class="btn btn-success">Comprar</a>
+                            </div>
+                        </div>
+                    }
+                }
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+

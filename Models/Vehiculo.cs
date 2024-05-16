@@ -33,6 +33,5 @@ namespace AppWebConcesionario.Models
         [DataType(DataType.Text)]
         public string imagenUrl { get; set; }
 
-
     }
 }

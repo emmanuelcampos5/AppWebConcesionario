@@ -13,7 +13,7 @@ namespace AppWebConcesionario.Models
         public DbSet<Vehiculo> Vehiculo { get; set;}
 
         //dylan
-        public DbSet<Promocion> Promociones { get; set; }
+        public DbSet<Promocion> Promocion { get; set; }
 
         //dylan
     }

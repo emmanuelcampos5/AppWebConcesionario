@@ -8,10 +8,5 @@ namespace AppWebConcesionario.Models
         public int idVehiculo { get; set; }
         public double precioPromocion { get; set; }
         public string lugarPromocion { get; set; }
-
-        //dylan
-        public Vehiculo Vehiculo { get; set; }
-
-        //dylan
     }
 }

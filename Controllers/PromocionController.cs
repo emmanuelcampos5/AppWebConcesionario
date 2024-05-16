@@ -17,22 +17,21 @@ namespace AppWebConcesionario.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var vehiculosEnPromocion = _context.Promociones.Include(p => p.Vehiculo)
-            .Select(p => new
-            {
-                p.Vehiculo.idVehiculo,
-                p.Vehiculo.marcaVehiculo,
-                p.Vehiculo.modeloVehiculo,
-                p.Vehiculo.tipoCombustible,
-                p.Vehiculo.precioVehiculo,
-                p.Vehiculo.estadoActivo,
-                p.Vehiculo.imagenUrl,
-                p.precioPromocion,
-                p.lugarPromocion
-            })
-            .ToList();
+            return View(VehiculosEnPromocion());
+        }
 
-            return View(vehiculosEnPromocion);
+        //Devuelve la lista de vehiculos que se encuentran en promocion
+        public List<(Vehiculo, Promocion)> VehiculosEnPromocion()
+        {                         
+            var vehiculosPromociones = new List<(Vehiculo, Promocion)>();
+
+            foreach (var promocion in _context.Promocion.ToList())
+            {
+                var vehiculo = _context.Vehiculo.FirstOrDefault(v => v.idVehiculo == promocion.idVehiculo);
+                vehiculosPromociones.Add((vehiculo, promocion));
+            }
+
+            return vehiculosPromociones;
         }
     }
 }

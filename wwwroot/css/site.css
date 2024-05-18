@@ -16,6 +16,7 @@ html {
 }
 
 body {
+    background: url(img/Fondo01.jpg);
     margin-bottom: 60px;
     background-color: dimgray;
     background-blend-mode: multiply;

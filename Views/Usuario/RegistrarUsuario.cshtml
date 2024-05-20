@@ -9,32 +9,50 @@
 <div class="row">
     <div class="col-md-5 col-9 col-xl-3 formulario position-absolute top-50 start-50 translate-middle">
         <h1 class="text-center">Crear Cuenta</h1>
+        @*Mensaje cuando el usuario fue creado*@
+        @if (TempData["MensajeCreado"] != null)
+        {
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+                <strong>@TempData["MensajeCreado"]</strong>
+            </div>
+        }
+
+        @*Mensaje en caso de error*@
+        @if (TempData["MensajeError"] != null)
+        {
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+                <strong>@TempData["MensajeError"]</strong>
+            </div>
+        }
+
         <form asp-action="RegistrarUsuario">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>           
             <div class="form-group mt-4">
                 <label asp-for="nombreUsuario" class="control-label"></label>
-                <input asp-for="nombreUsuario" class="form-control" />
+                <input asp-for="nombreUsuario" placeholder="Nombre Completo" class="form-control" />
                 <span asp-validation-for="nombreUsuario" class="text-danger"></span>
             </div>
             <div class="form-group mt-4">
                 <label asp-for="cedulaUsuario" class="control-label"></label>
-                <input asp-for="cedulaUsuario" class="form-control" />
+                <input asp-for="cedulaUsuario" minlength="9" maxlength="9" placeholder="9 digitos separado por 0" type="number" class="form-control" />
                 <span asp-validation-for="cedulaUsuario" class="text-danger"></span>
             </div>
             <div class="form-group mt-4">
                 <label asp-for="telefonoUsuario" class="control-label"></label>
-                <input asp-for="telefonoUsuario" class="form-control" />
+                <input asp-for="telefonoUsuario" placeholder="8 digitos" type="number" class="form-control" />
                 <span asp-validation-for="telefonoUsuario" class="text-danger"></span>
             </div>
             <div class="form-group mt-4">
                 <label asp-for="correoUsuario" class="control-label"></label>
-                <input asp-for="correoUsuario" class="form-control" />
+                <input asp-for="correoUsuario" placeholder="usuario@dominio.com" class="form-control" />
                 <span asp-validation-for="correoUsuario" class="text-danger"></span>
             </div>
             <div class="form-group mt-4">
                 <label asp-for="lugarResidencia" class="control-label"></label>
-                <select asp-for="lugarResidencia" name="listaLugares" class="form-select">
-                    <option selected>Seleccione una Provincia</option>
+                <select asp-for="lugarResidencia" class="form-select">
+                    <option value="">Seleccione una Provincia</option>
                     <option value="Puntarenas">Puntarenas</option>
                     <option value="Guanacaste">Guanacaste</option>
                     <option value="Alajuela">Alajuela</option>

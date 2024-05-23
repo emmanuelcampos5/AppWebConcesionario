@@ -1,0 +1,43 @@
+﻿@model AppWebConcesionario.Models.SeguridadRestablecer
+
+@{
+    ViewData["Title"] = "Restablecer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-5 col-9 col-xl-3 formulario position-absolute top-50 start-50 translate-middle">
+            <form asp-action="Restablecer" asp-controller="Usuario" id="FormularioRestablecer">
+                <h1 class="text-center">Restablecer</h1>
+                <div asp-validation-summary="ModelOnly" class="text-danger">
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="form-label">Contraseña Temporal</label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NewPassword" class="form-label">Nueva</label>
+                    <input asp-for="NewPassword" class="form-control" />
+                    <span asp-validation-for="NewPassword" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Confirmar" class="form-label">Confirmar</label>
+                    <input asp-for="Confirmar" class="form-control" />
+                    <span asp-validation-for="Confirmar" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary mt-3" />
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>

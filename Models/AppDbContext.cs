@@ -12,6 +12,8 @@ namespace AppWebConcesionario.Models
 
         public DbSet<Vehiculo> Vehiculo { get; set;}
 
+        public DbSet<Factura> Factura { get; set;}
+
         //dylan
         public DbSet<Promocion> Promocion { get; set; }
 

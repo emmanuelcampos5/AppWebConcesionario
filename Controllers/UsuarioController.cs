@@ -1,6 +1,7 @@
 ﻿using AppWebConcesionario.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace AppWebConcesionario.Controllers
@@ -8,6 +9,10 @@ namespace AppWebConcesionario.Controllers
     public class UsuarioController : Controller
     {
         private readonly AppDbContext _context;
+
+
+        private static string EmailRestablecer = "";
+
 
         public UsuarioController(AppDbContext context)
         {
@@ -31,6 +36,10 @@ namespace AppWebConcesionario.Controllers
             return View();
         }
 
+
+
+        //------------------------------vistas---------------------------------------------
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(Usuario user)
@@ -42,7 +51,7 @@ namespace AppWebConcesionario.Controllers
                 bool restablecer = false;
 
                 //verifica si hay que restablecer la contraseña
-                restablecer = this.VerificarRestablecer(temp);
+                restablecer = VerificarRestablecer(temp);
 
                 //si hay que restablecerla, se lleva a la View restablecer
                 if (restablecer)
@@ -67,6 +76,16 @@ namespace AppWebConcesionario.Controllers
             return View(user);
         }
 
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
         [HttpGet]
         public IActionResult RegistrarUsuario()
         {
@@ -75,7 +94,7 @@ namespace AppWebConcesionario.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RegistrarUsuario([Bind]Usuario user, string listaLugares)
+        public async Task<IActionResult> RegistrarUsuario([Bind]Usuario user, string listaLugares)
         {
             if (listaLugares == "Seleccione una Provincia")
             {
@@ -89,26 +108,113 @@ namespace AppWebConcesionario.Controllers
                 user.estadoSuscripcion = true;
                 user.restablecer = true;
                 user.estadoActivo = true;
+
+                _context.Usuario.Add(user);
+
+                await _context.SaveChangesAsync();
+
+                Email email = new Email();
+
+                email.EmailContra(user);
+
+                
             }
 
             return RedirectToAction("Index", "Home");
         }
 
 
-        //---------------------------METODOS----------------------------------------------------
-        private string GenerarClave()
+        [HttpGet]
+        public async Task<IActionResult> Restablecer(string? correoUsuario)
         {
-            Random random = new Random();
-            string clave = string.Empty;
-            clave = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var temp = await _context.Usuario.FirstOrDefaultAsync(u => u.correoUsuario == correoUsuario);
 
-            return new string(Enumerable.Repeat(clave, 12).Select(s => s[random.Next(s.Length)]).ToArray());
+            SeguridadRestablecer restablecer = new SeguridadRestablecer();
+
+            restablecer.Email = temp.correoUsuario;
+            restablecer.Password = temp.password;
+
+            EmailRestablecer = temp.correoUsuario;
+
+            return View(restablecer);
+
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Restablecer([Bind] SeguridadRestablecer pRestablecer)
+        {
+            if (pRestablecer != null)
+            {
+                var temp = await _context.Usuario.FirstOrDefaultAsync(u => u.correoUsuario.Equals(EmailRestablecer));
+
+                if (temp != null)
+                {
+                    if (temp.password.Equals(pRestablecer.Password))
+                    {
+                        if (pRestablecer.NewPassword.Equals(pRestablecer.Confirmar))
+                        {
+                            temp.password = pRestablecer.Confirmar;
+
+                            temp.restablecer = false;
+
+                            _context.Usuario.Update(temp);
+
+                            await _context.SaveChangesAsync();
+
+                            return RedirectToAction("Login", "Usuario");
+                        }
+                        else
+                        {
+                            TempData["Mensaje"] = "La confirmacion de la contra no es correcta";
+
+                            return View(pRestablecer);
+                        }
+                    }
+                    else
+                    {
+                        TempData["Mensaje"] = "El password es incorrecto";
+
+                        return View(pRestablecer);
+                    }
+                }
+                else
+                {
+                    TempData["Mensaje"] = "No existe el usuario a restablecer la contra";
+
+                    return View(pRestablecer);
+                }
+            }
+            else
+            {
+                TempData["Mensaje"] = "Datos incorrectos...";
+
+                return View(pRestablecer);
+            }
+        }
+
+
+       
+
+        //---------------------------METODOS----------------------------------------------------
+        public string GenerarClave()
+        {
+            Random rnd = new Random();
+
+            string clave = string.Empty;
+
+            clave = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(clave, 12).Select(
+                s => s[rnd.Next(s.Length)]).ToArray());
         }
 
         private Usuario ValidarUsuario(Usuario temp)
         {
             Usuario autorizado = null;
-            var user = _context.Usuario.FirstOrDefault(u => u.correoUsuario == temp.correoUsuario);
+
+            var user = _context.Usuario.FirstOrDefault(u => u.correoUsuario.Equals(temp.correoUsuario));
+            
 
             if (user != null)
             {
@@ -124,17 +230,20 @@ namespace AppWebConcesionario.Controllers
         {
             bool verificado = false;
 
-            var user = _context.Usuario.First(u => u.correoUsuario == temp.correoUsuario);
+            var user = _context.Usuario.FirstOrDefault(u => u.correoUsuario.Equals(temp.correoUsuario));
 
             if (user != null)
             {
-                if (user.restablecer)
+                if (user.restablecer == true)
                 {
                     verificado = true;
                 }
             }
+
             return verificado;
         }
 
-    }
-}
+
+
+    }//cierre class
+}//cierre namespace

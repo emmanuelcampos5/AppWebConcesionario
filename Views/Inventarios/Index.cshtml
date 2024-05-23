@@ -1,0 +1,42 @@
+﻿@model IEnumerable<AppWebConcesionario.Models.Inventario>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 style="color: white;">Lista de Cantidad Existente</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-dark" style="color: white;">Agregar Cantidad Vehiculo</a>
+</p>
+<table class="table" style="color: white;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idVehiculo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cantidadVehiculos)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.idVehiculo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cantidadVehiculos)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.idVehiculo" class="btn btn-warning" style="color: black;">Editar</a> /
+                    <a asp-action="Details" asp-route-id="@item.idVehiculo" class="btn btn-danger" style="color: black;">Detalles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

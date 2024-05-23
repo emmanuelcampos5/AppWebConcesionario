@@ -25,6 +25,7 @@ namespace AppWebConcesionario.Controllers
             return View(_context.Usuario.ToList());
         }
 
+        [HttpGet]
         public IActionResult VistaAdministrativa()
         {
             return View();
@@ -69,7 +70,14 @@ namespace AppWebConcesionario.Controllers
 
                     HttpContext.SignInAsync(userPrincipal);
 
-                    return RedirectToAction("Index", "Home");
+                    if (temp.idRol == 1)
+                    {
+                        return RedirectToAction("VistaAdministrativa", "Usuario");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
             TempData["Mensaje"] = "Usuario o Contraseña incorrecta";
@@ -98,6 +106,7 @@ namespace AppWebConcesionario.Controllers
         {
             if (listaLugares == "Seleccione una Provincia")
             {
+<<<<<<< HEAD
                 return View(user);
             }
             if (user != null)
@@ -118,14 +127,91 @@ namespace AppWebConcesionario.Controllers
                 email.EmailContra(user);
 
                 
+=======
+                return View();
+>>>>>>> f33251f78b72ed1035dfbf46e0ce5e21fc1f19a6
             }
 
-            return RedirectToAction("Index", "Home");
+                if (user != null)
+                {
+                    user.idRol = 2;
+                    user.lugarResidencia = listaLugares;
+                    user.password = this.GenerarClave();
+                    user.estadoSuscripcion = true;
+                    user.restablecer = true;
+                    user.estadoActivo = true;
+
+                    if (!UsuarioExistente(user))
+                    {
+                        //_context.Usuario.Add(user);
+                        try
+                        {
+                            //_context.SaveChanges();
+
+                            if (this.EnviarEmailRegistro(user))
+                            {
+                                TempData["MensajeCreado"] = "Usuario creado correctamente, Su contraseña fue enviada por email";
+                            }
+                            else
+                            {
+                                TempData["MensajeCreado"] = "Usuario creado pero no se envio el email, comuniquese con el administrador;";
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            TempData["MensajeError"] = "No se logro crear la cuenta.." + ex.Message;
+                        }                      
+                    }
+                    else
+                    {
+                        TempData["MensajeError"] = "El usuario ya se encuentra registrado en el sistema";
+                    }
+                }      
+            return View(user);
         }
 
+        [HttpGet]
+        public IActionResult Restablecer()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public IActionResult Restablecer(string s)
+        {
+            return View();
+        }
+
+<<<<<<< HEAD
         [HttpGet]
         public async Task<IActionResult> Restablecer(string? correoUsuario)
+=======
+        //---------------------------METODOS----------------------------------------------------
+
+        public bool UsuarioExistente(Usuario temp)
+        {
+            bool existente = false;
+            foreach (var usuario in _context.Usuario.ToList())
+            {
+                if (usuario.correoUsuario == temp.correoUsuario || usuario.cedulaUsuario == temp.cedulaUsuario)
+                {
+                    if (usuario.idRol == 2)
+                    {
+                        existente = true;
+                    }
+                    else
+                    {
+                        if (usuario.correoUsuario == temp.correoUsuario)
+                        {
+                            existente = true;
+                        }
+                    }
+                }
+            }
+            return existente;
+        }
+        private string GenerarClave()
+>>>>>>> f33251f78b72ed1035dfbf46e0ce5e21fc1f19a6
         {
             var temp = await _context.Usuario.FirstOrDefaultAsync(u => u.correoUsuario == correoUsuario);
 
@@ -208,7 +294,6 @@ namespace AppWebConcesionario.Controllers
             return new string(Enumerable.Repeat(clave, 12).Select(
                 s => s[rnd.Next(s.Length)]).ToArray());
         }
-
         private Usuario ValidarUsuario(Usuario temp)
         {
             Usuario autorizado = null;
@@ -225,7 +310,6 @@ namespace AppWebConcesionario.Controllers
             }
             return autorizado;
         }
-
         private bool VerificarRestablecer(Usuario temp)
         {
             bool verificado = false;
@@ -241,6 +325,22 @@ namespace AppWebConcesionario.Controllers
             }
 
             return verificado;
+        }
+        private bool EnviarEmailRegistro(Usuario temp)
+        {
+            try
+            {
+                bool enviado = false;
+                EmailRegistro emailRegistro = new EmailRegistro();
+                emailRegistro.Enviar(temp);
+                enviado = true;
+
+                return enviado;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
 

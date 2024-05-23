@@ -42,6 +42,7 @@
                 </tbody>
             </table>
         </div>
+        <span id="totalPrecio" style="position: absolute; bottom: 10px; right: 10px;"></span>
         @if (!Model.Any())
         {
             <p>Tu carrito está vacío.</p>
@@ -55,6 +56,23 @@
     </div>
 </div>
 
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Obtener todos los elementos de precio
+        var precios = document.querySelectorAll('td:nth-child(4)');
+        var total = 0;
+        // Calcular la suma total
+        precios.forEach(function (precio) {
+            // Limpiar el precio (eliminar "$" y espacios en blanco)
+            var precioLimpio = precio.textContent.replace(/\s/g, "").replace("$", "");
+            // Convertir a número y sumar al total
+            total += parseFloat(precioLimpio);
+        });
+        // Mostrar la suma total
+        document.getElementById("totalPrecio").textContent = "Total sin Impuestos: $" + total.toFixed(2);
+    });
+</script>
 
 
 

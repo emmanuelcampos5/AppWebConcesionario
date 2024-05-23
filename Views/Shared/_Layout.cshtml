@@ -1,9 +1,13 @@
-﻿<!DOCTYPE html>
+﻿
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - !CarPlus</title>
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AppWebConcesionario.styles.css" asp-append-version="true" />
@@ -36,7 +40,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Carrito" asp-action="Index">
                                 <img src="~/css/img/icono.png" alt="">
-                              @*  <span class="badge bg-danger">@_carrito.Count</span> *@
+                                <span class="badge bg-danger">@ViewData["CartCount"]</span>
                             </a>
                         </li>
                         @if (User.Identity.IsAuthenticated)

@@ -15,8 +15,13 @@ namespace AppWebConcesionario.Controllers
             return View(_carrito);
         }
 
-        
-        public async Task<IActionResult> Create(int idVehiculo, string marcaVehiculo, string modeloVehiculo, decimal precioVehiculo)
+        private void UpdateCartCount()
+        {
+            ViewData["CartCount"] = _carrito.Count;
+        }
+
+
+        public async Task<IActionResult> Create(int idVehiculo, string marcaVehiculo, string modeloVehiculo, decimal precioVehiculo, string foto)
         {
             var temp = _carrito.FirstOrDefault(x => x.idVehiculo == idVehiculo);
 
@@ -34,8 +39,15 @@ namespace AppWebConcesionario.Controllers
                     idVehiculo = idVehiculo,
                     marcaVehiculo = marcaVehiculo,
                     modeloVehiculo = modeloVehiculo,
-                    precioVehiculo = precioVehiculo
+                    precioVehiculo = precioVehiculo,
+                    foto = foto
                 });
+            }
+            UpdateCartCount();
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return Json(new { success = true });
             }
 
             return RedirectToAction("Index", "Vehiculo");

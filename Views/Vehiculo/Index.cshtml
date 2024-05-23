@@ -5,9 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@* <p>
-    <a asp-action="Create">Create New</a>
-</p> *@
+
+
+
+
 
 <div class="container">
     <div class="row">
@@ -28,7 +29,7 @@
                                 <h5 class="card-title">@item.marcaVehiculo</h5>
                                 <p>@item.modeloVehiculo</p>
                                 <p>Precio: $@item.precioVehiculo</p>
-                                @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.idVehiculo, marcaVehiculo = item.marcaVehiculo, modeloVehiculo = item.modeloVehiculo, precioVehiculo = item.precioVehiculo }, new { @class = "btn btn-sm btn-outline-secondary" })
+                            @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.idVehiculo, marcaVehiculo = item.marcaVehiculo, modeloVehiculo = item.modeloVehiculo, precioVehiculo = item.precioVehiculo, foto = item.imagenUrl }, new { @class = "btn btn-sm btn-outline-secondary add-to-cart-btn" })
                                 @Html.ActionLink("Detalles", "Details", new { id = item.idVehiculo }, new { @class = "btn btn-sm btn-outline-secondary"} )
                             </div>
                         </div>
@@ -42,3 +43,57 @@
 
     </div>
 </div>
+
+
+
+<div class="toast celeste-toast" role="alert" aria-live="assertive" aria-atomic="true" id="cartToast" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+    <div class="toast-header">
+        <strong class="me-auto">Carrito Actualizado</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+        Producto añadido al carrito exitosamente.
+    </div>
+</div>
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                const url = this.href;
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const toastElement = document.getElementById('cartToast');
+                            var toast = new bootstrap.Toast(toastElement, {
+                                delay: 2000 // 2000 milisegundos = 2 segundos
+                            });
+                            toast.show();
+                        }
+                    })
+                    .catch(error => console.error('Error adding to cart:', error));
+            });
+        });
+    });
+</script>
+
+<style>
+    .celeste-toast {
+        background-color: cornflowerblue; /* Un tono celeste suave */
+        color: charset /* Un color oscuro para el texto que asegure legibilidad */
+    }
+</style>

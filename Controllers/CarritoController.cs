@@ -15,11 +15,10 @@ namespace AppWebConcesionario.Controllers
             return View(_carrito);
         }
 
-        private void UpdateCartCount()
+        public static List<Carrito> GetCarrito()
         {
-            ViewData["CartCount"] = _carrito.Count;
+            return _carrito;
         }
-
 
         public async Task<IActionResult> Create(int idVehiculo, string marcaVehiculo, string modeloVehiculo, decimal precioVehiculo, string foto)
         {
@@ -43,7 +42,8 @@ namespace AppWebConcesionario.Controllers
                     foto = foto
                 });
             }
-            UpdateCartCount();
+
+
 
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {

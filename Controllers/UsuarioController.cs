@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace AppWebConcesionario.Controllers
@@ -62,7 +63,13 @@ namespace AppWebConcesionario.Controllers
                 else
                 {
                     //se guarda la informacion
-                    var userClaims = new List<Claim>() { new Claim(ClaimTypes.Name, temp.correoUsuario) };
+                    var userClaims = new List<Claim>
+                        {
+                             new Claim(ClaimTypes.Name, temp.correoUsuario),
+                             new Claim("idUsuario", temp.idUsuario.ToString()),
+                             new Claim("NombreUsuario", temp.nombreUsuario),
+                             new Claim("Rol", temp.idRol.ToString())
+                        };
 
                     var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");
 
@@ -240,6 +247,7 @@ namespace AppWebConcesionario.Controllers
                 {
                     verificado = true;
                 }
+                
             }
 
             return verificado;

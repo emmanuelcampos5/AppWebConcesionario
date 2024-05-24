@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AppWebConcesionario.Models
 {
     public class Det_Factura
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int idFactura { get; set; }
         public int idVehiculo { get; set; }
         public double precioUnitario { get; set; }

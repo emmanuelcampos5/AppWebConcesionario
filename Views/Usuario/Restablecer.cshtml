@@ -1,15 +1,11 @@
 ﻿@model AppWebConcesionario.Models.SeguridadRestablecer
 
-<<<<<<< HEAD
-=======
 
->>>>>>> f33251f78b72ed1035dfbf46e0ce5e21fc1f19a6
 @{
     ViewData["Title"] = "Restablecer";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<<<<<<< HEAD
 
 <div class="container">
     <div class="row">
@@ -46,47 +42,3 @@
 
     </div>
 </div>
-=======
-<div class="row">
-    <div class="col-md-5 col-9 col-xl-3 formulario position-absolute top-50 start-50 translate-middle">
-        <h1 class="text-center">Restablecer Contraseña</h1>
-        @*Contenedor para mensajes de error*@
-        @if (TempData["MensajeError"] != null)
-        {
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
-                <strong>@TempData["MensajeError"]</strong>
-            </div>
-        }
-
-        @*Formulario para restablecer contraseña*@
-        <form asp-action="Restablecer" method="post" class="mt-4">
-            <div class="form-group">
-                <label asp-for="password" class="form-label">Contraseña Actual</label>
-                <input asp-for="password" class="form-control" />
-                <span asp-validation-for="password"></span>
-            </div>
-
-            @*solicitar la nueva contraseña*@
-            <div class="form-group mt-3">
-                <label asp-for="newPassword" class="form-label">Nueva Contraseña</label>
-                <input asp-for="newPassword" class="form-control" />
-                <span asp-validation-for="newPassword"></span>
-            </div>
-
-            @*confirmar contraseña*@
-            <div class="form-group mt-3">
-                <label asp-for="confirmar" class="form-label">Confirmar Contraseña</label>
-                <input asp-for="confirmar" class="form-control" />
-                <span asp-validation-for="confirmar"></span>
-            </div>
-            <div class="form-group mt-4">
-                <input type="submit" value="Confirmar" class="btn btn-primary" />
-            </div>
-        </form>      
-    </div>
-</div>
-
-
-
->>>>>>> f33251f78b72ed1035dfbf46e0ce5e21fc1f19a6

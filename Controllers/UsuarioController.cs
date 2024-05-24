@@ -102,11 +102,11 @@ namespace AppWebConcesionario.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegistrarUsuario([Bind]Usuario user, string listaLugares)
+        public async Task<IActionResult> RegistrarUsuario([Bind] Usuario user, string listaLugares)
         {
             if (listaLugares == "Seleccione una Provincia")
             {
-<<<<<<< HEAD
+
                 return View(user);
             }
             if (user != null)
@@ -122,51 +122,44 @@ namespace AppWebConcesionario.Controllers
 
                 await _context.SaveChangesAsync();
 
-                Email email = new Email();
-
-                email.EmailContra(user);
-
-                
-=======
                 return View();
->>>>>>> f33251f78b72ed1035dfbf46e0ce5e21fc1f19a6
             }
 
-                if (user != null)
+            if (user != null)
+            {
+                user.idRol = 2;
+                user.lugarResidencia = listaLugares;
+                user.password = this.GenerarClave();
+                user.estadoSuscripcion = true;
+                user.restablecer = true;
+                user.estadoActivo = true;
+
+                if (!UsuarioExistente(user))
                 {
-                    user.idRol = 2;
-                    user.lugarResidencia = listaLugares;
-                    user.password = this.GenerarClave();
-                    user.estadoSuscripcion = true;
-                    user.restablecer = true;
-                    user.estadoActivo = true;
-
-                    if (!UsuarioExistente(user))
+                    //_context.Usuario.Add(user);
+                    try
                     {
-                        //_context.Usuario.Add(user);
-                        try
-                        {
-                            //_context.SaveChanges();
+                        //_context.SaveChanges();
 
-                            if (this.EnviarEmailRegistro(user))
-                            {
-                                TempData["MensajeCreado"] = "Usuario creado correctamente, Su contraseña fue enviada por email";
-                            }
-                            else
-                            {
-                                TempData["MensajeCreado"] = "Usuario creado pero no se envio el email, comuniquese con el administrador;";
-                            }
+                        if (this.EnviarEmailRegistro(user))
+                        {
+                            TempData["MensajeCreado"] = "Usuario creado correctamente, Su contraseña fue enviada por email";
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            TempData["MensajeError"] = "No se logro crear la cuenta.." + ex.Message;
-                        }                      
+                            TempData["MensajeCreado"] = "Usuario creado pero no se envio el email, comuniquese con el administrador;";
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        TempData["MensajeError"] = "El usuario ya se encuentra registrado en el sistema";
+                        TempData["MensajeError"] = "No se logro crear la cuenta.." + ex.Message;
                     }
-                }      
+                }
+                else
+                {
+                    TempData["MensajeError"] = "El usuario ya se encuentra registrado en el sistema";
+                }
+            }
             return View(user);
         }
 
@@ -181,11 +174,7 @@ namespace AppWebConcesionario.Controllers
         {
             return View();
         }
-
-<<<<<<< HEAD
-        [HttpGet]
-        public async Task<IActionResult> Restablecer(string? correoUsuario)
-=======
+        
         //---------------------------METODOS----------------------------------------------------
 
         public bool UsuarioExistente(Usuario temp)
@@ -210,78 +199,7 @@ namespace AppWebConcesionario.Controllers
             }
             return existente;
         }
-        private string GenerarClave()
->>>>>>> f33251f78b72ed1035dfbf46e0ce5e21fc1f19a6
-        {
-            var temp = await _context.Usuario.FirstOrDefaultAsync(u => u.correoUsuario == correoUsuario);
 
-            SeguridadRestablecer restablecer = new SeguridadRestablecer();
-
-            restablecer.Email = temp.correoUsuario;
-            restablecer.Password = temp.password;
-
-            EmailRestablecer = temp.correoUsuario;
-
-            return View(restablecer);
-
-
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Restablecer([Bind] SeguridadRestablecer pRestablecer)
-        {
-            if (pRestablecer != null)
-            {
-                var temp = await _context.Usuario.FirstOrDefaultAsync(u => u.correoUsuario.Equals(EmailRestablecer));
-
-                if (temp != null)
-                {
-                    if (temp.password.Equals(pRestablecer.Password))
-                    {
-                        if (pRestablecer.NewPassword.Equals(pRestablecer.Confirmar))
-                        {
-                            temp.password = pRestablecer.Confirmar;
-
-                            temp.restablecer = false;
-
-                            _context.Usuario.Update(temp);
-
-                            await _context.SaveChangesAsync();
-
-                            return RedirectToAction("Login", "Usuario");
-                        }
-                        else
-                        {
-                            TempData["Mensaje"] = "La confirmacion de la contra no es correcta";
-
-                            return View(pRestablecer);
-                        }
-                    }
-                    else
-                    {
-                        TempData["Mensaje"] = "El password es incorrecto";
-
-                        return View(pRestablecer);
-                    }
-                }
-                else
-                {
-                    TempData["Mensaje"] = "No existe el usuario a restablecer la contra";
-
-                    return View(pRestablecer);
-                }
-            }
-            else
-            {
-                TempData["Mensaje"] = "Datos incorrectos...";
-
-                return View(pRestablecer);
-            }
-        }
-
-
-       
 
         //---------------------------METODOS----------------------------------------------------
         public string GenerarClave()

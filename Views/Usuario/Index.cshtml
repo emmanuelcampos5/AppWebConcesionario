@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Lista de Usuarios</h1>
 
-<table class="table">
+<table class="table formulario">
     <thead>
         <tr>         
             <th>
@@ -27,14 +27,10 @@
             </th>          
             <th>
                 @Html.DisplayNameFor(model => model.restablecer)
-            </th>   
-            <th>
-                @Html.DisplayNameFor(model => model.password)
-            </th>
+            </th>             
             <th>
                 @Html.DisplayNameFor(model => model.estadoSuscripcion)
-            </th>
-            <th></th>
+            </th>           
         </tr>
     </thead>
     <tbody>
@@ -58,17 +54,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.restablecer)
             </td>       
-                <td>
-                    @Html.DisplayFor(modelItem => item.password)
-                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.estadoSuscripcion)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
+            </td>           
         </tr>
 }
     </tbody>

@@ -5,15 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
 
-<h4>Vehiculo</h4>
 <hr />
 <div class="row">
+    
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data" method="post">
+        <form asp-action="Create" enctype="multipart/form-data" method="post" id="formularioCreate">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
+            <h2>Insertar Vehiculo</h2>
             <div class="form-group">
                 <label asp-for="marcaVehiculo" class="control-label"></label>
                 <input asp-for="marcaVehiculo" class="form-control" />
@@ -52,15 +51,28 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary mt-3" />
+                <a asp-action="Index" class="btn btn-danger mt-3">Volver</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<style>
+    #formularioCreate {
+        background-color: whitesmoke;
+        border: 1px solid #dedede;
+        border-radius: 1em;
+        box-shadow: 5px 5px 5px rgba(25,0,0,25);
+        padding: 1em;
+        margin: 0 auto;
+        width: auto;
+        text-align: left;
+        color: #393939;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+</style>

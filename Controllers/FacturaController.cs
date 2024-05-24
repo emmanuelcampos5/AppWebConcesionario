@@ -170,7 +170,7 @@ namespace AppWebConcesionario.Controllers
 
                 foreach (var item in carrito)
                     {
-                        html += $"{item.marcaVehiculo} {item.modeloVehiculo} : {item.precioVehiculo}\n";
+                        html += $"<br><b>Marca:</b>{item.marcaVehiculo} <b>Modelo: </b>{item.modeloVehiculo} <b>Precio:</b> ${item.precioVehiculo}";
                     }
 
                 email.IsBodyHtml = true;

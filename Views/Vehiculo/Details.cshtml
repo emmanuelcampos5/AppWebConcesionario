@@ -5,61 +5,76 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Vehiculo</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.idVehiculo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.idVehiculo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.marcaVehiculo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.marcaVehiculo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.modeloVehiculo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.modeloVehiculo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.tipoCombustible)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.tipoCombustible)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.precioVehiculo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.precioVehiculo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.estadoActivo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.estadoActivo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.imagenUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.imagenUrl)
-        </dd>
-    </dl>
-</div>
+<div class="container" >
+    <form id="formularioCreate">
+
+        <h4>Vehiculo</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.idVehiculo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.idVehiculo)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.marcaVehiculo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.marcaVehiculo)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.modeloVehiculo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.modeloVehiculo)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.tipoCombustible)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.tipoCombustible)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.precioVehiculo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.precioVehiculo)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.estadoActivo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.estadoActivo)
+            </dd>
+        </dl>
+
 <div>
     @if (User.Identity.IsAuthenticated)
     {
         @Html.ActionLink("Edit", "Edit", new { id = Model.idVehiculo })
     }
-    <a class="btn btn-sm btn-outline-secondary "  asp-action="">Agruegar al carrito</a>
+    <a class="btn btn-sm btn-outline-secondary " asp-action="">Agruegar al carrito</a>
     <a class="btn btn-sm btn-outline-danger " asp-action="Index">Back to List</a>
-</div>
+        </div>
+    
+    </form>
+
+    <div>
+
+
+            <style>
+    #formularioCreate {
+        background-color: whitesmoke;
+        border: 1px solid #dedede;
+        border-radius: 1em;
+        box-shadow: 5px 5px 5px rgba(25,0,0,25);
+        padding: 1em;
+        margin: 0 auto;
+        width: auto;
+        text-align: left;
+        color: #393939;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+            </style>

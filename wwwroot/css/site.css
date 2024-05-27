@@ -20,6 +20,9 @@ body {
     margin-bottom: 60px;
     background-color: dimgray;
     background-blend-mode: multiply;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 .formulario {
@@ -76,8 +79,5 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
-    }
-
-    /*CSS DYLAN TERMINA*/
-
-    
+    } 
+}

@@ -1,0 +1,35 @@
+﻿@model AppWebConcesionario.Models.Inventario
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 style="color: white;">Editar</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label class="control-label" style="color: white;">ID</label>
+                <input asp-for="idVehiculo" class="form-control" style="color: black;" readonly />
+                <span asp-validation-for="idVehiculo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" style="color: white;">CANTIDAD DE VEHICULOS</label>
+                <input asp-for="cantidadVehiculos" class="form-control" style="color: black;" />
+                <span asp-validation-for="cantidadVehiculos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-warning mt-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-danger mt-2" style="color: black;">Volver a Lista</a>
+</div>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using AppWebConcesionario.Models;
 
 namespace AppWebConcesionario.Models
 {
@@ -18,6 +19,7 @@ namespace AppWebConcesionario.Models
 
         //dylan
         public DbSet<Promocion> Promocion { get; set; }
+        public DbSet<AppWebConcesionario.Models.Inventario> Inventario { get; set; } = default!;
 
         //dylan
     }

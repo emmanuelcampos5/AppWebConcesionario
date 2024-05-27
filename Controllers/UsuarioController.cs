@@ -1,8 +1,8 @@
 ﻿using AppWebConcesionario.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Claims;
 
 namespace AppWebConcesionario.Controllers
@@ -166,7 +166,34 @@ namespace AppWebConcesionario.Controllers
         {
             return View();
         }
-        
+
+
+
+        //---------------------------MODULO CONSULTAS-------------------------------------------
+        [HttpGet]
+        public IActionResult RealizarConsulta()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RealizarConsulta([Bind] Usuario user, string mensaje)
+        {
+            if (this.EnviarEmailConsulta(user, mensaje))
+            {
+                TempData["MensajeCreado"] = "Consulta realizada correctamente, su respuesta llegará pronto al email.";
+            }
+            return View(user);
+        }
+
+
+
+
+
+
+
+
         //---------------------------METODOS----------------------------------------------------
 
         public bool UsuarioExistente(Usuario temp)
@@ -255,6 +282,29 @@ namespace AppWebConcesionario.Controllers
         }
 
 
+        //------------funcion para enviar consulta x email
 
-    }//cierre class
-}//cierre namespace
+        private bool EnviarEmailConsulta(Usuario temp, string mensaje)
+        {
+            try
+            {
+                bool enviado = false;
+                EmailConsulta emailConsulta = new EmailConsulta();
+                emailConsulta.Enviar(temp, mensaje);
+                enviado = true;
+
+                return enviado;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+
+
+
+
+
+    }
+}

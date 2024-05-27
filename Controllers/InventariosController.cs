@@ -40,7 +40,7 @@ namespace AppWebConcesionario.Controllers
             return View(inventario);
         }
 
-
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +56,11 @@ namespace AppWebConcesionario.Controllers
                 _context.Add(inventario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+                
+            }
+            else
+            {
+                TempData["MensajeError"] = "No se puede agregar un vehiculo innexistente al inventario.";
             }
             return View(inventario);
         }

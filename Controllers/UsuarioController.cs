@@ -106,18 +106,21 @@ namespace AppWebConcesionario.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegistrarUsuario([Bind] Usuario user, string listaLugares)
+        public async Task<IActionResult> RegistrarUsuario([Bind] Usuario user)
         {
-            if (listaLugares == "Seleccione una Provincia")
-            {
+            //if (listaLugares == "Seleccione una Provincia")
+            //{
 
-                return View(user);
-            }          
+            //    return View(user);
+            //}          
 
             if (user != null)
             {
+                //var lugarResidencia = user.lugarResidencia;
+
                 user.idRol = 2;
-                user.lugarResidencia = listaLugares;
+                //user.lugarResidencia = listaLugares;
+                //user.lugarResidencia = lugarResidencia;
                 user.password = this.GenerarClave();
                 user.estadoSuscripcion = true;
                 user.restablecer = true;
@@ -126,6 +129,11 @@ namespace AppWebConcesionario.Controllers
                 if (!UsuarioExistente(user))
                 {
                     _context.Usuario.Add(user);
+                    if(user.lugarResidencia==null)
+                    {
+                        TempData["MensajeError"] = "No se logro crear la cuenta..";
+                    }
+
                     try
                     {
                         _context.SaveChanges();

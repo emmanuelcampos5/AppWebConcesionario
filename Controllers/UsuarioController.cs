@@ -58,7 +58,7 @@ namespace AppWebConcesionario.Controllers
                 //si hay que restablecerla, se lleva a la View restablecer
                 if (restablecer)
                 {
-                    return RedirectToAction("Restablecer", "Usuario", new { correoUsuario = temp.correoUsuario });
+                    return RedirectToAction("Restablecer", "Usuario", new { tempCorreo = temp.correoUsuario });
                 }
                 else
                 {
@@ -91,15 +91,12 @@ namespace AppWebConcesionario.Controllers
             return View(user);
         }
 
-
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
         }
-
-
 
         [HttpGet]
         public IActionResult RegistrarUsuario()
@@ -156,18 +153,105 @@ namespace AppWebConcesionario.Controllers
         }
 
         [HttpGet]
-        public IActionResult Restablecer()
+        public IActionResult Restablecer(string? tempCorreo)
+        {
+            var usuario = _context.Usuario.First(usuario => usuario.correoUsuario.Equals(tempCorreo));
+
+            SeguridadRestablecer restablecer = new SeguridadRestablecer();
+
+            restablecer.Email = usuario.correoUsuario;
+            restablecer.Password = usuario.password;
+
+            EmailRestablecer = usuario.correoUsuario;
+
+            return View(restablecer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Restablecer(SeguridadRestablecer pRestablecer)
+        {
+            if (pRestablecer != null)
+            {
+                var usuario = _context.Usuario.First(c => c.correoUsuario == EmailRestablecer);
+
+                if (usuario.password.Equals(pRestablecer.Password))
+                {
+                    if (pRestablecer.NewPassword.Equals(pRestablecer.Confirmar))
+                    {
+                        usuario.password = pRestablecer.Confirmar;
+                        usuario.restablecer = false;
+
+                        _context.Usuario.Update(usuario);
+                        _context.SaveChanges();
+
+                        return RedirectToAction("Login", "Usuario");
+                    }
+                    else
+                    {
+                        TempData["MensajeError"] = "Las contraseñas no coinciden";
+                        return View(pRestablecer);
+                    }
+                }
+                else
+                {
+                    TempData["MensajeError"] = "La contraseña es incorrecta";
+                    return View(pRestablecer);
+                }
+            }
+            else
+            {
+                TempData["MensajeError"] = "Datos incorrectos";
+                return View(pRestablecer);
+            }
+
+        }
+
+        [HttpGet]
+        public IActionResult OlvidarContraseña()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Restablecer(string s)
+        [ValidateAntiForgeryToken]
+        public IActionResult OlvidarContraseña(string? tempCorreo)
         {
-            return View();
+            var usuario = _context.Usuario.FirstOrDefault(c => c.correoUsuario == tempCorreo);
+
+            if (usuario != null)
+            {
+                usuario.password = this.GenerarClave();
+                usuario.restablecer = true;
+
+                _context.Usuario.Update(usuario);
+
+                try
+                {
+                    _context.SaveChanges();
+
+                    if (this.EnviarEmailRestablecer(usuario))
+                    {
+                        TempData["MensajeCreado"] = "Se envió una contraseña temporal por email";
+                    }
+                    else
+                    {
+                        TempData["MensajeCreado"] = "No se pudo enviar una contraseña temporal, comuniquese con el administrador;";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TempData["MensajeError"] = "No se logro restablecer la contraseña.." + ex.Message;
+                }
+                return View();
+            }
+            else
+            {
+                TempData["MensajeError"] = "El email no se encuentra asociado a una cuenta";
+                return View();
+            }
+                     
         }
-
-
 
         //---------------------------MODULO CONSULTAS-------------------------------------------
         [HttpGet]
@@ -237,7 +321,6 @@ namespace AppWebConcesionario.Controllers
 
             var user = _context.Usuario.FirstOrDefault(u => u.correoUsuario.Equals(temp.correoUsuario));
             
-
             if (user != null)
             {
                 if (user.password.Equals(temp.password))
@@ -281,6 +364,22 @@ namespace AppWebConcesionario.Controllers
             }
         }
 
+        private bool EnviarEmailRestablecer(Usuario temp)
+        {
+            try
+            {
+                bool enviado = false;
+                EmailRestablecer emailR = new EmailRestablecer();
+                emailR.Enviar(temp);
+                enviado = true;
+
+                return enviado;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
 
         //------------funcion para enviar consulta x email
 
@@ -300,11 +399,6 @@ namespace AppWebConcesionario.Controllers
                 return false;
             }
         }
-
-
-
-
-
 
     }
 }

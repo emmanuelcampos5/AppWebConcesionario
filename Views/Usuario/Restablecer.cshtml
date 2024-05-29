@@ -9,10 +9,25 @@
 
 <div class="container">
     <div class="row">
-
         <div class="col-md-5 col-9 col-xl-3 formulario position-absolute top-50 start-50 translate-middle">
-            <form asp-action="Restablecer" asp-controller="Usuario" id="FormularioRestablecer">
-                <h1 class="text-center">Restablecer</h1>
+            <h1 class="text-center">Restablecer</h1>
+            @if (TempData["MensajeCreado"] != null)
+            {
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+                    <strong>@TempData["MensajeCreado"]</strong>
+                </div>
+            }
+
+            @*Mensaje en caso de error*@
+            @if (TempData["MensajeError"] != null)
+            {
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+                    <strong>@TempData["MensajeError"]</strong>
+                </div>
+            }
+            <form asp-action="Restablecer" asp-controller="Usuario" id="FormularioRestablecer">           
                 <div asp-validation-summary="ModelOnly" class="text-danger">
                 </div>
                 <div class="form-group">

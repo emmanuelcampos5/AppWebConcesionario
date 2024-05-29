@@ -4,8 +4,6 @@ namespace AppWebConcesionario.Models
 {
     public class SeguridadRestablecer
     {
-
-
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar la clave temporal enviada por el email")]

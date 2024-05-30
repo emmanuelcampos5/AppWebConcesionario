@@ -120,7 +120,7 @@ namespace AppWebConcesionario.Controllers
 
                 user.idRol = 2;
                 //user.lugarResidencia = listaLugares;
-                //user.lugarResidencia = lugarResidencia;
+               
                 user.password = this.GenerarClave();
                 user.estadoSuscripcion = true;
                 user.restablecer = true;

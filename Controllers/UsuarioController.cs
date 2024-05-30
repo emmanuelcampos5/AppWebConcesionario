@@ -120,7 +120,7 @@ namespace AppWebConcesionario.Controllers
 
                 user.idRol = 2;
                 //user.lugarResidencia = listaLugares;
-               
+
                 user.password = this.GenerarClave();
                 user.estadoSuscripcion = true;
                 user.restablecer = true;
@@ -129,7 +129,7 @@ namespace AppWebConcesionario.Controllers
                 if (!UsuarioExistente(user))
                 {
                     _context.Usuario.Add(user);
-                    if(user.lugarResidencia==null)
+                    if (user.lugarResidencia == null)
                     {
                         TempData["MensajeError"] = "No se logro crear la cuenta..";
                     }
@@ -159,6 +159,7 @@ namespace AppWebConcesionario.Controllers
             }
             return View(user);
         }
+
 
         [HttpGet]
         public IActionResult Restablecer(string? tempCorreo)

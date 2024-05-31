@@ -361,8 +361,8 @@ namespace AppWebConcesionario.Controllers
             try
             {
                 bool enviado = false;
-                EmailRegistro emailRegistro = new EmailRegistro();
-                emailRegistro.Enviar(temp);
+                Email emailRegistro = new Email();
+                emailRegistro.EnviarRegistro(temp);
                 enviado = true;
 
                 return enviado;
@@ -378,8 +378,8 @@ namespace AppWebConcesionario.Controllers
             try
             {
                 bool enviado = false;
-                EmailRestablecer emailR = new EmailRestablecer();
-                emailR.Enviar(temp);
+                Email emailR = new Email();
+                emailR.EnviarRestablecer(temp);
                 enviado = true;
 
                 return enviado;
@@ -397,8 +397,8 @@ namespace AppWebConcesionario.Controllers
             try
             {
                 bool enviado = false;
-                EmailConsulta emailConsulta = new EmailConsulta();
-                emailConsulta.Enviar(temp, mensaje);
+                Email emailConsulta = new Email();
+                emailConsulta.EnviarConsulta(temp, mensaje);
                 enviado = true;
 
                 return enviado;

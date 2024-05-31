@@ -16,11 +16,11 @@ namespace AppWebConcesionario.Models
         public DbSet<Factura> Factura { get; set;}
 
         public DbSet<Det_Factura> Det_Factura { get; set;}
-
-        //dylan
+        
         public DbSet<Promocion> Promocion { get; set; }
-        public DbSet<AppWebConcesionario.Models.Inventario> Inventario { get; set; } = default!;
 
-        //dylan
+        public DbSet<Inventario> Inventario { get; set; }
+
+   
     }
 }

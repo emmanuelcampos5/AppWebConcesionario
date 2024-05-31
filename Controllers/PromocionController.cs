@@ -33,5 +33,40 @@ namespace AppWebConcesionario.Controllers
 
             return vehiculosPromociones;
         }
+
+
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind] Vehiculo vehiculo, Promocion promocion)
+        {
+            if (vehiculo == null  || promocion == null)
+            {
+                return View(); //se valida que tenga datos sino lo mandamos de vuelta al formulario
+            }
+            else
+            {
+                promocion.idVehiculo = vehiculo.idVehiculo;
+
+
+                _context.Vehiculo.Add(vehiculo);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+
+
+            }
+
+        }
+
+
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AppWebConcesionario.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppWebConcesionario.Controllers
@@ -16,6 +17,12 @@ namespace AppWebConcesionario.Controllers
 
         [HttpGet]
         public IActionResult Index()
+        {
+            return View(VehiculosEnPromocion());
+        }
+
+        [HttpGet]
+        public IActionResult ListaAdmin()
         {
             return View(VehiculosEnPromocion());
         }
@@ -39,6 +46,10 @@ namespace AppWebConcesionario.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            //necesitamos traer los datos del vehiculo a la vista
+            //asi si el admin va a seleccionar el vehiculo, sepa cuales existen
+            var vehiculos = _context.Vehiculo.ToList();
+            ViewData["Vehiculos"] = new SelectList(vehiculos, "idVehiculo", "modeloVehiculo"); 
             return View();
         }
 
@@ -46,24 +57,30 @@ namespace AppWebConcesionario.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind] Vehiculo vehiculo, Promocion promocion)
         {
-            if (vehiculo == null  || promocion == null)
+            if (vehiculo == null || promocion == null)
             {
-                return View(); //se valida que tenga datos sino lo mandamos de vuelta al formulario
+                return View(); // se valida que tenga datos sino lo mandamos de vuelta al formulario
+            }
+
+            // Verificar si ya existe una promoción para el vehículo
+            var existePromocion = await _context.Promocion.FindAsync(vehiculo.idVehiculo);
+            if (existePromocion != null)
+            {
+                // Actualizar la promoción existente
+                existePromocion.precioPromocion = promocion.precioPromocion;
+                existePromocion.lugarPromocion = promocion.lugarPromocion;
+
+                _context.Update(existePromocion);
             }
             else
             {
+                // Si no existe, crear una nueva promoción
                 promocion.idVehiculo = vehiculo.idVehiculo;
-
-
-                _context.Vehiculo.Add(vehiculo);
-
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction("Index");
-
-
+                _context.Promocion.Add(promocion);
             }
 
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
 

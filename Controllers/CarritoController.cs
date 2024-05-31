@@ -50,7 +50,7 @@ namespace AppWebConcesionario.Controllers
                 return Json(new { success = true });
             }
 
-            return RedirectToAction("Index", "Vehiculo");
+            return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int idVehiculo)

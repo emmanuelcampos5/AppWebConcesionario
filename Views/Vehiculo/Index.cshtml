@@ -16,9 +16,6 @@
         <div class="col-sm-12">
             <div class="d-flex flex-row justify-content-center flex-wrap">
             
-            @{
-                int contador = 0;
-            }
 
             @foreach (var item in Model)
             {
@@ -29,7 +26,7 @@
                                 <h5 class="card-title">@item.marcaVehiculo</h5>
                                 <p>@item.modeloVehiculo</p>
                                 <p>Precio: $@item.precioVehiculo</p>
-                            @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.idVehiculo, marcaVehiculo = item.marcaVehiculo, modeloVehiculo = item.modeloVehiculo, precioVehiculo = item.precioVehiculo, foto = item.imagenUrl }, new { @class = "btn btn-sm btn-outline-secondary add-to-cart-btn" })
+                                @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.idVehiculo, marcaVehiculo = item.marcaVehiculo, modeloVehiculo = item.modeloVehiculo, precioVehiculo = item.precioVehiculo, foto = item.imagenUrl }, new { @class = "btn btn-sm btn-outline-secondary add-to-cart-btn" })
                                 @Html.ActionLink("Detalles", "Details", new { id = item.idVehiculo }, new { @class = "btn btn-sm btn-outline-secondary"} )
                             </div>
                         </div>

@@ -17,14 +17,11 @@
         <div class="col-sm-12">
             <div class="d-flex flex-row justify-content-center flex-wrap">
 
-                @{
-                    int contador = 0;
-                }
+               
 
                 @foreach (var item in Model)
                 {
-                    if (contador == 0)
-                    {
+                                      
                         <div class="card m-2" style="width: 18rem;">
                             <img src=@item.Item1.imagenUrl class="card-img-top" alt="@item.Item1.modeloVehiculo">
                             <div class="card-body">
@@ -34,25 +31,12 @@
                                 <p>Precio: <s>$@item.Item1.precioVehiculo</s></p>
                                 <p>Precio en promocion: $@item.Item2.precioPromocion</p>
                                 <p>Lugar de Promocion: @item.Item2.lugarPromocion</p>
-                                <a href="#" class="btn btn-success">Comprar</a>
+                                @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.Item1.idVehiculo, marcaVehiculo = item.Item1.marcaVehiculo, modeloVehiculo = item.Item1.modeloVehiculo, precioVehiculo = item.Item2.precioPromocion, foto = item.Item1.imagenUrl }, new { @class = "btn btn-sm btn-outline-secondary add-to-cart-btn" })
+                                <a asp-action="Edit" asp-controller="Promocion" asp-route-id="@item.Item2.idVehiculo" class="btn btn-secondary mt-3">Editar Promoción</a>
+                                <a asp-action="Delete" asp-controller="Promocion" asp-route-id="@item.Item2.idVehiculo" class="btn btn-danger mt-3">Borrar</a>
                             </div>
                         </div>
-                    }
-                    else
-                    {
-                        <div class="card m-2" style="width: 18rem;">
-                            <img src=@item.Item1.imagenUrl class="card-img-top" alt="@item.Item1.modeloVehiculo">
-                            <div class="card-body">
-                                <h5 class="card-title">@item.Item1.marcaVehiculo</h5>
-                                <p>@item.Item1.modeloVehiculo</p>                           
-                                <p>Tipo Combustible: @item.Item1.tipoCombustible</p>
-                                <p>Precio: <s>$@item.Item1.precioVehiculo</s></p>
-                                <p>Precio en promocion: $@item.Item2.precioPromocion</p>
-                                <p>Lugar de Promocion: @item.Item2.lugarPromocion</p>
-                                <a href="#" class="btn btn-success">Comprar</a>
-                            </div>
-                        </div>
-                    }
+                                       
                 }
 
 
@@ -63,4 +47,54 @@
     </div>
 </div>
 
+<div class="toast celeste-toast" role="alert" aria-live="assertive" aria-atomic="true" id="cartToast" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+    <div class="toast-header">
+        <strong class="me-auto">Carrito Actualizado</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+        Producto añadido al carrito exitosamente.
+    </div>
+</div>
 
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                const url = this.href;
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const toastElement = document.getElementById('cartToast');
+                            var toast = new bootstrap.Toast(toastElement, {
+                                delay: 2000 // 2000 milisegundos = 2 segundos
+                            });
+                            toast.show();
+                        }
+                    })
+                    .catch(error => console.error('Error adding to cart:', error));
+            });
+        });
+    });
+</script>
+
+<style>
+    .celeste-toast {
+        background-color: cornflowerblue; /* Un tono celeste suave */
+        color: charset /* Un color oscuro para el texto que asegure legibilidad */
+    }
+</style>

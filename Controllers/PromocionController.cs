@@ -21,12 +21,6 @@ namespace AppWebConcesionario.Controllers
             return View(VehiculosEnPromocion());
         }
 
-        [HttpGet]
-        public IActionResult ListaAdmin()
-        {
-            return View(VehiculosEnPromocion());
-        }
-
         //Devuelve la lista de vehiculos que se encuentran en promocion
         public List<(Vehiculo, Promocion)> VehiculosEnPromocion()
         {                         
@@ -48,22 +42,46 @@ namespace AppWebConcesionario.Controllers
         {
             //necesitamos traer los datos del vehiculo a la vista
             //asi si el admin va a seleccionar el vehiculo, sepa cuales existen
-            var vehiculos = _context.Vehiculo.ToList();
-            ViewData["Vehiculos"] = new SelectList(vehiculos, "idVehiculo", "modeloVehiculo"); 
+            ViewData["Vehiculos"] = new SelectList(_context.Vehiculo, "idVehiculo", "modeloVehiculo"); 
+
+
             return View();
         }
 
+
+
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind] Vehiculo vehiculo, Promocion promocion)
+        public async Task<IActionResult> Create([Bind]Promocion promocion)
         {
-            if (vehiculo == null || promocion == null)
+            if (promocion == null)
             {
-                return View(); // se valida que tenga datos sino lo mandamos de vuelta al formulario
+                return View();
+            }
+
+            // Encontrar el vehículo correspondiente en la base de datos usando el idVehiculo seleccionado
+            var vehiculo = await _context.Vehiculo.FindAsync(promocion.idVehiculo);
+            if (vehiculo == null)
+            {
+                ModelState.AddModelError(string.Empty, "El vehículo no se encuentra.");
+                ViewData["Vehiculos"] = new SelectList(_context.Vehiculo, "idVehiculo", "modeloVehiculo");
+                return View(promocion);
+            }
+
+            // Verificar que el precio de la promoción sea menor al precio del vehículo
+            if (promocion.precioPromocion >= vehiculo.precioVehiculo)
+            {
+                ModelState.AddModelError(string.Empty, "El precio de la promoción debe ser menor al precio del vehículo.");
+                ViewData["Vehiculos"] = new SelectList(_context.Vehiculo, "idVehiculo", "modeloVehiculo");
+                return View(promocion);
             }
 
             // Verificar si ya existe una promoción para el vehículo
             var existePromocion = await _context.Promocion.FindAsync(vehiculo.idVehiculo);
+           
             if (existePromocion != null)
             {
                 // Actualizar la promoción existente
@@ -75,13 +93,82 @@ namespace AppWebConcesionario.Controllers
             else
             {
                 // Si no existe, crear una nueva promoción
-                promocion.idVehiculo = vehiculo.idVehiculo;
                 _context.Promocion.Add(promocion);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+
+        //Borrar promociones-------------------------------
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var temp = await _context.Promocion.FirstOrDefaultAsync(x => x.idVehiculo == id);
+
+            return View(temp);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            var temp = await _context.Promocion.FirstOrDefaultAsync(x => x.idVehiculo == id);
+
+            if (temp != null)
+            {
+                _context.Promocion.Remove(temp);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+
+        //Editar promociones-------------------------------------
+        
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var temp = await _context.Promocion.FirstOrDefaultAsync(x => x.idVehiculo == id);
+
+            return View(temp);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind] Promocion promocion)
+        {
+            if (id == promocion.idVehiculo)
+            {
+                var temp = await _context.Promocion.FirstOrDefaultAsync(r => r.idVehiculo == id);
+
+
+                var vehiculo = await _context.Vehiculo.FindAsync(promocion.idVehiculo);
+                if (promocion.precioPromocion >= vehiculo.precioVehiculo)
+                {
+                    ModelState.AddModelError(string.Empty, "El precio de la promoción debe ser menor al precio del vehículo.");
+                    return View(promocion);
+                }
+
+                _context.Promocion.Remove(temp);
+                _context.Promocion.Add(promocion);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
 
 
 

@@ -20,7 +20,35 @@ namespace AppWebConcesionario.Controllers
 
         public async Task<IActionResult> Index()
         {
+            // Llamar al método de sincronización antes de cargar la vista.
+            //este metodo solo hacia falta llamarlo una vez y listo, pero para evitar error futuros mejor dejarlo
+            await SincronizarInventario(); 
             return View(await _context.Inventario.ToListAsync());
+        }
+
+        //puesto que ya se habian agregado datos a invenatrio
+        //tuve que modificar la vista para que se sincronicen ambas tablas
+        public async Task<IActionResult> SincronizarInventario()
+        {
+            var vehiculos = await _context.Vehiculo.ToListAsync(); // Obtener todos los vehículos.
+            var inventarios = await _context.Inventario.ToListAsync(); // Obtener todos los inventarios.
+
+            foreach (var vehiculo in vehiculos)
+            {
+                if (!inventarios.Any(i => i.idVehiculo == vehiculo.idVehiculo)) // Verifica si el vehículo ya tiene inventario.
+                {
+                    // Crear un nuevo inventario para el vehículo.
+                    var nuevoInventario = new Inventario
+                    {
+                        idVehiculo = vehiculo.idVehiculo,
+                        cantidadVehiculos = 1 // O cualquier lógica para determinar la cantidad inicial.
+                    };
+                    _context.Inventario.Add(nuevoInventario); // Agregar el nuevo inventario a la base de datos.
+                }
+            }
+            await _context.SaveChangesAsync(); // Guardar todos los cambios en la base de datos.
+
+            return RedirectToAction("Index"); // Redireccionar al índice del inventario o donde consideres apropiado.
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -40,32 +68,6 @@ namespace AppWebConcesionario.Controllers
             return View(inventario);
         }
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-   
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("idVehiculo,cantidadVehiculos")] Inventario inventario)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(inventario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-                
-            }
-            else
-            {
-                TempData["MensajeError"] = "No se puede agregar un vehiculo innexistente al inventario.";
-            }
-            return View(inventario);
-        }
-
-
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,10 +76,16 @@ namespace AppWebConcesionario.Controllers
             }
 
             var inventario = await _context.Inventario.FindAsync(id);
+
             if (inventario == null)
             {
                 return NotFound();
             }
+//----------------------------------------------------------------------------------------------------------------
+            //modifcar vehiculo
+//----------------------------------------------------------------------------------------------------------------
+
+
             return View(inventario);
         }
 

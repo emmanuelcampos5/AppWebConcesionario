@@ -390,6 +390,12 @@ namespace AppWebConcesionario.Controllers
             }
         }
 
+        
+        
+        
+        
+        
+        
         //------------funcion para enviar consulta x email
 
         private bool EnviarEmailConsulta(Usuario temp, string mensaje)
@@ -408,6 +414,10 @@ namespace AppWebConcesionario.Controllers
                 return false;
             }
         }
+
+
+
+
 
     }
 }

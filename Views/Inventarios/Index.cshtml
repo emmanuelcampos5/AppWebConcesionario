@@ -1,23 +1,21 @@
-﻿@model IEnumerable<AppWebConcesionario.Models.Inventario>
+﻿@model List<Inventario>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Inventario";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1 style="color: white;">Lista de Cantidad Existente</h1>
+<h1>Inventario</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-dark" style="color: white;">Agregar Cantidad Vehiculo</a>
-</p>
-<table class="table" style="color: white;">
+<table class="table">
     <thead>
         <tr>
+            
             <th>
-                @Html.DisplayNameFor(model => model.idVehiculo)
+                Id
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.cantidadVehiculos)
+                Cantidad
             </th>
             <th></th>
         </tr>
@@ -25,12 +23,13 @@
     <tbody>
         @foreach (var item in Model)
         {
+
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.idVehiculo)
+                    @item.idVehiculo
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.cantidadVehiculos)
+                    @item.cantidadVehiculos
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.idVehiculo" class="btn btn-warning" style="color: black;">Editar</a> /

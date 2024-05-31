@@ -31,7 +31,7 @@ namespace AppWebConcesionario.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(List<IFormFile> files, [Bind] Vehiculo vehiculo, Inventario inventario)
+        public async Task<IActionResult> Create(List<IFormFile> files, [Bind] Vehiculo vehiculo)
         {
             if (vehiculo == null)
             {
@@ -83,14 +83,10 @@ namespace AppWebConcesionario.Controllers
                 await _context.SaveChangesAsync();
 
 
-                // Asignar el ID del vehículo recién creado al inventario
-                inventario.idVehiculo = vehiculo.idVehiculo;
-
-                // Asignar cantidad por defecto si no se especifica
-                if (inventario.cantidadVehiculos <= 0)
-                {
-                    inventario.cantidadVehiculos = 1;
-                }
+                // Crear un registro en inventario para el vehículo recién creado con cantidad inicial de 1
+                Inventario inventario = new Inventario { idVehiculo = vehiculo.idVehiculo, cantidadVehiculos = 1 };
+                _context.Inventario.Add(inventario);
+                await _context.SaveChangesAsync(); // Guardar cambios del inventario.
 
                 // Agregar el inventario a la base de datos
                 _context.Inventario.Add(inventario);

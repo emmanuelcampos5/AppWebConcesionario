@@ -67,23 +67,33 @@ namespace AppWebConcesionario.Controllers
                 _context.Factura.Add(nuevaFactura);
                 await _context.SaveChangesAsync();
 
-                // Crear los detalles de la factura y establecer el idFactura
-                //foreach (var item in carrito)
-                //{
-                //    var detalleFactura = new Det_Factura
-                //    {
-                //        idVehiculo = item.idVehiculo,
-                //        precioUnitario = Convert.ToDouble(item.precioVehiculo),
-                //        cantidad = 1,
-                //        subtotal = Convert.ToDouble(item.precioVehiculo),
-                //        montoDescuento = 0,
-                //        montoImpuesto = Convert.ToDouble(item.precioVehiculo) * 0.13
-                //    };
 
-                //    _context.Det_Factura.Add(detalleFactura);
-                //}
+                foreach (var item in carrito)
+                {
+                    var inventario = await _context.Inventario.FirstOrDefaultAsync(i => i.idVehiculo == item.idVehiculo);
+                    if (inventario != null)
+                    {
+                        inventario.cantidadVehiculos -= 1;
 
-                //await _context.SaveChangesAsync();
+                        if (inventario.cantidadVehiculos <= 0)
+                        {
+                            inventario.cantidadVehiculos = 0; // Evitar cantidades negativas
+                            
+                            // Cambiar el estado del vehículo a false
+                            var vehiculo = await _context.Vehiculo.FindAsync(inventario.idVehiculo);
+                            if (vehiculo != null)
+                            {
+                                vehiculo.estadoActivo = false;
+                                _context.Update(vehiculo);
+                            }
+                        }
+
+                        _context.Update(inventario);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
 
                 EnviarCorreoFactura(nuevaFactura, carrito, userId, userName);
 
@@ -140,8 +150,6 @@ namespace AppWebConcesionario.Controllers
 
 
         //------------------------------------------correo-------------------------------------
-
-
         private void EnviarCorreoFactura(Factura factura, List<Carrito> carrito, int userId, string userName)
         {
 
@@ -169,9 +177,9 @@ namespace AppWebConcesionario.Controllers
                 html += "<br><b>Detalles de la compra:</b>";
 
                 foreach (var item in carrito)
-                    {
-                        html += $"<br><b>Marca:</b>{item.marcaVehiculo} <b>Modelo: </b>{item.modeloVehiculo} <b>Precio:</b> ${item.precioVehiculo}";
-                    }
+                {
+                    html += $"<br><b>Marca:</b>{item.marcaVehiculo} <b>Modelo: </b>{item.modeloVehiculo} <b>Precio:</b> ${item.precioVehiculo}";
+                }
 
                 email.IsBodyHtml = true;
 
@@ -202,7 +210,6 @@ namespace AppWebConcesionario.Controllers
                 throw ex;
             }
         }
-
 
 
 

@@ -3,6 +3,7 @@ using System.Net.Mime;
 using System.Net;
 using System.Text;
 using System.Drawing;
+using System.Security.Claims;
 
 namespace AppWebConcesionario.Models
 {
@@ -214,7 +215,6 @@ namespace AppWebConcesionario.Models
             }
         }
 
-
         public void EnviarPromocion(IEnumerable<Usuario> user, Vehiculo vehiculo, Promocion promocion)
         {
             try
@@ -272,6 +272,9 @@ namespace AppWebConcesionario.Models
                 throw ex;
             }
         }
+
+
+       
 
 
 

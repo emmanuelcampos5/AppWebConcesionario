@@ -38,7 +38,7 @@
                             @Html.DisplayFor(modelItem => item.fechaModificacion)
                         </td>
                         <td>
-                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
+                            @Html.ActionLink("Details", "Details", new {  id=item.idAuditoria }, new{@class="btn btn-info"})
                         </td>
                     </tr>
                 }

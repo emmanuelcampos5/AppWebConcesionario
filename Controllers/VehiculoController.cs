@@ -1,6 +1,7 @@
 ﻿using AppWebConcesionario.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace AppWebConcesionario.Controllers
 {
@@ -70,13 +71,25 @@ namespace AppWebConcesionario.Controllers
                        
                     }//cierre for
                 }
+
+
                 else
                 {
                     vehiculo.imagenUrl = "ND";
                 }
 
 
-                 
+                var auditoria = new RegistroAuditoria
+                {
+                    idAuditoria = 0,
+                    descripcion = "se ha creado un nuevo vehiculo con el id: " + vehiculo.idVehiculo,
+                    tablaModificada = "Vehiculo",
+                    fechaModificacion = DateTime.Now,
+                    idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
+                };
+                _context.RegistroAuditoria.Add(auditoria);
+                await _context.SaveChangesAsync();
+
 
                 _context.Vehiculo.Add(vehiculo);
 
@@ -105,63 +118,6 @@ namespace AppWebConcesionario.Controllers
 
             return View(temp);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var temp = await _context.Vehiculo.FirstOrDefaultAsync(x => x.idVehiculo == id);
-
-            return View(temp);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            var temp = await _context.Vehiculo.FirstOrDefaultAsync(x => x.idVehiculo == id);
-
-            if (temp != null)
-            {
-                _context.Vehiculo.Remove(temp);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
-        {
-            var temp = await _context.Vehiculo.FirstOrDefaultAsync(x => x.idVehiculo == id);
-
-            return View(temp);
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind] Vehiculo vehiculo)
-        {
-            if(id == vehiculo.idVehiculo)
-            {
-                var temp = await _context.Vehiculo.FirstOrDefaultAsync(r => r.idVehiculo == id);
-
-                _context.Vehiculo.Remove(temp);
-                _context.Vehiculo.Add(vehiculo);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-
 
 
 

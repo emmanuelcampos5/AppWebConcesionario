@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AppWebConcesionario.Models;
+using System.Security.Claims;
 
 namespace AppWebConcesionario.Controllers
 {
@@ -109,6 +110,21 @@ namespace AppWebConcesionario.Controllers
 
                         await _context.SaveChangesAsync();
                     }
+
+
+
+                    var auditoria = new RegistroAuditoria
+                    {
+                        idAuditoria = 0,
+                        descripcion = "modificacion en cantidad vehiculos",
+                        tablaModificada = "Vehiculo",
+                        fechaModificacion = DateTime.Now,
+                        idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
+                    };
+                    _context.RegistroAuditoria.Add(auditoria);
+                    await _context.SaveChangesAsync();
+
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

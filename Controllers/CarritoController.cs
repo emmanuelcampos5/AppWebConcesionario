@@ -1,5 +1,6 @@
 ﻿using AppWebConcesionario.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AppWebConcesionario.Controllers
 {
@@ -49,6 +50,9 @@ namespace AppWebConcesionario.Controllers
             {
                 return Json(new { success = true });
             }
+
+            
+
 
             return RedirectToAction("Index");
         }

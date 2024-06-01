@@ -100,6 +100,16 @@ namespace AppWebConcesionario.Controllers
                 carrito.Clear();
 
 
+                var auditoria = new RegistroAuditoria
+                {
+                    idAuditoria = 0,
+                    descripcion = "Se ha realizado una compra",
+                    tablaModificada = "Factura y Vehiculos",
+                    fechaModificacion = DateTime.Now,
+                    idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
+                };
+
+
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -138,6 +148,16 @@ namespace AppWebConcesionario.Controllers
             {
                 _context.Factura.Remove(temp);
                 await _context.SaveChangesAsync();
+
+                var auditoria = new RegistroAuditoria
+                {
+                    idAuditoria = 0,
+                    descripcion = "Se ha borrado una factura",
+                    tablaModificada = "Facturas",
+                    fechaModificacion = DateTime.Now,
+                    idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
+                };
+
                 return RedirectToAction("Index");
             }
             else

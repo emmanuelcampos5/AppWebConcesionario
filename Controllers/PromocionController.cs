@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace AppWebConcesionario.Controllers
 {
@@ -47,9 +48,6 @@ namespace AppWebConcesionario.Controllers
 
             return View();
         }
-
-
-
 
 
 
@@ -104,6 +102,18 @@ namespace AppWebConcesionario.Controllers
 
             Email email = new Email();
 
+
+            var auditoria = new RegistroAuditoria
+            {
+                idAuditoria = 0,
+                descripcion = "Creacion de promocion",
+                tablaModificada = "Promocion",
+                fechaModificacion = DateTime.Now,
+                idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
+            };
+            _context.RegistroAuditoria.Add(auditoria);
+            await _context.SaveChangesAsync();
+
             // Llamar al método para enviar el correo electrónico
             email.EnviarPromocion(usuarios, vehiculo, promocion);
 
@@ -131,6 +141,16 @@ namespace AppWebConcesionario.Controllers
             {
                 _context.Promocion.Remove(temp);
                 await _context.SaveChangesAsync();
+
+                var auditoria = new RegistroAuditoria
+                {
+                    idAuditoria = 0,
+                    descripcion = "Eliminacion de Promocion",
+                    tablaModificada = "Promocion",
+                    fechaModificacion = DateTime.Now,
+                    idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
+                };
+
                 return RedirectToAction("Index");
             }
             else
@@ -169,6 +189,17 @@ namespace AppWebConcesionario.Controllers
 
                 _context.Promocion.Remove(temp);
                 _context.Promocion.Add(promocion);
+
+
+                var auditoria = new RegistroAuditoria
+                {
+                    idAuditoria = 0,
+                    descripcion = "Edicion de promocion",
+                    tablaModificada = "Promocion",
+                    fechaModificacion = DateTime.Now,
+                    idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
+                };
+
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Index");

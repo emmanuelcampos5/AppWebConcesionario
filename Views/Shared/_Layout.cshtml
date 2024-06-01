@@ -24,46 +24,82 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">                
+                        
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="RegistrarUsuario" >Mantenimiento Usuarios</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Vehiculo" asp-action="Index">Vehiculos</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Vehiculo" asp-action="Index" >Inventario</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Promocion" asp-action="Index">Promociones</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="VistaAdministrativa">Administrar</a>
-                        </li>           
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Factura" asp-action="Index">Facturas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="RealizarConsulta">Realizar Consulta</a>
-                        </li>
+
+                        @if (User.Identity.IsAuthenticated == false || User.FindFirstValue("Rol").Equals("2"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Promocion" asp-action="Index">Promociones</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="RealizarConsulta">Realizar Consulta</a>
+                            </li>
+                        }
+                        @if (User.Identity.IsAuthenticated && User.FindFirstValue("Rol").Equals("1"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="VistaAdministrativa">Administrar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Factura" asp-action="Index">Facturas</a>
+                            </li>
+                        }   
+                        
+                        
                     </ul>
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav flex-grow-2">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Carrito" asp-action="Index">
                                 <img src="~/css/img/icono.png" alt="">
                                 <span class="badge bg-danger">@ViewData["CartCount"]</span>
                             </a>
                         </li>
+                        <!----------independientemente del rol, cuando se incia sesion, se muestra un dropdown ---->
                         @if (User.Identity.IsAuthenticated)
-                        {                  
-                                var userName = User.FindFirstValue("NombreUsuario");
+                        {
+                            var userName = User.FindFirstValue("NombreUsuario");                        
+                            string idUsuarioString = User.FindFirstValue("idUsuario");
+                            int idUsuario;
+                            int.TryParse(idUsuarioString, out idUsuario);
 
-                            <li class="nav-item">
-                                <span class="navbar-text">Hola @userName</span>
-                            </li>
-                            
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Usuario" asp-action="Logout">Cerrar sesion</a>
-                            </li>
+
+                            <div class="dropdown">
+                                <button class="btn btn-dark dropdown-toggle dropdown-button-custom" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check-fill" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0" />
+                                        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                                    </svg> @userName
+                                </button>
+                                <!---Diefrencia de dropdown de admin y ciente----->
+                                @if (User.FindFirstValue("Rol").Equals("1"))
+                                {
+                                    <!---el admin inicia sesion----->
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Details" asp-route-id="@idUsuario">Mi Perfil</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Logout">Cerrar Sesion</a></li>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <!--cliente inicia sesion----->
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <a class="dropdown-item" href="#" id="cargarPerfil">Mi Perfil</a>
+                                        <li><a class="dropdown-item" asp-controller="Facturas" asp-action="Index">Mis Facturas</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Logout">Cerrar Sesion</a></li>
+                                    </ul>
+                                }
+
+
+                            </div>
                         }
                         else
                         {
+                            <!---no se ha inciado sesion----->
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Usuario" asp-action="Login">
                                     Iniciar Sesion
@@ -83,13 +119,12 @@
         </main>
     </div>
 
-
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 
 <style>
     .navbar-nav .nav-item img {

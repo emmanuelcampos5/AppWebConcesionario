@@ -1,0 +1,85 @@
+﻿@model AppWebConcesionario.Models.Usuario
+
+@using System.Security.Claims;
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" id="formularioCreate">
+
+    <h1>Details</h1>
+
+    <div>
+        <h4>Usuario</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.idUsuario)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.idUsuario)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.idRol)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.idRol)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.nombreUsuario)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.nombreUsuario)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.cedulaUsuario)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.cedulaUsuario)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.telefonoUsuario)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.telefonoUsuario)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.correoUsuario)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.correoUsuario)
+            </dd>
+            
+            @if (User.FindFirstValue("Rol").Equals("2"))
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.lugarResidencia)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.lugarResidencia)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.estadoActivo)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.estadoActivo)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.estadoSuscripcion)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.estadoSuscripcion)
+                </dd>
+            }
+           
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Index" asp-controller="Home" class="btn btn-dark mt-3">Home</a>
+    </div>
+
+
+
+</div>

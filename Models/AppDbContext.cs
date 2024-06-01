@@ -21,6 +21,8 @@ namespace AppWebConcesionario.Models
 
         public DbSet<Inventario> Inventario { get; set; }
 
+        public DbSet<RegistroAuditoria> RegistroAuditoria { get; set; }
+
    
     }
 }

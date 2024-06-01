@@ -1,9 +1,14 @@
 ﻿@model IEnumerable<AppWebConcesionario.Models.Factura>
 
+@using System.Security.Claims;
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
+
 
 
 <div class="container mt-5">
@@ -44,38 +49,83 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!--Si el que entra es el cliente, se muestran solo sus facturas-->
+                @if (User.FindFirstValue("Rol").Equals("2"))
+                {
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.idFactura)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.idUsuario)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.subtotal)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.montoDescuento)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.montoImpuesto)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.totalFactura)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.fechaFactura)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.tipoPago)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Details", "Details", new { id = item.idFactura },new { @class = "btn btn-info" }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.idFactura }, new {@class="btn btn-danger"})
-                            </td>
-                        </tr>
+                            if (User.FindFirstValue("idUsuario").Equals(item.idUsuario.ToString()))
+                            {
+
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.idFactura)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.idUsuario)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.subtotal)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.montoDescuento)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.montoImpuesto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.totalFactura)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.fechaFactura)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tipoPago)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Details", "Details", new { id = item.idFactura }, new { @class = "btn btn-info" }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.idFactura }, new { @class = "btn btn-danger" })
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <!--Si el que entra es el admin, se muestran todas las facturas-->
+                        @foreach (var item in Model)
+                        {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.idFactura)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.idUsuario)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.subtotal)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.montoDescuento)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.montoImpuesto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.totalFactura)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.fechaFactura)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tipoPago)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Details", "Details", new { id = item.idFactura }, new { @class = "btn btn-info" }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.idFactura }, new { @class = "btn btn-danger" })
+                                    </td>
+                                </tr>
+                        }
                     }
                 </tbody>
             </table>

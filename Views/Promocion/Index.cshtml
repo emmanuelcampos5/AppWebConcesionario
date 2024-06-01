@@ -1,4 +1,5 @@
-﻿@*
+﻿@using System.Security.Claims
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -7,9 +8,13 @@
 
 @model List<(Vehiculo, Promocion)>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (User.Identity.IsAuthenticated &&  User.FindFirstValue("Rol").Equals("1"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary mt3">Nueva Promocion</a>
+    </p>
+}
+
 
 <div class="container">
     <div class="row">
@@ -32,8 +37,13 @@
                                 <p>Precio en promocion: $@item.Item2.precioPromocion</p>
                                 <p>Lugar de Promocion: @item.Item2.lugarPromocion</p>
                                 @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.Item1.idVehiculo, marcaVehiculo = item.Item1.marcaVehiculo, modeloVehiculo = item.Item1.modeloVehiculo, precioVehiculo = item.Item2.precioPromocion, foto = item.Item1.imagenUrl }, new { @class = "btn btn-sm btn-outline-secondary add-to-cart-btn" })
-                                <a asp-action="Edit" asp-controller="Promocion" asp-route-id="@item.Item2.idVehiculo" class="btn btn-secondary mt-3">Editar Promoción</a>
-                                <a asp-action="Delete" asp-controller="Promocion" asp-route-id="@item.Item2.idVehiculo" class="btn btn-danger mt-3">Borrar</a>
+                            @if (User.Identity.IsAuthenticated &&  User.FindFirstValue("Rol").Equals("1"))
+                                {
+                                    <a asp-action="Edit" asp-controller="Promocion" asp-route-id="@item.Item2.idVehiculo" class="btn btn-secondary mt-3">Editar Promoción</a>
+                                    <a asp-action="Delete" asp-controller="Promocion" asp-route-id="@item.Item2.idVehiculo" class="btn btn-danger mt-3">Borrar</a>
+                                }
+
+                                
                             </div>
                         </div>
                                        

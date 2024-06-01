@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace AppWebConcesionario.Controllers
 {
@@ -281,9 +282,13 @@ namespace AppWebConcesionario.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var temp = await _context.Usuario.FirstOrDefaultAsync(x => x.idUsuario == id);
 
-
-
+            return View(temp);
+        }
 
 
 

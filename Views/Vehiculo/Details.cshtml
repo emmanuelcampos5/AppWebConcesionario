@@ -51,12 +51,7 @@
         </dl>
 
 <div>
-    @if (User.Identity.IsAuthenticated)
-    {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.idVehiculo })
-    }
-    <a class="btn btn-sm btn-outline-secondary " asp-action="">Agruegar al carrito</a>
-    <a class="btn btn-sm btn-outline-danger " asp-action="Index">Back to List</a>
+    <a class="btn btn-dark " asp-action="Index" asp-controller="Inventarios">Volver</a>
         </div>
     
     </form>

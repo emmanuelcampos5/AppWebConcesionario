@@ -22,11 +22,22 @@ namespace AppWebConcesionario.Controllers
         {
             // Llamar al método de sincronización antes de cargar la vista.
             //este metodo solo hacia falta llamarlo una vez y listo, pero para evitar error futuros mejor dejarlo
-            await SincronizarInventario(); 
-            return View(await _context.Inventario.ToListAsync());
+            await SincronizarInventario();
+            var inventarios = await _context.Inventario.ToListAsync();
+            var vehiculos = await _context.Vehiculo.ToListAsync();
+
+            var inventariosVehiculos = from inventario in inventarios
+                                       join vehiculo in vehiculos on inventario.idVehiculo equals vehiculo.idVehiculo
+                                       select (inventario, vehiculo);
+
+            return View(inventariosVehiculos.ToList());
         }
 
-        //puesto que ya se habian agregado datos a invenatrio
+
+
+
+
+        //puesto que ya se habian agregado datos al inventario
         //tuve que modificar la vista para que se sincronicen ambas tablas
         public async Task<IActionResult> SincronizarInventario()
         {
@@ -89,37 +100,12 @@ namespace AppWebConcesionario.Controllers
             return View(inventario);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("idVehiculo,cantidadVehiculos")] Inventario inventario)
-        {
-            if (id != inventario.idVehiculo)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(inventario);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!InventarioExists(inventario.idVehiculo))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(inventario);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("idVehiculo,cantidadVehiculos")] Inventario inventario)
+        //{
+            
+        //}
 
 
         public async Task<IActionResult> Delete(int? id)
@@ -154,9 +140,10 @@ namespace AppWebConcesionario.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool InventarioExists(int id)
-        {
-            return _context.Inventario.Any(e => e.idVehiculo == id);
-        }
-    }
-}
+
+
+
+
+
+    }//cierre class
+}//cierre namespace

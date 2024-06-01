@@ -28,13 +28,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Vehiculo" asp-action="Index">Vehiculos</a>
                         </li>
-
+                        
                         @if (User.Identity.IsAuthenticated == false || User.FindFirstValue("Rol").Equals("2"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Promocion" asp-action="Index">Promociones</a>
                             </li>
-                            
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="RealizarConsulta">Realizar Consulta</a>
                             </li>

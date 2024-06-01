@@ -10,6 +10,7 @@
 
 @if (User.Identity.IsAuthenticated &&  User.FindFirstValue("Rol").Equals("1"))
 {
+    //el admin puede crear una nueva promo
     <p>
         <a asp-action="Create" class="btn btn-primary mt3">Nueva Promocion</a>
     </p>
@@ -26,7 +27,32 @@
 
                 @foreach (var item in Model)
                 {
-                                      
+                    //si no ha inciado sesion o si es cliente
+                    if(User.Identity.IsAuthenticated==false || User.FindFirstValue("Rol").Equals("2"))
+                    {
+                        //solo se podran ver las promociones de aquellos vehiculos que esten activos
+                        if(item.Item1.estadoActivo == true)
+                        {
+                            <div class="card m-2" style="width: 18rem;">
+                                <img src=@item.Item1.imagenUrl class="card-img-top" alt="@item.Item1.modeloVehiculo">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Item1.marcaVehiculo</h5>
+                                    <p>@item.Item1.modeloVehiculo</p>
+                                    <p>Tipo Combustible: @item.Item1.tipoCombustible</p>
+                                    <p>Precio: <s>$@item.Item1.precioVehiculo</s></p>
+                                    <p>Precio en promocion: $@item.Item2.precioPromocion</p>
+                                    <p>Lugar de Promocion: @item.Item2.lugarPromocion</p>
+                                    @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.Item1.idVehiculo, marcaVehiculo = item.Item1.marcaVehiculo, modeloVehiculo = item.Item1.modeloVehiculo, precioVehiculo = item.Item2.precioPromocion, foto = item.Item1.imagenUrl }, new { @class = "btn btn-sm btn-outline-secondary add-to-cart-btn" })
+
+                                </div>
+                            </div>
+                        } 
+                    }
+
+                    //si inicio sesion y es el admin
+                    if (User.Identity.IsAuthenticated && User.FindFirstValue("Rol").Equals("1"))
+                    {
+                        //podra ver todas las promociones y editar o borrarlas
                         <div class="card m-2" style="width: 18rem;">
                             <img src=@item.Item1.imagenUrl class="card-img-top" alt="@item.Item1.modeloVehiculo">
                             <div class="card-body">
@@ -36,20 +62,17 @@
                                 <p>Precio: <s>$@item.Item1.precioVehiculo</s></p>
                                 <p>Precio en promocion: $@item.Item2.precioPromocion</p>
                                 <p>Lugar de Promocion: @item.Item2.lugarPromocion</p>
-                                @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.Item1.idVehiculo, marcaVehiculo = item.Item1.marcaVehiculo, modeloVehiculo = item.Item1.modeloVehiculo, precioVehiculo = item.Item2.precioPromocion, foto = item.Item1.imagenUrl }, new { @class = "btn btn-sm btn-outline-secondary add-to-cart-btn" })
-                            @if (User.Identity.IsAuthenticated &&  User.FindFirstValue("Rol").Equals("1"))
-                                {
-                                    <a asp-action="Edit" asp-controller="Promocion" asp-route-id="@item.Item2.idVehiculo" class="btn btn-secondary mt-3">Editar Promoción</a>
-                                    <a asp-action="Delete" asp-controller="Promocion" asp-route-id="@item.Item2.idVehiculo" class="btn btn-danger mt-3">Borrar</a>
-                                }
+                                @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.Item1.idVehiculo, marcaVehiculo = item.Item1.marcaVehiculo, modeloVehiculo = item.Item1.modeloVehiculo, precioVehiculo = item.Item2.precioPromocion, foto = item.Item1.imagenUrl }, new { @class = "btn btn-sm btn-outline-secondary add-to-cart-btn mt-3" })
+                                <a asp-action="Edit" asp-controller="Promocion" asp-route-id="@item.Item2.idVehiculo" class="btn btn-secondary mt-3">Editar Promoción</a>
+                                <a asp-action="Delete" asp-controller="Promocion" asp-route-id="@item.Item2.idVehiculo" class="btn btn-danger mt-3">Borrar</a>
 
-                                
                             </div>
                         </div>
+                    }
+
+                        
                                        
                 }
-
-
             </div>
         </div>
 

@@ -99,6 +99,17 @@ namespace AppWebConcesionario.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var temp = await _context.Usuario.FirstOrDefaultAsync(x => x.idUsuario == id);
+
+            return View(temp);
+        }
+
+
         [HttpGet]
         public IActionResult RegistrarUsuario()
         {
@@ -272,24 +283,56 @@ namespace AppWebConcesionario.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RealizarConsulta([Bind] Usuario user, string mensaje)
+        public IActionResult RealizarConsulta(string mensaje)
         {
-            if (this.EnviarEmailConsulta(user, mensaje))
+            
+            if (User.Identity.IsAuthenticated)
             {
-                TempData["MensajeCreado"] = "Consulta realizada correctamente, su respuesta llegará pronto al email.";
+
+                // Traer los datos del usuario autenticado desde la base de datos
+                int userId = int.Parse(User.FindFirstValue("idUsuario"));
+                Usuario user = _context.Usuario.FirstOrDefault(u => u.idUsuario == userId);
+
+                if(user != null)
+                {
+                    if (this.EnviarEmailConsulta(user, mensaje))
+                    {
+                       
+                        TempData["MensajeCreado"] = "Consulta realizada correctamente, su respuesta llegará pronto al email.";
+
+                    }
+                    return View(user);
+                }
+                else
+                {
+                    TempData["MensajeError"] = "Hubo un error al enviar su consulta. Por favor, inténtelo de nuevo.";
+                    return View(user);
+                }
             }
-            return View(user);
+            else
+            {
+                TempData["Mensaje"] = "Antes de Realizar la consulta, por favor inicia sesion";
+                return RedirectToAction("Login", "Usuario");
+            }
+            
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        private bool EnviarEmailConsulta(Usuario temp, string mensaje)
         {
-            var temp = await _context.Usuario.FirstOrDefaultAsync(x => x.idUsuario == id);
+            try
+            {
+                bool enviado = false;
+                Email emailConsulta = new Email();
+                emailConsulta.EnviarConsulta(temp, mensaje);
+                enviado = true;
 
-            return View(temp);
+                return enviado;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
-
 
 
         //---------------------------METODOS----------------------------------------------------
@@ -377,7 +420,6 @@ namespace AppWebConcesionario.Controllers
                 return false;
             }
         }
-
         private bool EnviarEmailRestablecer(Usuario temp)
         {
             try
@@ -397,28 +439,8 @@ namespace AppWebConcesionario.Controllers
 
         
         
-        
-        
-        
-        
-        //------------funcion para enviar consulta x email
-
-        private bool EnviarEmailConsulta(Usuario temp, string mensaje)
-        {
-            try
-            {
-                bool enviado = false;
-                Email emailConsulta = new Email();
-                emailConsulta.EnviarConsulta(temp, mensaje);
-                enviado = true;
-
-                return enviado;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
+      
+       
 
 
 

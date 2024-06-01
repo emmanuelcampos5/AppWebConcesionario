@@ -12,64 +12,58 @@ namespace AppWebConcesionario.Models
 
         public void EnviarConsulta(Usuario user, string mensaje)
         {
-
             try
             {
                 MailMessage email = new MailMessage();
 
-                //Asunto del email
-                email.Subject = "Datos de consulta realizada en la plataforma web ICarPlus";
+                // Asunto del email
+                email.Subject = "Consulta realizada en la plataforma web ICarPlus";
 
-                //Destinatarios
-                //Direccion del correo del administrador
+                // Destinatario: Dirección del correo del administrador
                 email.To.Add(new MailAddress("ICarPlusAppWebConsultas@outlook.com"));
 
-                //Direccion del correo del usuario
-                //email.To.Add(new MailAddress(user.correoUsuario));
+                // Emisor del correo: Dirección del correo del usuario
+                email.From = new MailAddress("ICarPlusAppWebConsultas@outlook.com");
 
-                //emisor del correo 
-                email.From = new MailAddress("ICarPlusAppWebConsultas@outlook.com");   //se debe crear un nuevo correo para este depto (realiza y responde las consultas)
-
-                //se construye la vista HTML del cuerpo del correo electronico
+                // Construir la vista HTML del cuerpo del correo electrónico
                 string html = "Zona de consultas para ICarPlus";
-                html += "<br> A continuacion detallamos los datos de la consulta realizada por el usuario" + user.nombreUsuario;
-                html += "<br><b>Consulta: </b> " + mensaje;
-                html += "<br><b>Responder este correo a esta direccion: </b>" + user.correoUsuario;
-               
+                html += "<br>A continuación, detallamos los datos de la consulta realizada por el usuario " + user.nombreUsuario;
+                html += "<br><b>Consulta: </b>" + mensaje;
+                html += "<br><b>Responder este correo a esta dirección: </b>" + user.correoUsuario;
                 html += "<br>Plataforma web ICarPlus.</b>";
 
-                //se indica que el contenido es en html
+                // Indicar que el contenido es en HTML
                 email.IsBodyHtml = true;
 
-                //se indica la prioridad
+                // Indicar la prioridad
                 email.Priority = MailPriority.Normal;
 
-                //se instancia la vista del html para el cuerpo del body del email
+                // Instanciar la vista del HTML para el cuerpo del email
                 AlternateView view = AlternateView.CreateAlternateViewFromString(html, Encoding.UTF8, MediaTypeNames.Text.Html);
 
-                //se agrega la vista html al cuerpo del correo
+                // Agregar la vista HTML al cuerpo del correo
                 email.AlternateViews.Add(view);
 
-                //se configura el protocolo de comunicacion smtp
+                // Configurar el protocolo de comunicación SMTP
                 SmtpClient smtp = new SmtpClient();
 
-                //servidor de correo a implementar
+                // Servidor de correo a implementar
                 smtp.Host = "smtp-mail.outlook.com";
 
-                //se configura el puerto de comunicacion
+                // Configurar el puerto de comunicación
                 smtp.Port = 587;
 
-                //se indica si el buzon utiliza seguridad tipo SSL
+                // Indicar si el buzón utiliza seguridad tipo SSL
                 smtp.EnableSsl = true;
 
-                //se indica las credenciales de autenticacion
+                // Indicar las credenciales de autenticación
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = new NetworkCredential("ICarPlusAppWebConsultas@outlook.com", "Ucr+2023");
 
-                //metodo para enviar el correo
+                // Método para enviar el correo
                 smtp.Send(email);
 
-                //se liberan las instancias de los objetos
+                // Liberar las instancias de los objetos
                 email.Dispose();
                 smtp.Dispose();
             }

@@ -5,31 +5,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1 style="color: white;">Editar</h1>
+
 
 <hr />
-<div class="row">
+<div class="row" id="formularioCreate">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+            <h1>Editar</h1>
             <div class="form-group">
-                <label class="control-label" style="color: white;">ID</label>
+                <label class="control-label">ID</label>
                 <input asp-for="idVehiculo" class="form-control" style="color: black;" readonly />
                 <span asp-validation-for="idVehiculo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label" style="color: white;">CANTIDAD DE VEHICULOS</label>
+                <label class="control-label">CANTIDAD DE VEHICULOS</label>
                 <input asp-for="cantidadVehiculos" class="form-control" style="color: black;" />
                 <span asp-validation-for="cantidadVehiculos" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-warning mt-2" />
+                <input type="submit" value="Save" class="btn btn-warning mt-3" />
+                <a asp-action="Index" class="btn btn-danger mt-3" style="color: black;">Volver</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index" class="btn btn-danger mt-2" style="color: black;">Volver a Lista</a>
 </div>

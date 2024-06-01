@@ -16,6 +16,7 @@
                 <th>Imagen</th>
                 <th>Nombre Vehículo</th>
                 <th>Cantidad</th>
+                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -30,9 +31,10 @@
 
                     <td>@item.vehiculo.modeloVehiculo</td>
                     <td>@item.inventario.cantidadVehiculos</td>
+                    <td>@item.vehiculo.estadoActivo</td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.inventario.idVehiculo" class="btn btn-warning" style="color: black;">Editar</a> /
-                        <a asp-action="Details" asp-route-id="@item.inventario.idVehiculo" class="btn btn-danger" style="color: black;">Detalles</a>
+                        <a asp-action="Details" asp-controller="Vehiculo" asp-route-id="@item.inventario.idVehiculo" class="btn btn-danger" style="color: black;">Detalles</a>
                     </td>
                 </tr>
             }

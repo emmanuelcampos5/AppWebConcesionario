@@ -33,10 +33,6 @@ namespace AppWebConcesionario.Controllers
             return View(inventariosVehiculos.ToList());
         }
 
-
-
-
-
         //puesto que ya se habian agregado datos al inventario
         //tuve que modificar la vista para que se sincronicen ambas tablas
         public async Task<IActionResult> SincronizarInventario()
@@ -62,23 +58,6 @@ namespace AppWebConcesionario.Controllers
             return RedirectToAction("Index"); // Redireccionar al índice del inventario o donde consideres apropiado.
         }
 
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var inventario = await _context.Inventario
-                .FirstOrDefaultAsync(m => m.idVehiculo == id);
-            if (inventario == null)
-            {
-                return NotFound();
-            }
-
-            return View(inventario);
-        }
-
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -92,56 +71,67 @@ namespace AppWebConcesionario.Controllers
             {
                 return NotFound();
             }
-//----------------------------------------------------------------------------------------------------------------
-            //modifcar vehiculo
-//----------------------------------------------------------------------------------------------------------------
 
 
             return View(inventario);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("idVehiculo,cantidadVehiculos")] Inventario inventario)
-        //{
-            
-        //}
-
-
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+       [HttpPost]
+       [ValidateAntiForgeryToken]
+       public async Task<IActionResult> Edit(int id, [Bind] Inventario inventario)
+       {
+            if (id != inventario.idVehiculo)
             {
-                return NotFound();
+               return NotFound();
             }
 
-            var inventario = await _context.Inventario
-                .FirstOrDefaultAsync(m => m.idVehiculo == id);
-            if (inventario == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                try
+                {
+                     //actualiza el inventario
+                    _context.Update(inventario);
+                    await _context.SaveChangesAsync();
+
+                    //buscar el vehiculo que se relaciona al id del inventario
+                    var vehiculo = await _context.Vehiculo.FindAsync(inventario.idVehiculo);
+
+                    if (vehiculo != null)
+                    {
+                        if(inventario.cantidadVehiculos == 0)
+                        {
+                            vehiculo.estadoActivo = false;
+                        }
+                        else
+                        {
+                            vehiculo.estadoActivo = true;
+                        }
+
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!InventarioExiste(inventario.idVehiculo))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+               
             }
 
-            return View(inventario);
+            return RedirectToAction("Index");
         }
 
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+       private bool InventarioExiste(int id)
         {
-            var inventario = await _context.Inventario.FindAsync(id);
-            if (inventario != null)
-            {
-                _context.Inventario.Remove(inventario);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return _context.Inventario.Any(e => e.idVehiculo == id);
         }
-
-
-
 
 
 

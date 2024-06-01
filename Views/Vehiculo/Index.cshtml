@@ -20,7 +20,7 @@
                     if(item.estadoActivo == true)
                     {
                         <div class="card m-2" style="width: 18rem;">
-                            <img src=@item.imagenUrl class="card-img-top" alt="@item.modeloVehiculo">
+                            <img src=@item.imagenUrl class="card-img-top" style="" alt="@item.modeloVehiculo">
                             <div class="card-body">
                                 <h5 class="card-title">@item.marcaVehiculo</h5>
                                 <p>@item.modeloVehiculo</p>
@@ -94,5 +94,9 @@
     .celeste-toast {
         background-color: cornflowerblue; /* Un tono celeste suave */
         color: charset /* Un color oscuro para el texto que asegure legibilidad */
+    }
+    .card-img-top {
+        width: 100%; /* Establecer el ancho al 100% para que la imagen se ajuste al contenedor */
+        height: auto; /* Para mantener la proporción de la imagen */
     }
 </style>

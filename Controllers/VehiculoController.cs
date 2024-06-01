@@ -82,7 +82,7 @@ namespace AppWebConcesionario.Controllers
                 var auditoria = new RegistroAuditoria
                 {
                     idAuditoria = 0,
-                    descripcion = "se ha creado un nuevo vehiculo con el id: " + vehiculo.idVehiculo,
+                    descripcion = "Creacion de un nuevo vehiculo",
                     tablaModificada = "Vehiculo",
                     fechaModificacion = DateTime.Now,
                     idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
@@ -104,7 +104,7 @@ namespace AppWebConcesionario.Controllers
                 // Agregar el inventario a la base de datos
                 _context.Inventario.Add(inventario);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Inventarios");
 
 
             }

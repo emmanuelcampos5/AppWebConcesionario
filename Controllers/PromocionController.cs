@@ -96,7 +96,17 @@ namespace AppWebConcesionario.Controllers
                 _context.Promocion.Add(promocion);
             }
 
+
             await _context.SaveChangesAsync();
+
+            // Obtener la lista de usuarios
+            var usuarios = await _context.Usuario.Where(u => u.lugarResidencia == promocion.lugarPromocion).ToListAsync();
+
+            Email email = new Email();
+
+            // Llamar al método para enviar el correo electrónico
+            email.EnviarPromocion(usuarios, vehiculo, promocion);
+
             return RedirectToAction("Index");
         }
 
@@ -172,5 +182,5 @@ namespace AppWebConcesionario.Controllers
 
 
 
-    }
-}
+    }//cierre class
+}//cierre namespace

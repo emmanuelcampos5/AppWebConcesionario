@@ -2,6 +2,7 @@
 using System.Net.Mime;
 using System.Net;
 using System.Text;
+using System.Drawing;
 
 namespace AppWebConcesionario.Models
 {
@@ -76,7 +77,6 @@ namespace AppWebConcesionario.Models
                 throw ex;
             }
         }
-
 
         public void EnviarRegistro(Usuario user)
         {
@@ -214,5 +214,69 @@ namespace AppWebConcesionario.Models
             }
         }
 
-    }
-}
+
+        public void EnviarPromocion(IEnumerable<Usuario> user, Vehiculo vehiculo, Promocion promocion)
+        {
+            try
+            {
+
+                foreach (var usuario in user)
+                {
+                    if (usuario.lugarResidencia == promocion.lugarPromocion) // Verifica si la dirección del usuario coincide con la promoción
+                    {
+
+                        MailMessage email = new MailMessage();
+
+                        email.Subject = "Plataforma web ICarPlus";
+
+                        email.To.Add(new MailAddress("ICarPlusAppWeb@outlook.com"));
+
+                        email.To.Add(new MailAddress(usuario.correoUsuario));
+
+                        email.From = new MailAddress("ICarPlusAppWeb@outlook.com");
+
+                        string html = "Hola, desde la administracion de iCarPlus le desamos un feliz dia";
+                        html += "<br>Acabamos de activar una promocion en nuestra pagina";
+                        html += "<br>Para esta ocasion tenemos nuestro " + vehiculo.marcaVehiculo + vehiculo.modeloVehiculo + " en oferta para nuestros usuarios de " + promocion.lugarPromocion;
+                        html += "<br><b>Actualmente se encuentra en:</b> $" + promocion.precioPromocion;
+                        html += "<br><b>Precio anterior:</b>$ <s>" + vehiculo.precioVehiculo + "</s>";
+                        html += "<br><b>Recuerda que esta oferta es por tiempo limitado, corre antes de que se acabe.</b>";
+                        html += "<br><b>No responda este correo porque fue generado de forma automatica. ";
+                        html += "Por la plataforma web ICarPlus.</b>";
+
+                        email.IsBodyHtml = true;
+
+                        email.Priority = MailPriority.Normal;
+
+                        AlternateView view = AlternateView.CreateAlternateViewFromString(html, Encoding.UTF8, MediaTypeNames.Text.Html);
+
+                        email.AlternateViews.Add(view);
+                        SmtpClient smtp = new SmtpClient();
+
+                        smtp.Host = "smtp-mail.outlook.com";
+                        smtp.Port = 587;
+                        smtp.EnableSsl = true;
+                        smtp.UseDefaultCredentials = false;
+                        smtp.Credentials = new NetworkCredential("ICarPlusAppWeb@outlook.com", "Ucr+2023");
+
+                        smtp.Send(email);
+
+                        email.Dispose();
+                        smtp.Dispose();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+
+
+
+    }//cierre class
+}//cierre namespace

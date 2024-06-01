@@ -76,9 +76,9 @@ namespace AppWebConcesionario.Controllers
             return View(inventario);
         }
 
-       [HttpPost]
-       [ValidateAntiForgeryToken]
-       public async Task<IActionResult> Edit(int id, [Bind] Inventario inventario)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind] Inventario inventario)
        {
             if (id != inventario.idVehiculo)
             {
@@ -128,7 +128,7 @@ namespace AppWebConcesionario.Controllers
             return RedirectToAction("Index");
         }
 
-       private bool InventarioExiste(int id)
+        private bool InventarioExiste(int id)
         {
             return _context.Inventario.Any(e => e.idVehiculo == id);
         }

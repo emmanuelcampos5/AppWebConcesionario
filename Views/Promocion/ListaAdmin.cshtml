@@ -1,0 +1,60 @@
+﻿@model List<(Vehiculo, Promocion)>
+
+@{
+    ViewData["Title"] = "ListaAdmin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container" id="formularioCreate">
+
+    <p>
+        <a asp-action="Create">Crear Promocion</a>
+    </p>
+    <table class="table">
+        <h1>Lista Promociones</h1>
+        <thead>
+            <tr>
+                <th>
+                    Id Vehiculo
+                </th>
+                <th>
+                    Precio de Promocion
+                </th>
+                <th>
+                    Precio Original
+                </th>
+                <th>
+                    Lugar de Promocion
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item1.idVehiculo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item2.precioPromocion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item1.precioVehiculo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item2.lugarPromocion)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.Item2.idVehiculo }, new {@class = "btn btn-danger"}) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Item2.idVehiculo }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+</div>

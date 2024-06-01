@@ -22,6 +22,12 @@ namespace AppWebConcesionario.Controllers
             return View(VehiculosEnPromocion());
         }
 
+        [HttpGet]
+        public IActionResult ListaAdmin()
+        {
+            return View(VehiculosEnPromocion());
+        }
+
         //Devuelve la lista de vehiculos que se encuentran en promocion
         public List<(Vehiculo, Promocion)> VehiculosEnPromocion()
         {                         

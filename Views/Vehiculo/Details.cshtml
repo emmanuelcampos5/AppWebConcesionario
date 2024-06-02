@@ -1,4 +1,5 @@
-﻿@model AppWebConcesionario.Models.Vehiculo
+﻿@using System.Security.Claims
+@model AppWebConcesionario.Models.Vehiculo
 
 @{
     ViewData["Title"] = "Details";
@@ -51,7 +52,15 @@
         </dl>
 
 <div>
-    <a class="btn btn-dark " asp-action="Index" asp-controller="Inventarios">Volver</a>
+            @if(User.Identity.IsAuthenticated && User.FindFirstValue("Rol").Equals("1"))
+            {
+                <a class="btn btn-dark " asp-action="Index" asp-controller="Inventarios">Volver</a>
+            }
+            else
+            {
+                <a class="btn btn-dark " asp-action="Index" asp-controller="Vehiculo">Volver</a>
+            }
+           
         </div>
     
     </form>

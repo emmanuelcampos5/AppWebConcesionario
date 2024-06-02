@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\css\img\NewFolder1\**" />
+    <Compile Remove="wwwroot\css\img\NewFolder\**" />
+    <Content Remove="wwwroot\css\img\NewFolder1\**" />
+    <Content Remove="wwwroot\css\img\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\css\img\NewFolder1\**" />
+    <EmbeddedResource Remove="wwwroot\css\img\NewFolder\**" />
+    <None Remove="wwwroot\css\img\NewFolder1\**" />
+    <None Remove="wwwroot\css\img\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\css\img-administracion\auditoria.jfif" />
     <Content Remove="wwwroot\css\img-administracion\facturas.jpg" />
     <Content Remove="wwwroot\css\img-administracion\marketing.jpg" />

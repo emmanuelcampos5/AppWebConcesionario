@@ -8,77 +8,56 @@
 
 @model List<(Vehiculo, Promocion)>
 
-@if (User.Identity.IsAuthenticated &&  User.FindFirstValue("Rol").Equals("1"))
-{
-    //el admin puede crear una nueva promo
-    <p>
-        <a asp-action="Create" class="btn btn-primary mt3">Nueva Promocion</a>
-    </p>
-}
 
 
 <div class="container">
     <div class="row">
-
         <div class="col-sm-12">
             <div class="d-flex flex-row justify-content-center flex-wrap">
-
-               
-
                 @foreach (var item in Model)
                 {
-                    //si no ha inciado sesion o si es cliente
-                    if(User.Identity.IsAuthenticated==false || User.FindFirstValue("Rol").Equals("2"))
+                    // Si no ha iniciado sesión o si es cliente
+                    if (!User.Identity.IsAuthenticated || User.FindFirstValue("Rol").Equals("2"))
                     {
-                        //solo se podran ver las promociones de aquellos vehiculos que esten activos
-                        if(item.Item1.estadoActivo == true)
+                        // Solo se podrán ver las promociones de aquellos vehículos que estén activos
+                        if (item.Item1.estadoActivo)
                         {
-                            <div class="card m-2" style="width: 18rem;">
-                                <img src=@item.Item1.imagenUrl class="card-img-top" alt="@item.Item1.modeloVehiculo">
-                                <div class="card-body">
-                                    <h5 class="card-title">@item.Item1.marcaVehiculo</h5>
-                                    <p>@item.Item1.modeloVehiculo</p>
-                                    <p>Tipo Combustible: @item.Item1.tipoCombustible</p>
-                                    <p>Precio: <s>$@item.Item1.precioVehiculo</s></p>
-                                    <p>Precio en promocion: $@item.Item2.precioPromocion</p>
-                                    <p>Lugar de Promocion: @item.Item2.lugarPromocion</p>
-                                    @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.Item1.idVehiculo, marcaVehiculo = item.Item1.marcaVehiculo, modeloVehiculo = item.Item1.modeloVehiculo, precioVehiculo = item.Item2.precioPromocion, foto = item.Item1.imagenUrl }, new { @class = "btn btn-sm btn-outline-secondary add-to-cart-btn" })
-
+                            <div class="card-container">
+                                <div class="card">
+                                    <img src="@item.Item1.imagenUrl" alt="@item.Item1.modeloVehiculo">
+                                    <div class="card-content">
+                                        <h5 class="card-title">@item.Item1.marcaVehiculo</h5>
+                                        <div class="content-details">
+                                            <div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ev-station" viewBox="0 0 16 16">
+                                                    <path d="M3.5 2a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5v-5a.5.5 0 0 0-.5-.5zm2.131 10.46H4.14v-.893h1.403v-.505H4.14v-.855h1.49v-.54H3.485V13h2.146zm1.316.54h.794l1.106-3.333h-.733l-.74 2.615h-.031l-.747-2.615h-.764z" />
+                                                    <path d="M3 0a2 2 0 0 0-2 2v13H.5a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1H11v-4a1 1 0 0 1 1 1v.5a1.5 1.5 0 0 0 3 0V4a.5.5 0 0 0-.146-.354l-.5-.5a.5.5 0 0 0-.707 0l-.5.5A.5.5 0 0 0 13 4v3c0 .71.38 1.096.636 1.357l.007.008c.253.258.357.377.357.635v3.5a.5.5 0 1 1-1 0V12a2 2 0 0 0-2-2V2a2 2 0 0 0-2-2zm7 2v13H2V2a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1" />
+                                                </svg>
+                                                <span>@item.Item1.tipoCombustible</span>
+                                            </div>
+                                            <div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z" />
+                                                    <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z" />
+                                                </svg>
+                                                <span>@item.Item2.lugarPromocion</span>
+                                            </div>
+                                        </div>
+                                        <p style="text-align: end;">><s>$@item.Item1.precioVehiculo</s></p>
+                                        <p style="text-align: end;">$@item.Item2.precioPromocion</p>
+                                        @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.Item1.idVehiculo, marcaVehiculo = item.Item1.marcaVehiculo, modeloVehiculo = item.Item1.modeloVehiculo, precioVehiculo = item.Item2.precioPromocion, foto = item.Item1.imagenUrl }, new { @class = "btn btn-sm btn-outline-secondary add-to-cart-btn" })
+                                    </div>
                                 </div>
                             </div>
-                        } 
+                        }
                     }
-
-                    //si inicio sesion y es el admin
-                    if (User.Identity.IsAuthenticated && User.FindFirstValue("Rol").Equals("1"))
-                    {
-                        //podra ver todas las promociones y editar o borrarlas
-                        <div class="card m-2" style="width: 18rem;">
-                            <img src=@item.Item1.imagenUrl class="card-img-top" alt="@item.Item1.modeloVehiculo">
-                            <div class="card-body">
-                                <h5 class="card-title">@item.Item1.marcaVehiculo</h5>
-                                <p>@item.Item1.modeloVehiculo</p>
-                                <p>Tipo Combustible: @item.Item1.tipoCombustible</p>
-                                <p>Precio: <s>$@item.Item1.precioVehiculo</s></p>
-                                <p>Precio en promocion: $@item.Item2.precioPromocion</p>
-                                <p>Lugar de Promocion: @item.Item2.lugarPromocion</p>
-                                @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.Item1.idVehiculo, marcaVehiculo = item.Item1.marcaVehiculo, modeloVehiculo = item.Item1.modeloVehiculo, precioVehiculo = item.Item2.precioPromocion, foto = item.Item1.imagenUrl }, new { @class = "btn btn-sm btn-outline-secondary add-to-cart-btn mt-3" })
-                                <a asp-action="Edit" asp-controller="Promocion" asp-route-id="@item.Item2.idVehiculo" class="btn btn-secondary mt-3">Editar Promoción</a>
-                                <a asp-action="Delete" asp-controller="Promocion" asp-route-id="@item.Item2.idVehiculo" class="btn btn-danger mt-3">Borrar</a>
-
-                            </div>
-                        </div>
-                    }
-
-                        
-                                       
                 }
             </div>
         </div>
-
-
     </div>
 </div>
+
+
 
 <div class="toast celeste-toast" role="alert" aria-live="assertive" aria-atomic="true" id="cartToast" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
     <div class="toast-header">
@@ -130,4 +109,31 @@
         background-color: cornflowerblue; /* Un tono celeste suave */
         color: charset /* Un color oscuro para el texto que asegure legibilidad */
     }
+
+    .card-container {
+        display: flex;
+        max-width: 600px;
+        margin: 20px auto;
+    }
+
+    .card {
+        display: flex;
+        flex: 1;
+        background-color: #333;
+        color: white;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .card img {
+            width: 200px; /* Ancho fijo en píxeles */
+            object-fit: cover;
+            border-right: 1px solid #ccc;
+        }
+
+    .card-content {
+        padding: 20px;
+    }
+
 </style>

@@ -123,7 +123,7 @@ namespace AppWebConcesionario.Controllers
             // Llamar al método para enviar el correo electrónico
             email.EnviarPromocion(usuarios, vehiculo, promocion);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ListaAdmin");
         }
 
 
@@ -157,7 +157,7 @@ namespace AppWebConcesionario.Controllers
                     idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
                 };
 
-                return RedirectToAction("Index");
+                return RedirectToAction("ListaAdmin");
             }
             else
             {
@@ -208,7 +208,7 @@ namespace AppWebConcesionario.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("ListaAdmin");
             }
             else
             {

@@ -116,7 +116,7 @@ namespace AppWebConcesionario.Controllers
                     var auditoria = new RegistroAuditoria
                     {
                         idAuditoria = 0,
-                        descripcion = "modificacion en cantidad vehiculos",
+                        descripcion = "Cantidad vehiculos modificada",
                         tablaModificada = "Vehiculo",
                         fechaModificacion = DateTime.Now,
                         idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))

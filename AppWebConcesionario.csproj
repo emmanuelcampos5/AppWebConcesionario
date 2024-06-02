@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\img-administracion\auditoria.jfif" />
+    <Content Remove="wwwroot\css\img-administracion\marketing.jpg" />
     <Content Remove="wwwroot\css\img\Lancer_2008.jpg" />
     <Content Remove="wwwroot\css\img\Modelo_S.jpg" />
   </ItemGroup>

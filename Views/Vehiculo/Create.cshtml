@@ -44,6 +44,10 @@
                 <input asp-for="precioVehiculo" class="form-control" />
                 <span asp-validation-for="precioVehiculo" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label for="cantidad" class="control-label">Cantidad</label>
+                <input id="cantidad" name="cantidad" type="number" class="form-control" />
+            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="estadoActivo" /> @Html.DisplayNameFor(model => model.estadoActivo)

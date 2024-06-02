@@ -7,48 +7,51 @@
 }
 
 
-<div class="container" >
-    <form id="formularioCreate" class="row">
+<div class="container">
+    <form id="formularioDetails" class="row">
         <div class="col-md-6">
             <h4>Vehiculo</h4>
             <hr />
             <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.idVehiculo)
+                <dt class="col-sm-4">
+                    Id Vehiculo:
                 </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.idVehiculo)
+                <dd class="col-sm-8">
+                    @Model.idVehiculo
                 </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.marcaVehiculo)
+                <dt class="col-sm-4">
+                    Marca:
                 </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.marcaVehiculo)
+                <dd class="col-sm-8">
+                    @Model.marcaVehiculo
                 </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.modeloVehiculo)
+                <dt class="col-sm-4">
+                    Modelo:
                 </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.modeloVehiculo)
+                <dd class="col-sm-8">
+                    @Model.modeloVehiculo
                 </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.tipoCombustible)
+                <dt class="col-sm-4">
+                    Combustible:
                 </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.tipoCombustible)
+                <dd class="col-sm-8">
+                    @Model.tipoCombustible
                 </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.precioVehiculo)
+                <dt class="col-sm-4">
+                    Precio:
                 </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.precioVehiculo)
+                <dd class="col-sm-8">
+                    $@Html.DisplayFor(model => model.precioVehiculo)
                 </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.estadoActivo)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.estadoActivo)
-                </dd>
+                @if (User.Identity.IsAuthenticated && User.FindFirstValue("Rol").Equals("1"))
+                {
+                    <dt class="col-sm-4">
+                        Estado:
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.estadoActivo)
+                    </dd>
+                }
             </dl>
 
             <div>
@@ -62,23 +65,32 @@
                 }
 
             </div>
-
-
         </div>
-        
+
         <div class="col-md-6">
             <!-- Contenedor para la imagen del vehículo -->
             <div class="image-container">
-                <img src="@Model.imagenUrl" alt="Imagen del vehículo" style="max-width: 100%;">
+                <img src="@Model.imagenUrl" alt="Imagen del vehículo" class="img-fluid rounded" style="width: 100%; filter: brightness(80%);">
             </div>
         </div>
-    
     </form>
 </div>
 
 
  <style>
-    #formularioCreate {
+
+            
+    .image-container {
+        float: right; /* Coloca el contenedor a la derecha */
+        width: 50%; /* Ancho del contenedor */
+        margin-left: 20px; /* Margen izquierdo para separarlo del contenido principal */
+    }
+
+    .image-container img {
+            width: 100% !important;
+    }
+
+    #formularioDetails {
         background-color: whitesmoke;
         border: 1px solid #dedede;
         border-radius: 1em;
@@ -90,17 +102,4 @@
         color: #393939;
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     }
-
-            
-    .image-container {
-        float: right; /* Coloca el contenedor a la derecha */
-        width: 50%; /* Ancho del contenedor */
-        margin-left: 20px; /* Margen izquierdo para separarlo del contenido principal */
-    }
-
-    .image-container img {
-       max-width: 100%; /* Ajusta el tamaño máximo de la imagen al contenedor */
-       height: auto; /* Permite que la altura se ajuste automáticamente */
-    }
-   
 </style>

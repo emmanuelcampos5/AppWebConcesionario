@@ -17,8 +17,7 @@
                 <div class="d-flex flex-row justify-content-center flex-wrap">
                     @foreach (var item in Model)
                     {
-                        if (!User.Identity.IsAuthenticated || User.FindFirstValue("Rol").Equals("2"))
-                        {
+                        
                             if (item.Item1.estadoActivo)
                             {
 
@@ -55,7 +54,7 @@
                                     </div>
                                 </div>
                             }
-                        }
+                        
                     }
                 </div>
             </div>

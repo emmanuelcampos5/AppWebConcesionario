@@ -83,7 +83,7 @@ namespace AppWebConcesionario.Controllers
                 {
                     idAuditoria = 0,
                     descripcion = "Creacion de un nuevo vehiculo",
-                    tablaModificada = "Vehiculo",
+                    tablaModificada = "Inventario",
                     fechaModificacion = DateTime.Now,
                     idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
                 };

@@ -25,9 +25,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">                
                         
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Vehiculo" asp-action="Index">Vehiculos</a>
-                        </li>
+                        
                         
                         @if (User.Identity.IsAuthenticated == false || User.FindFirstValue("Rol").Equals("2"))
                         {
@@ -36,7 +34,11 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="RealizarConsulta">Realizar Consulta</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Vehiculo" asp-action="Index">Vehiculos</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="RealizarConsulta">Contactanos</a>
                             </li>
                         }
                         @if (User.Identity.IsAuthenticated && User.FindFirstValue("Rol").Equals("1"))
@@ -46,6 +48,13 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Factura" asp-action="Index">Facturas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Promocion" asp-action="Index">Promociones(Cliente)</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Vehiculo" asp-action="Index">Vehiculos(Cliente)</a>
                             </li>
                         }   
                         
@@ -89,8 +98,8 @@
                                 {
                                     <!--cliente inicia sesion----->
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <a class="dropdown-item" href="#" id="cargarPerfil">Mi Perfil</a>
-                                        <li><a class="dropdown-item" asp-controller="Facturas" asp-action="Index">Mis Facturas</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Details" asp-route-id="@idUsuario">Mi Perfil</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Factura" asp-action="Index">Mis Compras</a></li>
                                         <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Logout">Cerrar Sesion</a></li>
                                     </ul>
                                 }

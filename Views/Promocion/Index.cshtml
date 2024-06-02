@@ -8,27 +8,30 @@
 
 @model List<(Vehiculo, Promocion)>
 
+<body class="specific-page">
 
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="d-flex flex-row justify-content-center flex-wrap">
-                @foreach (var item in Model)
-                {
-                    // Si no ha iniciado sesión o si es cliente
-                    if (!User.Identity.IsAuthenticated || User.FindFirstValue("Rol").Equals("2"))
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="d-flex flex-row justify-content-center flex-wrap">
+                    @foreach (var item in Model)
                     {
-                        // Solo se podrán ver las promociones de aquellos vehículos que estén activos
-                        if (item.Item1.estadoActivo)
+                        if (!User.Identity.IsAuthenticated || User.FindFirstValue("Rol").Equals("2"))
                         {
-                            <div class="card-container">
-                                <div class="card">
-                                    <img src="@item.Item1.imagenUrl" alt="@item.Item1.modeloVehiculo">
-                                    <div class="card-content">
-                                        <h5 class="card-title">@item.Item1.marcaVehiculo</h5>
-                                        <div class="content-details">
+                            if (item.Item1.estadoActivo)
+                            {
+
+                                <div class="flip-card">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front">
+                                            <p class="title"></p>
+                                            <img src="@item.Item1.imagenUrl" alt="@item.Item1.modeloVehiculo">
+                                        </div>
+                                        <div class="flip-card-back">
                                             <div>
+                                                <p>@item.Item1.marcaVehiculo</p>
+                                                <p>@item.Item1.modeloVehiculo</p>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ev-station" viewBox="0 0 16 16">
                                                     <path d="M3.5 2a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5v-5a.5.5 0 0 0-.5-.5zm2.131 10.46H4.14v-.893h1.403v-.505H4.14v-.855h1.49v-.54H3.485V13h2.146zm1.316.54h.794l1.106-3.333h-.733l-.74 2.615h-.031l-.747-2.615h-.764z" />
                                                     <path d="M3 0a2 2 0 0 0-2 2v13H.5a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1H11v-4a1 1 0 0 1 1 1v.5a1.5 1.5 0 0 0 3 0V4a.5.5 0 0 0-.146-.354l-.5-.5a.5.5 0 0 0-.707 0l-.5.5A.5.5 0 0 0 13 4v3c0 .71.38 1.096.636 1.357l.007.008c.253.258.357.377.357.635v3.5a.5.5 0 1 1-1 0V12a2 2 0 0 0-2-2V2a2 2 0 0 0-2-2zm7 2v13H2V2a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1" />
@@ -42,32 +45,35 @@
                                                 </svg>
                                                 <span>@item.Item2.lugarPromocion</span>
                                             </div>
+                                            <p style="text-align:center"><s>$@item.Item1.precioVehiculo</s>  $@item.Item2.precioPromocion</p>
+                                            @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.Item1.idVehiculo, marcaVehiculo = item.Item1.marcaVehiculo, modeloVehiculo = item.Item1.modeloVehiculo, precioVehiculo = item.Item2.precioPromocion, foto = item.Item1.imagenUrl }, new { @class = "btn btn-sm btn-outline-secondary add-to-cart-btn" })
+
                                         </div>
-                                        <p style="text-align: end;">><s>$@item.Item1.precioVehiculo</s></p>
-                                        <p style="text-align: end;">$@item.Item2.precioPromocion</p>
-                                        @Html.ActionLink("Agregar al carrito", "Create", "Carrito", new { idVehiculo = item.Item1.idVehiculo, marcaVehiculo = item.Item1.marcaVehiculo, modeloVehiculo = item.Item1.modeloVehiculo, precioVehiculo = item.Item2.precioPromocion, foto = item.Item1.imagenUrl }, new { @class = "btn btn-sm btn-outline-secondary add-to-cart-btn" })
                                     </div>
                                 </div>
-                            </div>
+                            }
                         }
                     }
-                }
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
-<div class="toast celeste-toast" role="alert" aria-live="assertive" aria-atomic="true" id="cartToast" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
-    <div class="toast-header">
-        <strong class="me-auto">Carrito Actualizado</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    <div class="toast celeste-toast" role="alert" aria-live="assertive" aria-atomic="true" id="cartToast" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+        <div class="toast-header">
+            <strong class="me-auto">Carrito Actualizado</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Producto añadido al carrito exitosamente.
+        </div>
     </div>
-    <div class="toast-body">
-        Producto añadido al carrito exitosamente.
-    </div>
-</div>
+
+
+
+</body>
 
 
 
@@ -106,34 +112,75 @@
 
 <style>
     .celeste-toast {
-        background-color: cornflowerblue; /* Un tono celeste suave */
-        color: charset /* Un color oscuro para el texto que asegure legibilidad */
+        background-color: cornflowerblue;
+        color: #000;
     }
 
-    .card-container {
+    .flip-card {
+        background-color: transparent;
+        width: 190px;
+        height: 254px;
+        perspective: 1000px;
+        font-family: sans-serif;
+        margin: 10px; /* Añade margen para separar entre tarjetas */
+    }
+
+    .title {
+        font-size: 1.5em;
+        font-weight: 900;
+        text-align: center;
+        margin: 0;
+    }
+
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+    }
+
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.6); /* Sombra difuminada */
+        position: absolute;
         display: flex;
-        max-width: 600px;
-        margin: 20px auto;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 1rem; /* Esquinas redondeadas */
     }
 
-    .card {
-        display: flex;
-        flex: 1;
-        background-color: #333;
-        color: white;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        overflow: hidden;
+    .flip-card-front {
+        background: linear-gradient(120deg, #333 60%, #444 88%, #555 40%, #666 48%); /* Colores oscuros */
+        color: #fff; /* Texto en blanco */
     }
 
-        .card img {
-            width: 200px; /* Ancho fijo en píxeles */
-            object-fit: cover;
-            border-right: 1px solid #ccc;
-        }
-
-    .card-content {
-        padding: 20px;
+    .flip-card-back {
+        background: linear-gradient(120deg, #444 30%, #555 88%, #666 40%, #777 78%); /* Colores oscuros */
+        color: #fff; /* Texto en blanco */
+        transform: rotateY(180deg);
     }
+
+    .flip-card-front img {
+        width: 100%;
+        height: 98%;
+        object-fit: cover;
+        border-radius: 1rem 1rem 1rem 1rem; /* Redondea todas las esquinas */
+    }
+
+    .add-to-cart-btn {
+        width: auto; /* Ancho automático basado en el contenido */
+        padding: 5px 20px; /* Añade padding para hacerlo más visual */
+        display: block; /* Hace que el botón sea un bloque para centrar fácilmente */
+        margin: 10px auto; /* Centra el botón horizontalmente y añade margen vertical */
+    }
+
 
 </style>

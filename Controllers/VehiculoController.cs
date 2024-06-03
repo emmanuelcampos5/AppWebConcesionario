@@ -41,6 +41,20 @@ namespace AppWebConcesionario.Controllers
             {
                 vehiculo.idVehiculo = 0;
 
+
+                //dependiendo de la cantidad
+                //el estado del vehiculo es true o false
+                if(cantidad == 0)
+                {
+                    vehiculo.estadoActivo = false;
+                }
+                else
+                {
+                    vehiculo.estadoActivo= true;
+                }
+
+
+                //todo el insert de la imagen
                 if(files.Count > 0)
                 {
                     string filePath = @"wwwroot\css\img\";
@@ -72,7 +86,8 @@ namespace AppWebConcesionario.Controllers
                     }//cierre for
                 }
 
-
+                //en caso de que la imagen falle
+                //sera "ND"
                 else
                 {
                     vehiculo.imagenUrl = "ND";
@@ -82,11 +97,13 @@ namespace AppWebConcesionario.Controllers
                 var auditoria = new RegistroAuditoria
                 {
                     idAuditoria = 0,
-                    descripcion = "Creacion de un nuevo vehiculo",
+                    descripcion = "Nuevo vehiculo",
                     tablaModificada = "Inventario",
                     fechaModificacion = DateTime.Now,
                     idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
                 };
+
+
                 _context.RegistroAuditoria.Add(auditoria);
                 await _context.SaveChangesAsync();
 

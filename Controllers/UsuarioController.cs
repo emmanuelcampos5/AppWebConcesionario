@@ -437,10 +437,49 @@ namespace AppWebConcesionario.Controllers
             }
         }
 
-        
-        
-      
-       
+
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var temp = await _context.Usuario.FirstOrDefaultAsync(x => x.idUsuario == id);
+
+            return View(temp);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind] Usuario usuario)
+        {
+            if (id == usuario.idUsuario)
+            {
+                var temp = await _context.Usuario.FirstOrDefaultAsync(r => r.idUsuario == id);
+
+                _context.Usuario.Remove(temp);
+                _context.Usuario.Add(usuario);
+
+
+                var auditoria = new RegistroAuditoria
+                {
+                    idAuditoria = 0,
+                    descripcion = "Edicion de usuario",
+                    tablaModificada = "Promocion",
+                    fechaModificacion = DateTime.Now,
+                    idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
+                };
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
 
 
 

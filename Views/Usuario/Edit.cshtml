@@ -1,0 +1,90 @@
+﻿@model AppWebConcesionario.Models.Usuario
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-sm-6"></div>
+
+        <div class="col-sm-6">
+            <hr />
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="Edit" id="formularioCreate">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <h1>Edit</h1>
+                        <div class="form-group">
+                            <label asp-for="idUsuario" class="control-label"></label>
+                            <input asp-for="idUsuario" class="form-control" readonly />
+                            <span asp-validation-for="idUsuario" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="idRol" class="control-label"></label>
+                            <input asp-for="idRol" class="form-control" readonly/>
+                            <span asp-validation-for="idRol" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="nombreUsuario" class="control-label"></label>
+                            <input asp-for="nombreUsuario" class="form-control" />
+                            <span asp-validation-for="nombreUsuario" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="cedulaUsuario" class="control-label"></label>
+                            <input asp-for="cedulaUsuario" class="form-control" />
+                            <span asp-validation-for="cedulaUsuario" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="telefonoUsuario" class="control-label"></label>
+                            <input asp-for="telefonoUsuario" class="form-control" />
+                            <span asp-validation-for="telefonoUsuario" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="correoUsuario" class="control-label"></label>
+                            <input asp-for="correoUsuario" class="form-control" />
+                            <span asp-validation-for="correoUsuario" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="lugarResidencia" class="control-label"></label>
+                            <select asp-for="lugarResidencia" class="form-select">
+                                <option value="">Seleccione una Provincia</option>
+                                <option value="Puntarenas">Puntarenas</option>
+                                <option value="Guanacaste">Guanacaste</option>
+                                <option value="Alajuela">Alajuela</option>
+                                <option value="Heredia">Heredia</option>
+                                <option value="Cartago">Cartago</option>
+                                <option value="Sanjose">Sanjose</option>
+                                <option value="Limon">Limon</option>
+                            </select>
+                            <span asp-validation-for="lugarResidencia" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="password" class="control-label"></label>
+                            <input asp-for="password" class="form-control" />
+                            <span asp-validation-for="password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="estadoSuscripcion" /> @Html.DisplayNameFor(model => model.estadoSuscripcion)
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Guardar" class="btn btn-primary mt-3" />
+                            <a asp-action="Details" asp-controller="Usuario" asp-route-id="@Model.idUsuario" class="btn btn-dark mt-3">Volver</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6"></div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

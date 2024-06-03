@@ -215,8 +215,6 @@ namespace AppWebConcesionario.Controllers
         }
 
 
-
-
         //------------------------------------------correo-------------------------------------
         private void EnviarCorreoFactura(Factura factura, List<Carrito> carrito, int userId, string userName)
         {

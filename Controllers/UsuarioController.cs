@@ -466,14 +466,16 @@ namespace AppWebConcesionario.Controllers
                 {
                     idAuditoria = 0,
                     descripcion = "Edicion de usuario",
-                    tablaModificada = "Promocion",
+                    tablaModificada = "Usuario",
                     fechaModificacion = DateTime.Now,
                     idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
                 };
 
+                _context.RegistroAuditoria.Add(auditoria);
+
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Usuario", new { id = usuario.idUsuario });
             }
             else
             {

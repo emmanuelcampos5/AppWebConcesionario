@@ -16,37 +16,35 @@
         <hr />
         <dl class="row">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.idUsuario)
+                Id: 
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.idUsuario)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.idRol)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.idRol)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.nombreUsuario)
+               Nombre de Usuario
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.nombreUsuario)
             </dd>
+            @if (User.FindFirstValue("Rol").Equals("2"))
+            {
+                <dt class="col-sm-2">
+                   Cedula: 
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.cedulaUsuario)
+                </dd>
+            }
+            
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.cedulaUsuario)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.cedulaUsuario)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.telefonoUsuario)
+               Telefono: 
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.telefonoUsuario)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.correoUsuario)
+               Email: 
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.correoUsuario)
@@ -55,19 +53,19 @@
             @if (User.FindFirstValue("Rol").Equals("2"))
             {
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.lugarResidencia)
+                   Residencia
                 </dt>
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.lugarResidencia)
                 </dd>
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.estadoActivo)
+                    Estado: 
                 </dt>
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.estadoActivo)
                 </dd>
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.estadoSuscripcion)
+                    Envio de Promociones: 
                 </dt>
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.estadoSuscripcion)

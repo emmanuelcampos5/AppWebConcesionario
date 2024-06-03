@@ -104,7 +104,7 @@ namespace AppWebConcesionario.Controllers
             await _context.SaveChangesAsync();
 
             // Obtener la lista de usuarios
-            var usuarios = await _context.Usuario.Where(u => u.lugarResidencia == promocion.lugarPromocion).ToListAsync();
+            var usuarios = await _context.Usuario.Where(u => u.lugarResidencia == promocion.lugarPromocion && u.estadoSuscripcion==true).ToListAsync();
 
             Email email = new Email();
 

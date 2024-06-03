@@ -157,7 +157,7 @@ namespace AppWebConcesionario.Controllers
                     idUsuarioModificacion = int.Parse(User.FindFirstValue("idUsuario"))
                 };
 
-
+                TempData["Mensaje"] = "Tu Factura ha sido enviada al tu correo electronico";
                 return RedirectToAction("Index", "Home");
             }
             else

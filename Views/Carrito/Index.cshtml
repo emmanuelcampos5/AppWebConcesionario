@@ -7,60 +7,225 @@
 
 
 <div class="container mt-5">
-    <div class="card p-4 shadow">
-        <div class="table-responsive">
-            <form asp-controller="Factura" asp-action="Checkout" method="post">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Foto</th>
-                            <th>Marca</th>
-                            <th>Modelo</th>
-                            <th>Precio</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card p-4 shadow">
+                <div class="table-responsive">
+                    <form asp-controller="Factura" asp-action="Checkout" method="post">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Foto</th>
+                                    <th>Marca</th>
+                                    <th>Modelo</th>
+                                    <th>Precio</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="p-2">
+                                            <img src="@item.foto" style="max-width: 100px;" />
+                                        </td>
+                                        <td class="p-2">@item.marcaVehiculo</td>
+                                        <td class="p-0">@item.modeloVehiculo</td>
+                                        <td class="p-0">$@item.precioVehiculo.ToString("N2")</td>
+                                        <td class="p-0">
+                                            <a href="@Url.Action("Delete", "Carrito", new { idVehiculo = item.idVehiculo })" class="btn btn-outline-danger">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <span id="totalPrecio" class="mt-3"></span>
+                        @if (!Model.Any())
                         {
-                            <tr>
-                                <td class="p-2">
-                                    <img src="@item.foto" style="max-width: 100px;" />
-                                </td>
-                                <td class="p-2">@item.marcaVehiculo</td>
-                                <td class="p-0">@item.modeloVehiculo</td>
-                                <td class="p-0">$@item.precioVehiculo.ToString("N2")</td>
-                                <td class="p-0">
-                                    <a href="@Url.Action("Delete", "Carrito", new { idVehiculo = item.idVehiculo })" class="btn btn-outline-danger">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                                        </svg>
-                                    </a>
-                                </td>
-                            </tr>
+                            <p>Tu carrito está vacío.</p>
                         }
-                    </tbody>
-                </table>
-        
-        <span id="totalPrecio" style="position: absolute; bottom: 10px; right: 10px;"></span>
-        @if (!Model.Any())
-        {
-            <p>Tu carrito está vacío.</p>
-        }
-        else
-        {
-            <div class="text-right">
-                <button type="submit" class="btn btn-primary mt-3">Proceder al Pago</button>
+                        else
+                        {
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mt-3">Proceder al Pago</button>
+                            </div>
+                        }
+                    </form>
+                </div>
             </div>
-        }
+        </div>
+        <div class="col-md-4">
+            <div class="visa-card mt-3">
+                <div class="logoContainer">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         x="0px"
+                         y="0px"
+                         width="23"
+                         height="23"
+                         viewBox="0 0 48 48"
+                         class="svgLogo">
+                        <path fill="#ff9800"
+                              d="M32 10A14 14 0 1 0 32 38A14 14 0 1 0 32 10Z"></path>
+                        <path fill="#d50000"
+                              d="M16 10A14 14 0 1 0 16 38A14 14 0 1 0 16 10Z"></path>
+                        <path fill="#ff3d00"
+                              d="M18,24c0,4.755,2.376,8.95,6,11.48c3.624-2.53,6-6.725,6-11.48s-2.376-8.95-6-11.48 C20.376,15.05,18,19.245,18,24z"></path>
+                    </svg>
+                </div>
+                <div class="number-container">
+                    <label class="input-label" for="cardNumber">NUMERO TARJETA</label>
+                    <input class="inputstyle"
+                           id="cardNumber"
+                           placeholder="XXXX XXXX XXXX XXXX"
+                           name="cardNumber"
+                           type="text" />
+                </div>
 
+                <div class="name-date-cvv-container">
+                    <div class="name-wrapper">
+                        <label class="input-label" for="holderName">TITULAR DE TARJETA</label>
+                        <input class="inputstyle"
+                               id="holderName"
+                               placeholder="NAME"
+                               type="text" />
+                    </div>
 
-       </form>
+                    <div class="expiry-wrapper">
+                        <label class="input-label" for="expiry">EXP DATE</label>
+                        <input class="inputstyle" id="expiry" placeholder="MM/YY" type="text" />
+                    </div>
+                    <div class="cvv-wrapper">
+                        <label class="input-label" for="cvv">CVV</label>
+                        <input class="inputstyle"
+                               placeholder="***"
+                               maxlength="3"
+                               id="cvv"
+                               type="password" />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+<style>
+    .visa-card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+        width: 300px;
+        height: 180px;
+        background-color: #333;
+        border-radius: 10px;
+        padding: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+        position: relative;
+        gap: 15px;
+    }
+
+    .logoContainer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: fit-content;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 18px;
+    }
+
+    .svgLogo {
+        height: 40px;
+        width: auto;
+    }
+
+    .inputstyle::placeholder {
+        color: #ffffff;
+    }
+
+    .inputstyle {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        color: white;
+        caret-color: red;
+        font-size: 13px;
+        height: 25px;
+        letter-spacing: 1.5px;
+    }
+
+    .number-container {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #cardNumber {
+        width: 100%;
+        height: 25px;
+    }
+
+    .name-date-cvv-container {
+        width: 100%;
+        height: 25px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .name-wrapper {
+        width: 60%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .expiry-wrapper,
+    .cvv-wrapper {
+        width: 30%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cvv-wrapper {
+        width: 10%;
+    }
+
+    #expiry,
+    #cvv {
+        width: 100%;
+    }
+
+    .input-label {
+        font-size: 8px;
+        letter-spacing: 1.5px;
+        color: #e2e2e2;
+        width: 100%;
+    }
+
+    #formularioCreate {
+        background-color: whitesmoke;
+        border: 1px solid #dedede;
+        border-radius: 1em;
+        box-shadow: 5px 5px 5px rgba(25,0,0,25);
+        padding: 1em;
+        margin: 0 auto;
+        width: auto;
+        text-align: left;
+        color: #393939;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+</style>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -78,14 +243,6 @@
         document.getElementById("totalPrecio").textContent = "Total sin Impuestos: $" + total.toFixed(2);
     });
 </script>
-
-
-
-
-
-
-
-
 
 
 

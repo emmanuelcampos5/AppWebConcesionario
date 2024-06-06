@@ -1,4 +1,12 @@
-﻿using System;
+﻿
+//Fecha Creacion: 14-05-2024
+//Funcion: Contener los modulos y metodos necesarios para funcionamiento de la clase
+//Fecha Ultima Modificacion:27-05-2024
+//Responsable: Dylan Barrantes //Razon: Realizar ajuste en el metodo sincronizar inventario.
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

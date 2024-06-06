@@ -1,10 +1,18 @@
-﻿using AppWebConcesionario.Models;
+﻿
+//Fecha Creacion: 14-05-2024
+//Funcion: Contener los modulos y metodos necesarios para funcionamiento de la clase
+//Fecha Ultima Modificacion:29-05-2024
+//Responsable: Emmanuel Campos //Razon: Realizar ajuste para el registro de usuario.
+
+using AppWebConcesionario.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+
+
 
 namespace AppWebConcesionario.Controllers
 {

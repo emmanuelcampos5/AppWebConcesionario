@@ -1,4 +1,12 @@
-﻿using AppWebConcesionario.Models;
+﻿
+//Fecha Creacion: 17-05-2024
+//Funcion: Contener los modulos y metodos necesarios para funcionamiento de la clase
+//Fecha Ultima Modificacion:28-05-2024
+//Responsable: Christopher Rodríguez //Razon: Agregar metodo de delete.
+
+
+
+using AppWebConcesionario.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 

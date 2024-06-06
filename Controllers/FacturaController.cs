@@ -1,4 +1,13 @@
-﻿using AppWebConcesionario.Models;
+﻿
+
+//Fecha Creacion: 20-05-2024
+//Funcion: Contener los modulos y metodos necesarios para funcionamiento de la clase
+//Fecha Ultima Modificacion:28-05-2024
+//Responsable: Emmanuel Campos //Razon: Realizar ajuste en el metodo de envio de email.
+
+
+
+using AppWebConcesionario.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;

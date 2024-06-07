@@ -18,10 +18,10 @@ namespace AppWebConcesionario.Controllers
 {
     public class UsuarioController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext _context; //AppDbContext: representa el contexto de la base de datos.
 
 
-        private static string EmailRestablecer = "";
+        private static string EmailRestablecer = ""; //EmailRestablecer: representa el correo al cual se quiere restablecer la contrasena 
 
 
         public UsuarioController(AppDbContext context)
@@ -29,18 +29,23 @@ namespace AppWebConcesionario.Controllers
             _context = context;
         }
 
+
+
+        //Muestra lista de Usuarios
         [HttpGet]
         public IActionResult Index()
         {
             return View(_context.Usuario.ToList());
         }
 
+        //Muestra lista de opciones administrativas
         [HttpGet]
         public IActionResult VistaAdministrativa()
         {
             return View();
         }
 
+        //Muestra formulario para autenticarse
         [HttpGet]
         public IActionResult Login()
         {
@@ -50,6 +55,9 @@ namespace AppWebConcesionario.Controllers
 
 
         //------------------------------vistas---------------------------------------------
+
+
+        //Recolecta y envia los datos para realizar la autenticacion
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -100,6 +108,7 @@ namespace AppWebConcesionario.Controllers
             return View(user);
         }
 
+        //Realizar el cierre de sesion
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
@@ -108,7 +117,7 @@ namespace AppWebConcesionario.Controllers
         }
 
 
-
+        //Muestra detalltes de usuario
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -117,30 +126,28 @@ namespace AppWebConcesionario.Controllers
             return View(temp);
         }
 
-
+        //Muestra formulario para que un usuario se registre
         [HttpGet]
         public IActionResult RegistrarUsuario()
         {
             return View();
         }
 
+        //Recolecta y envia los datos para registrar un usuario
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegistrarUsuario([Bind] Usuario user)
         {
             //if (listaLugares == "Seleccione una Provincia")
             //{
-
             //    return View(user);
             //}          
 
             if (user != null)
             {
                 //var lugarResidencia = user.lugarResidencia;
-
-                user.idRol = 2;
                 //user.lugarResidencia = listaLugares;
-
+                user.idRol = 2;
                 user.password = this.GenerarClave();
                 user.estadoSuscripcion = true;
                 user.restablecer = true;
@@ -181,6 +188,7 @@ namespace AppWebConcesionario.Controllers
         }
 
 
+        //Muestra el formulario para poder restablecer la contrasena
         [HttpGet]
         public IActionResult Restablecer(string? tempCorreo)
         {
@@ -196,13 +204,14 @@ namespace AppWebConcesionario.Controllers
             return View(restablecer);
         }
 
+        //Recolecta y envia los datos necesarios para el restablecimiento de la contrasena
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Restablecer(SeguridadRestablecer pRestablecer)
         {
             if (pRestablecer != null)
             {
-                var usuario = _context.Usuario.First(c => c.correoUsuario == EmailRestablecer);
+                var usuario = _context.Usuario.First(c => c.correoUsuario == EmailRestablecer); //Se crea la variable usuario para guardar datos
 
                 if (usuario.password.Equals(pRestablecer.Password))
                 {
@@ -236,12 +245,15 @@ namespace AppWebConcesionario.Controllers
 
         }
 
+        //Muestra la vista para los usuarios cuando olvidan la contrasena
         [HttpGet]
         public IActionResult OlvidarContraseña()
         {
             return View();
         }
 
+
+        //Recolecta y envia los datos necesarios para poder enviar informacion cuando olvidan la contrasena
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult OlvidarContraseña(string? tempCorreo)
@@ -283,12 +295,16 @@ namespace AppWebConcesionario.Controllers
         }
 
         //---------------------------MODULO CONSULTAS-------------------------------------------
+        
+        //Muestra el formulario para que el usuario pueda realizar una consulta
         [HttpGet]
         public IActionResult RealizarConsulta()
         {
             return View();
         }
 
+
+        //Recolecta y envia los datos necesarios para poder enviar la consulta
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult RealizarConsulta(string mensaje)
@@ -325,12 +341,13 @@ namespace AppWebConcesionario.Controllers
             
         }
 
+        //Encargado de crear y enviar el email de consulta al correo de destino definido
         private bool EnviarEmailConsulta(Usuario temp, string mensaje)
         {
             try
             {
                 bool enviado = false;
-                Email emailConsulta = new Email();
+                Email emailConsulta = new Email(); //Objeto Email con metodo emailConsulta
                 emailConsulta.EnviarConsulta(temp, mensaje);
                 enviado = true;
 
@@ -345,6 +362,7 @@ namespace AppWebConcesionario.Controllers
 
         //---------------------------METODOS----------------------------------------------------
 
+        //Se encarga de verificar la existencia de un usuario
         public bool UsuarioExistente(Usuario temp)
         {
             bool existente = false;
@@ -370,9 +388,11 @@ namespace AppWebConcesionario.Controllers
 
 
         //---------------------------METODOS----------------------------------------------------
+
+        //Se encarga de generar una clave aleatoria para nuevos usuarios
         public string GenerarClave()
         {
-            Random rnd = new Random();
+            Random rnd = new Random(); 
 
             string clave = string.Empty;
 
@@ -380,6 +400,8 @@ namespace AppWebConcesionario.Controllers
             return new string(Enumerable.Repeat(clave, 12).Select(
                 s => s[rnd.Next(s.Length)]).ToArray());
         }
+
+        //Se encarga de validar la autorizacion de un usuario
         private Usuario ValidarUsuario(Usuario temp)
         {
             Usuario autorizado = null;
@@ -395,6 +417,8 @@ namespace AppWebConcesionario.Controllers
             }
             return autorizado;
         }
+
+        //Se encarga de verificar que el restablecimineto sea el correcto
         private bool VerificarRestablecer(Usuario temp)
         {
             bool verificado = false;
@@ -412,12 +436,14 @@ namespace AppWebConcesionario.Controllers
 
             return verificado;
         }
+
+        //Encargado de crear y enviar el email de registro al correo de destino definido
         private bool EnviarEmailRegistro(Usuario temp)
         {
             try
             {
                 bool enviado = false;
-                Email emailRegistro = new Email();
+                Email emailRegistro = new Email(); //Objeto Email con metodo emailRegistro
                 emailRegistro.EnviarRegistro(temp);
                 enviado = true;
 
@@ -428,12 +454,14 @@ namespace AppWebConcesionario.Controllers
                 return false;
             }
         }
+
+        //Encargado de crear y enviar el email de restablecer contra al correo de destino definido
         private bool EnviarEmailRestablecer(Usuario temp)
         {
             try
             {
                 bool enviado = false;
-                Email emailR = new Email();
+                Email emailR = new Email(); //Objeto Email con metodo emailRestablecer
                 emailR.EnviarRestablecer(temp);
                 enviado = true;
 
@@ -448,7 +476,7 @@ namespace AppWebConcesionario.Controllers
 
 
 
-
+        //Muestra el fomrulario para la edicion de un usuario
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -457,7 +485,7 @@ namespace AppWebConcesionario.Controllers
             return View(temp);
         }
 
-
+        //Recolecta y envia los datos necesarios para la edicion de usuarios
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind] Usuario usuario)

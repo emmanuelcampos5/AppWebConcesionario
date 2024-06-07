@@ -19,14 +19,16 @@ using System.Security.Claims;
 namespace AppWebConcesionario.Controllers
 {
     public class InventariosController : Controller
+
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext _context; //AppDbContext: representa el contexto de la base de datos.
 
         public InventariosController(AppDbContext context)
         {
             _context = context;
         }
 
+        //Muestra la lista del inventario
         public async Task<IActionResult> Index()
         {
             // Llamar al método de sincronización antes de cargar la vista.
@@ -67,6 +69,8 @@ namespace AppWebConcesionario.Controllers
             return RedirectToAction("Index"); // Redireccionar al índice del inventario o donde consideres apropiado.
         }
 
+
+        //Muestra formulario necesario para la edicion del inventario
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,6 +89,8 @@ namespace AppWebConcesionario.Controllers
             return View(inventario);
         }
 
+
+        //Recolecta y envia la informacion necesaria para editar el inventario
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind] Inventario inventario)
@@ -152,6 +158,7 @@ namespace AppWebConcesionario.Controllers
             return RedirectToAction("Index");
         }
 
+        //Verifica la existencia en inventario
         private bool InventarioExiste(int id)
         {
             return _context.Inventario.Any(e => e.idVehiculo == id);

@@ -41,7 +41,7 @@
                     <strong>@TempData["MensajeError"]</strong>
                 </div>
             }
-            <form asp-action="RealizarConsulta">
+            <form asp-action="RealizarConsulta"> @* Form encargado de activar el metodo RealizarConsulta *@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="form-group mt-4">

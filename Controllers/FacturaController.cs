@@ -21,13 +21,14 @@ namespace AppWebConcesionario.Controllers
     public class FacturaController : Controller
     {
 
-        private readonly AppDbContext _context = null;
+        private readonly AppDbContext _context = null; //AppDbContext: representa el contexto de la base de datos.
 
         public FacturaController(AppDbContext context)
         {
             _context = context;
         }
 
+        //Muestra listas de facturas
         public async Task<IActionResult> Index()
         {
 
@@ -36,7 +37,7 @@ namespace AppWebConcesionario.Controllers
             return View(listado);
         }
 
-
+        //Se encarga de la revision del pago
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Checkout()
@@ -177,7 +178,7 @@ namespace AppWebConcesionario.Controllers
 
         }
 
-
+        //Muestra el formulario para la edicion
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -186,7 +187,7 @@ namespace AppWebConcesionario.Controllers
             return View(temp);
         }
 
-
+        //Muestra el formulario para la eliminacion
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -195,6 +196,7 @@ namespace AppWebConcesionario.Controllers
             return View(temp);
         }
 
+        //Recolecta y envia la informacion para eliminar 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
@@ -225,6 +227,8 @@ namespace AppWebConcesionario.Controllers
 
 
         //------------------------------------------correo-------------------------------------
+
+        //Se encarga de la creacion del envio de email para factura
         private void EnviarCorreoFactura(Factura factura, List<Carrito> carrito, int userId, string userName)
         {
 

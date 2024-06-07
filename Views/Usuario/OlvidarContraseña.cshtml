@@ -34,7 +34,7 @@
                     <strong>@TempData["MensajeError"]</strong>
                 </div>
             }
-            <form asp-action="OlvidarContraseña" class="formulario">
+            <form asp-action="OlvidarContraseña" class="formulario"> @* Form encargado de activar el metodo de OlvidarContrasena *@
                 <h4>Recuperacion</h4>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">

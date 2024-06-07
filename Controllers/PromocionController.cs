@@ -27,8 +27,8 @@ namespace AppWebConcesionario.Controllers
         public IActionResult Index()
         {
             var vehiculosPromociones = VehiculosEnPromocion();
-            var vehiculosConPrecios = _context.Vehiculo.Select(v => new { idVehiculo = v.idVehiculo, marcaVehiculo = v.marcaVehiculo, precioVehiculo = v.precioVehiculo }).ToList();
-            ViewData["Vehiculos"] = new SelectList(vehiculosConPrecios, "idVehiculo", "marcaVehiculo");
+            //var vehiculosConPrecios = _context.Vehiculo.Select(v => new { idVehiculo = v.idVehiculo, marcaVehiculo = v.marcaVehiculo, precioVehiculo = v.precioVehiculo }).ToList();
+            //ViewData["Vehiculos"] = new SelectList(vehiculosConPrecios, "idVehiculo", "marcaVehiculo");
 
             return View(vehiculosPromociones);
         }

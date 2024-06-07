@@ -22,28 +22,32 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.idFactura)
+                           Id Factura
+                        </th>
+                        @if (User.FindFirstValue("Rol").Equals("1"))
+                        {
+                            <th>
+                                Id Usuario
+                            </th>
+                        }
+                        
+                        <th>
+                            Subtotal
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.idUsuario)
+                            Descuento
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.subtotal)
+                            Impuesto
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.montoDescuento)
+                            Total
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.montoImpuesto)
+                            Fecha de Facturacion
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.totalFactura)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.fechaFactura)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.tipoPago)
+                            Tipo de Pago
                         </th>
                         <th></th>
                     </tr>
@@ -62,19 +66,16 @@
                                         @Html.DisplayFor(modelItem => item.idFactura)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.idUsuario)
+                                        $@Html.DisplayFor(modelItem => item.subtotal)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.subtotal)
+                                        $@Html.DisplayFor(modelItem => item.montoDescuento)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.montoDescuento)
+                                        $@Html.DisplayFor(modelItem => item.montoImpuesto)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.montoImpuesto)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.totalFactura)
+                                        $@Html.DisplayFor(modelItem => item.totalFactura)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.fechaFactura)
@@ -102,16 +103,16 @@
                                         @Html.DisplayFor(modelItem => item.idUsuario)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.subtotal)
+                                        $@Html.DisplayFor(modelItem => item.subtotal)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.montoDescuento)
+                                        $@Html.DisplayFor(modelItem => item.montoDescuento)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.montoImpuesto)
+                                        $@Html.DisplayFor(modelItem => item.montoImpuesto)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.totalFactura)
+                                        $@Html.DisplayFor(modelItem => item.totalFactura)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.fechaFactura)

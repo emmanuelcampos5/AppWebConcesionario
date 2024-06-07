@@ -24,10 +24,13 @@ namespace AppWebConcesionario.Controllers
         }
 
 
-        [HttpGet]
         public IActionResult Index()
         {
-            return View(VehiculosEnPromocion());
+            var vehiculosPromociones = VehiculosEnPromocion();
+            var vehiculosConPrecios = _context.Vehiculo.Select(v => new { idVehiculo = v.idVehiculo, marcaVehiculo = v.marcaVehiculo, precioVehiculo = v.precioVehiculo }).ToList();
+            ViewData["Vehiculos"] = new SelectList(vehiculosConPrecios, "idVehiculo", "marcaVehiculo");
+
+            return View(vehiculosPromociones);
         }
 
         [HttpGet]
@@ -50,7 +53,16 @@ namespace AppWebConcesionario.Controllers
             return vehiculosPromociones;
         }
 
-
+        [HttpGet]
+        public IActionResult GetPrecioVehiculo(int id)
+        {
+            var vehiculo = _context.Vehiculo.FirstOrDefault(v => v.idVehiculo == id);
+            if (vehiculo != null)
+            {
+                return Json(vehiculo.precioVehiculo);
+            }
+            return NotFound();
+        }
 
         [HttpGet]
         public IActionResult Create()

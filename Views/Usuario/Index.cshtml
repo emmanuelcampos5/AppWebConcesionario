@@ -35,8 +35,6 @@
         <tbody>
             @foreach (var item in Model)
             {
-                if (item.idRol == 2)
-                {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.nombreUsuario)
@@ -56,8 +54,8 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.estadoSuscripcion)
                         </td>
-                    </tr>
-                }
+                   </tr>
+                
 
                
             }

@@ -16,21 +16,23 @@ namespace AppWebConcesionario.Controllers
 {
     public class PromocionController : Controller
     {
-        private readonly AppDbContext _context; //AppDbContext: representa el contexto de la base de datos.
+        private readonly AppDbContext _context;
 
         public PromocionController(AppDbContext context)
         {
             _context = context;
         }
 
-        //Muestra la lista de vehiculos en promocion
-        [HttpGet]
+
         public IActionResult Index()
         {
-            return View(VehiculosEnPromocion());
+            var vehiculosPromociones = VehiculosEnPromocion();
+            //var vehiculosConPrecios = _context.Vehiculo.Select(v => new { idVehiculo = v.idVehiculo, marcaVehiculo = v.marcaVehiculo, precioVehiculo = v.precioVehiculo }).ToList();
+            //ViewData["Vehiculos"] = new SelectList(vehiculosConPrecios, "idVehiculo", "marcaVehiculo");
+
+            return View(vehiculosPromociones);
         }
 
-        //Muestra la lista de vehiculos en promocion para admin
         [HttpGet]
         public IActionResult ListaAdmin()
         {
@@ -51,8 +53,17 @@ namespace AppWebConcesionario.Controllers
             return vehiculosPromociones;
         }
 
+        [HttpGet]
+        public IActionResult GetPrecioVehiculo(int id)
+        {
+            var vehiculo = _context.Vehiculo.FirstOrDefault(v => v.idVehiculo == id);
+            if (vehiculo != null)
+            {
+                return Json(vehiculo.precioVehiculo);
+            }
+            return NotFound();
+        }
 
-        //Muestra formulario para crear una promocion para un vehiculo
         [HttpGet]
         public IActionResult Create()
         {
@@ -65,7 +76,7 @@ namespace AppWebConcesionario.Controllers
         }
 
 
-        //Recolecta y envia los datos necesarios para crear una promocion para un vehiculo
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind]Promocion promocion)
@@ -138,8 +149,6 @@ namespace AppWebConcesionario.Controllers
 
         //Borrar promociones-------------------------------
 
-
-        //Muestra formulario necesario para borrar una promocion
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -148,7 +157,6 @@ namespace AppWebConcesionario.Controllers
             return View(temp);
         }
 
-        //Recolecta y envia la informacion necesario para poder eliminar una promocion
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
@@ -179,8 +187,7 @@ namespace AppWebConcesionario.Controllers
 
 
         //Editar promociones-------------------------------------
-
-        //Muestra formulario necesario para editar una promocion
+        
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -189,7 +196,7 @@ namespace AppWebConcesionario.Controllers
             return View(temp);
         }
 
-        //Recolecta y envia la informacion necesario para poder editar una promocion
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind] Promocion promocion)

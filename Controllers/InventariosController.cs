@@ -113,8 +113,9 @@ namespace AppWebConcesionario.Controllers
 
                     if (vehiculo != null)
                     {
-                        if(inventario.cantidadVehiculos == 0)
+                        if(inventario.cantidadVehiculos <= 0)
                         {
+                            inventario.cantidadVehiculos = 0;
                             vehiculo.estadoActivo = false;
                         }
                         else

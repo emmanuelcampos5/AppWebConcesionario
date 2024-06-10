@@ -44,8 +44,9 @@ namespace AppWebConcesionario.Controllers
 
                 //dependiendo de la cantidad
                 //el estado del vehiculo es true o false
-                if(cantidad == 0)
+                if(cantidad <= 0)
                 {
+                    cantidad = 0;
                     vehiculo.estadoActivo = false;
                 }
                 else
@@ -107,6 +108,7 @@ namespace AppWebConcesionario.Controllers
                 _context.RegistroAuditoria.Add(auditoria);
                 await _context.SaveChangesAsync();
 
+               
 
                 _context.Vehiculo.Add(vehiculo);
 

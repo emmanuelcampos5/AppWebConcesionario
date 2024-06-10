@@ -2,7 +2,7 @@
 //Fecha Creacion: 14-05-2024
 //Funcion: Contener los modulos y metodos necesarios para funcionamiento de la clase
 //Fecha Ultima Modificacion:29-05-2024
-//Responsable: Emmanuel Campos //Razon: Realizar ajuste para el registro de usuario.
+//Responsable: Christopher Rodríguez. //Razon: Realizar ajuste para el registro de usuario.
 
 using AppWebConcesionario.Models;
 using Microsoft.AspNetCore.Authentication;

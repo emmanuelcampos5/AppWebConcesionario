@@ -69,22 +69,7 @@ namespace AppWebConcesionario.Controllers
                 //hacemos un recorrido de los carros en el carrito
                 foreach (var item in carrito)
                 {
-
-                    //esto da error, por mas que el idfactura sea una llave foranea el necesita de una primaria y exclusiva de el
-                    //ejemplo un IdDetalle
-                    //sumando eso se podria hacer sin ningun problema, pero de mi parte no sabria como solucionarlo
-                    //claro, si solo se compra un carro no hay problema, el problema es cuando se compra mas
-
-                    //var detalleFactura = new Det_Factura
-                    //{
-                    //    idFactura = nuevaFactura.idFactura,
-                    //    idVehiculo = item.idVehiculo,
-                    //    precioUnitario = (double)item.precioVehiculo,
-                    //    cantidad = 1,
-                    //    subtotal = (double)item.precioVehiculo,
-                    //    montoDescuento = 0,
-                    //    montoImpuesto = (double)item.precioVehiculo * 0.13
-                    //};
+               
 
                     //recorremos el inventario para encontrar en el mismo, los vehiculos en el carrito
                     var inventario = await _context.Inventario.FirstOrDefaultAsync(i => i.idVehiculo == item.idVehiculo);
@@ -152,6 +137,25 @@ namespace AppWebConcesionario.Controllers
                 _context.Factura.Add(nuevaFactura);
                 await _context.SaveChangesAsync();
 
+                //creamos el detalle factura
+                foreach(var item in carrito)
+                {
+                    var detalleFactura = new Det_Factura
+                    {
+                        idDetalle = 0,
+                        idFactura = nuevaFactura.idFactura,
+                        idVehiculo = item.idVehiculo,
+                        precioUnitario = (double)item.precioVehiculo,
+                        cantidad = 1,
+                        subtotal = (double)item.precioVehiculo,
+                        montoDescuento = 0,
+                        montoImpuesto = (double)item.precioVehiculo * 0.13
+                    };
+
+                    _context.Det_Factura.Add(detalleFactura);
+                    await _context.SaveChangesAsync();
+                }
+
 
                 EnviarCorreoFactura(nuevaFactura, carrito, userId, userName);
 
@@ -178,13 +182,37 @@ namespace AppWebConcesionario.Controllers
 
         }
 
-        //Muestra el formulario para la edicion
+        //Muestra el formulario para el detalle
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var temp = await _context.Factura.FirstOrDefaultAsync(x => x.idFactura == id);
+            var factura = await _context.Factura.FirstOrDefaultAsync(x => x.idFactura == id);
 
-            return View(temp);
+            if (factura == null)
+            {
+                return NotFound();
+            }
+
+            var detalles = await _context.Det_Factura.Where(d => d.idFactura == id).ToListAsync();
+
+            var vehiculos = new List<Vehiculo>();
+            var mensaje = new StringBuilder();
+
+            foreach (var detalle in detalles)
+            {
+                var vehiculo = await _context.Vehiculo.FirstOrDefaultAsync(v => v.idVehiculo == detalle.idVehiculo);
+                if (vehiculo != null)
+                {
+                    mensaje.AppendLine($"{vehiculo.marcaVehiculo} - {vehiculo.modeloVehiculo} - ${detalle.precioUnitario}<br>");
+                }
+                else
+                {
+                    mensaje.AppendLine("Vehículo no encontrado");
+                }
+            }
+
+            ViewBag.Mensaje = mensaje.ToString();
+            return View(factura);
         }
 
         //Muestra el formulario para la eliminacion
@@ -237,7 +265,7 @@ namespace AppWebConcesionario.Controllers
                 MailMessage email = new MailMessage();
 
 
-                email.Subject = "Datos de registro en la plataforma web ICarPlus";
+                email.Subject = "Datos de Factura en la plataforma web ICarPlus";
 
                 email.To.Add(new MailAddress("ICarPlusAppWeb@outlook.com"));
 

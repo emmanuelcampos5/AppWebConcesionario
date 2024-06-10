@@ -23,7 +23,58 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="d-flex flex-row justify-content-center flex-wrap">
+
+
+                <div class="carousel-container mx-auto text-center">
+                    <!-- 1. Centrar horizontalmente el carrusel -->
+                    <!-- Carousel start -->
+                    <div id="marcaCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner" style="align-items:center;">
+                            <!-- 2. Centrar horizontalmente los elementos internos del carrusel -->
+                            <!-- Modified: Added the class 'active' to the first item -->
+                            <div class="carousel-item active">
+
+                                <img src="~/css/img/iconos/logo_con_nombre.png" class="brand-icon mt-3" alt="" data-marca="All" id="logo" />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="~/css/provincias/alajuela.png" class="brand-icon mt-3" alt="Alajuela" data-marca="Alajuela" id="logo" />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="~/css/provincias/cartago.png" class="brand-icon mt-3" alt="Cartago" data-marca="Cartago" id="logo" />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="~/css/provincias/guanacaste.png" class="brand-icon mt-3" alt="Guanacaste" data-marca="Guanacaste" id="logo" />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="~/css/provincias/heredia.png" class="brand-icon mt-3" alt="Heredia" data-marca="Heredia" id="logo" />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="~/css/provincias/limon.png" class="brand-icon mt-3" alt="Limon" data-marca="Limon" id="logo" />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="~/css/provincias/puntarenas.png" class="brand-icon mt-3" alt="Puntarenas" data-marca="Puntarenas" id="logo" />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="~/css/provincias/sanjose.png" class="brand-icon mt-3" alt="Sanjose" data-marca="Sanjose" id="logo" />
+                            </div>
+                            
+                        </div>
+                        <!-- Carousel controls -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#marcaCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#marcaCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    <!-- Carousel end -->
+                </div>
+
+
+
+                <div class="d-flex flex-row justify-content-center flex-wrap mt-4">
                     @foreach (var item in Model)
                     {
                         
@@ -89,7 +140,6 @@
 
 
 
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
@@ -118,6 +168,38 @@
                     .catch(error => console.error('Error adding to cart:', error));
             });
         });
+
+        const marcaCarousel = new bootstrap.Carousel(document.getElementById('marcaCarousel'), {
+            interval: false // desactiva la transición automática del carousel
+        });
+
+        const lugarIcons = document.querySelectorAll('#marcaCarousel img');
+        lugarIcons.forEach(icon => {
+            icon.addEventListener('click', function () {
+                const lugar = this.dataset.marca; // Utilizamos 'data-marca'
+                if (lugar.toLowerCase() === 'all') {
+                    // Si el lugar es "All", mostramos todos los vehículos
+                    const vehicles = document.querySelectorAll('.flip-card');
+                    vehicles.forEach(vehicle => {
+                        vehicle.style.display = 'block';
+                    });
+                } else {
+                    filterVehiclesByLugar(lugar);
+                }
+            });
+        });
+
+        function filterVehiclesByLugar(lugar) {
+            const vehicles = document.querySelectorAll('.flip-card');
+            vehicles.forEach(vehicle => {
+                const lugarPromocion = vehicle.querySelector('.flip-card-back span:nth-child(2)').textContent.trim();
+                if (lugarPromocion.toLowerCase() === lugar.toLowerCase()) {
+                    vehicle.style.display = 'block';
+                } else {
+                    vehicle.style.display = 'none';
+                }
+            });
+        }
     });
 </script>
 
@@ -194,4 +276,33 @@
     }
 
 
+    .carousel-container {
+        margin-bottom: 20px; /* Espacio entre el carrusel y la lista de vehículos */
+        max-width: 45%;
+        align-content: center;
+        align-items: center;
+    }
+
+    /* Modified styles for the carousel to display one item at a time */
+    #marcaCarousel .carousel-inner {
+        scroll-snap-type: x mandatory; /* Añadido para el desplazamiento suave */
+    }
+
+    #marcaCarousel .carousel-item {
+        scroll-snap-align: start; /* Añadido para el desplazamiento suave */
+    }
+
+        #marcaCarousel .carousel-item img {
+            width: 80px; /* Ancho de las imágenes */
+            height: 80px; /* Altura de las imágenes */
+            object-fit: contain; /* Ajusta las imágenes dentro del contenedor */
+            cursor: pointer; /* Cursor de puntero para indicar que son clicables */
+        }
+
+        #marcaCarousel .carousel-item #logo {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            cursor: pointer;
+        }
 </style>

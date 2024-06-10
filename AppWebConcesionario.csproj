@@ -23,6 +23,13 @@
     <Content Remove="wwwroot\css\img-administracion\marketing.jpg" />
     <Content Remove="wwwroot\css\img\Lancer_2008.jpg" />
     <Content Remove="wwwroot\css\img\Modelo_S.jpg" />
+    <Content Remove="wwwroot\css\provincias\Alajuela.png" />
+    <Content Remove="wwwroot\css\provincias\Cartago.png" />
+    <Content Remove="wwwroot\css\provincias\Guanacaste.png" />
+    <Content Remove="wwwroot\css\provincias\Heredia.png" />
+    <Content Remove="wwwroot\css\provincias\Limon.png" />
+    <Content Remove="wwwroot\css\provincias\Puntarenas.png" />
+    <Content Remove="wwwroot\css\provincias\Sanjose.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +41,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\provincias\" />
   </ItemGroup>
 
 </Project>

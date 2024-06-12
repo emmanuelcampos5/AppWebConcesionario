@@ -15,7 +15,17 @@
             <h2>Insertar Vehiculo</h2>
             <div class="form-group">
                 <label asp-for="marcaVehiculo" class="control-label"></label>
-                <input asp-for="marcaVehiculo" class="form-control" />
+                <select asp-for="marcaVehiculo" class="form-control">
+                    <option selected="selected" value="Tesla">Tesla</option>
+                    <option value="Jeep">Jeep</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Chevrolet">Chevrolet</option>
+                    <option value="Hyundai">Hyundai</option>
+                    <option value="Mitsubishi">Mitsubishi</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Jetour">Jetour</option>
+                </select>
                 <span asp-validation-for="marcaVehiculo" class="text-danger"></span>
             </div>
             <div class="form-group">

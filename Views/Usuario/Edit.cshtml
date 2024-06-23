@@ -1,4 +1,5 @@
-﻿@model AppWebConcesionario.Models.Usuario
+﻿@using System.Security.Claims
+@model AppWebConcesionario.Models.Usuario
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,24 +7,34 @@
 }
 
 
-<div class="row justify-content-center">
+<div class="row justify-content-center ">
     <div class="col-md-8">
         <hr />
         <div class="row">
+            <div class="col-md-12"></div>
+
             <div class="col-md-12">
                 <form asp-action="Edit" id="formularioEdit" style="display: inline-block;">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <h1>Edit</h1>
-                    <div class="form-group">
-                        <label asp-for="idUsuario" class="control-label"></label>
-                        <input asp-for="idUsuario" class="form-control" readonly />
-                        <span asp-validation-for="idUsuario" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="idRol" class="control-label"></label>
-                        <input asp-for="idRol" class="form-control" readonly />
-                        <span asp-validation-for="idRol" class="text-danger"></span>
-                    </div>
+                    @if(User.Identity.IsAuthenticated && User.FindFirstValue("Rol").Equals("1"))
+                    {
+                        <div class="form-group">
+                            <label asp-for="idUsuario" class="control-label"></label>
+                            <input asp-for="idUsuario" class="form-control" readonly />
+                            <span asp-validation-for="idUsuario" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="idRol" class="control-label"></label>
+                            <input asp-for="idRol" class="form-control" readonly />
+                            <span asp-validation-for="idRol" class="text-danger"></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <input asp-for="idUsuario" type="hidden" />
+                        <input asp-for="idRol" type="hidden" />
+                    }
                     <div class="form-group">
                         <label asp-for="nombreUsuario" class="control-label"></label>
                         <input asp-for="nombreUsuario" class="form-control" />
@@ -74,6 +85,9 @@
                     </div>
                 </form>
             </div>
+
+            <div class="col-md-12"></div>
+
         </div>
     </div>
 </div>

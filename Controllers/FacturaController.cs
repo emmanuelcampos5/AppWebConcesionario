@@ -288,6 +288,8 @@ namespace AppWebConcesionario.Controllers
                     html += $"<br><b>Marca:</b>{item.marcaVehiculo} <b>Modelo: </b>{item.modeloVehiculo} <b>Precio:</b> ${item.precioVehiculo}";
                 }
 
+                html += "<br><b>Pronto, Uno de nuestros administradores se pondra en contacto con usted</b>";
+
                 email.IsBodyHtml = true;
 
                 email.Priority = MailPriority.Normal;

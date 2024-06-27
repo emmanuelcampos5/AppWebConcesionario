@@ -22,8 +22,9 @@ namespace AppWebConcesionario.Models
         [StringLength(50)]
         public string tipoCombustible { get; set; }
 
-        [Required (ErrorMessage = "Seleccione el precio del mismo =")]
-        [Range(0,Int32.MaxValue)]
+        [Required (ErrorMessage = "Seleccione el precio del mismo")]
+        [Range(0,Int32.MaxValue, ErrorMessage = "El precio debe ser un numero dentro del rango permitido")]
+        [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "No se permiten letras en el precio")]
         public double precioVehiculo { get; set; }
 
         [Required(ErrorMessage = "Selecciones un Estado")]
